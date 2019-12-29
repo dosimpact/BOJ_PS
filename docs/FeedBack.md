@@ -56,3 +56,21 @@ int length(int a, int p, int checknum)
     }
 }
 ```
+
+### 2차원 배열 초기화 by fill
+
+```cpp
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    int check[2][2];
+    check[0][0] = 1;
+    check[0][1] = 2;
+    check[1][0] = 3;
+    check[1][1] = 4;
+    fill(&check[0][0], &check[1][1] + 1, 0);
+}
+```

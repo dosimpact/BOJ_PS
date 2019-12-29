@@ -1,7 +1,13 @@
+//2331
+
 #include <iostream>
 #include <algorithm>
 using namespace std;
-
+//FB. 백만이 나온이유
+/*
+사실 계산을 많이 해봐도 자리수가 6자리를 넘어가지 않는다. 즉, 9999,p=5라 해도 , 5자리, 99999,p=5라해도 6자리,
+999999,p=5라 해도 6자리를 넘어가지 않는다. 즉, 354294이하의 숫자로만 순환을 하는데, 35만 이하이므로 간편하게 100만 크기를 선언.
+*/
 int check[10000001];
 
 int pow(int a, int b)
@@ -28,6 +34,7 @@ int length(int a, int p, int checknum)
 {
     check[a] = checknum;
     int b = next(a, p);
+    cout << b << " b DEBUG\n";
     if (check[b] != 0)
     {
         return check[b] - 1;

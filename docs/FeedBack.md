@@ -2,7 +2,7 @@
 
 ### 재귀함수 + for안에서 basecase에서 reture과 if+return의 차이
 
-```
+```cpp
 bool dfs(int x,int c){
 	check[x] = c;
 	for(int i = 0 ; i < graph[x].size() ; i++){
@@ -23,7 +23,7 @@ bool dfs(int x,int c){
 
 ### 인접 리스트에서 노드의 주변 노드는 graph[x][j] 이다.
 
-```
+```cpp
 		bool isBi = true;
 		for(int i = 1; i <= n; i++){
 			for(int j = 0;  j < graph[i].size(); j++){
@@ -37,4 +37,22 @@ bool dfs(int x,int c){
 				}
 			}
 		}
+```
+
+### for + return의 논리
+
+```cpp
+int length(int a, int p, int checknum)
+{
+    check[a] = checknum;
+    int b = next(a, p);
+    if (check[b] != 0)
+    {
+        return check[b] - 1;
+    }
+    else
+    { //FB.return을 안적으면, 함수만 실행되고 결과가 리턴이 안되지..
+        return length(b, p, checknum + 1);
+    }
+}
 ```

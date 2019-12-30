@@ -74,3 +74,14 @@ int main()
     fill(&check[0][0], &check[1][1] + 1, 0);
 }
 ```
+
+### bfs - 방문시 - 무조건 check는 0 외의 값
+
+```cpp
+    queue<int> q;
+    q.push(x);
+    //FB. 방문 했으면 0 을 넣으면 안되지.......n =5 k = 5 면 바로 찾는 0인 경우인데, 2가 나와버림.
+	//check[x] = 0;
+    check[x] = 1;
+    while (!q.empty())
+```

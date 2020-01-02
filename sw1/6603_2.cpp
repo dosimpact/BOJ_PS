@@ -17,15 +17,14 @@ void printNumber(vector<int> a)
 //고를 숫자들 , 현재까지 만든조합 , 다음 선택지.
 void go(vector<int> &number, vector<int> current, int nextNumber)
 {
-    //cout << "DEBUG";
-    //printNumber(current);
-    //다 만든경우
+    //FB, 다 만든경우를 먼저 따져야한다.
+    //다 만든경우, 현재까지 만든 사이즈가 6이야, && next넘버가 없을지언정 답이 될수있다.
     if (current.size() == 6)
     {
         printNumber(current);
         return;
     }
-    //다 못만든경우
+    //다 못만든경우, 더이상 nextNumber가 없어.
     if (number.size() == nextNumber)
     {
         return;

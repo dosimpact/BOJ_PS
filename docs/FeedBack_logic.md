@@ -137,3 +137,20 @@ d = { {0,1}, {0,-1},{1,0},{-1,0}};
 ```
 
 ### 정렬를 하고 다음순열을돌려야, 모든 순열를 돌지 않는가!! | sort + next_permutation 은 거의 한 세트
+
+### 재귀함수 설계할때, baseCase걸러내는거에서, 정답이 아닌경우가 먼저 나오니까 틀리게 되는 case가 있었어.
+
+```cpp
+    //FB, 다 만든경우를 먼저 따져야한다.
+    //다 만든경우, 현재까지 만든 사이즈가 6이야, && next넘버가 없을지언정 답이 될수있다.
+    if (current.size() == 6)
+    {
+        printNumber(current);
+        return;
+    }
+    //다 못만든경우, 더이상 nextNumber가 없어.
+    if (number.size() == nextNumber)
+    {
+        return;
+    }
+```

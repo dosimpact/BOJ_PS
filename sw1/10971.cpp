@@ -38,6 +38,8 @@ int main()
         for (int i = 0; i < n - 1; i++)
         {
             //w의 시작점 끝점 찾을때, k는 0,1,2,3이 도는 구조
+            //FB. 순열을도는 백터 k의 값으로 시작점과 끝점을 지정해 줘야함.
+            //tmp_ans += w[i][i + 1];
             tmp_ans += w[k[i]][k[i + 1]];
             if (w[k[i]][k[i + 1]] == 0)
             {
@@ -58,6 +60,7 @@ int main()
                 ans = tmp_ans;
             }
         }
-    } while (next_permutation(k.begin(), k.end()));
+        //FB.시작점을 1로 고정해도 된다. 싸이클은 다 같은거라.
+    } while (next_permutation(k.begin() + 1, k.end()));
     cout << ans;
 }

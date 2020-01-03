@@ -1,38 +1,57 @@
-#include <vector>
+
+#include <iostream>
 #include <algorithm>
-#include <cstdio>
-#include <cstring>
-#define SIZE 51
+#include <vector>
 using namespace std;
-
-int graph[SIZE][SIZE];
-int check[SIZE][SIZE];
-int dx[8] = {0, 0, 1, -1, -1, 1, 1, -1};
-int dy[8] = {1, -1, 0, 0, 1, 1, -1, -1};
-int w, h;
-
-void dfs(int x, int y, int num)
+int a[10];
+int num[10];
+int c[10];
+vector<vector<int>> d;
+void go(int index, int n, int m)
 {
-    check[x][y] = num;
-    for (int k = 0; k < 8; k++)
+    if (index == m)
     {
-        int nx = x + dx[k];
-        int ny = y + dy[k];
-        //FB1. 범위검사
-        if (nx < 0 || ny < 0 || nx >= w || ny >= h)
+        vector<int> temp;
+        for (int i = 0; i < m; i++)
         {
+            temp.push_back(num[a[i]]);
+        }
+        d.push_back(temp);
+        return;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (c[i])
             continue;
-        }
-        if (graph[nx][ny] == 1 && check[nx][ny] == 0)
-        {
-            dfs(nx, ny, num);
-        }
+        c[i] = true;
+        a[index] = i;
+        go(index + 1, n, m);
+        c[i] = false;
     }
 }
-
 int main()
 {
-    vector<int> a;
-
+    int n, m;
+    cin >> n >> m;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> num[i];
+    }
+    sort(num, num + n);
+    go(0, n, m);
+    sort(d.begin(), d.end());
+    d.erase(unique(d.begin(), d.end()), d.end());
+    for (auto &v : d)
+    {
+        for (int i = 0; i < m; i++)
+        {
+            cout << v[i];
+            if (i != m - 1)
+            {
+                cout << ' ';
+            }
+        }
+        cout << '\n';
+    }
     return 0;
 }

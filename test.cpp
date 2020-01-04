@@ -1,66 +1,58 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
-bool a[15][15];
-int n;
-int ans = 0;
-bool check(int row, int col)
-{
-    // |
-    for (int i = 0; i < n; i++)
-    {
-        if (i == row)
-            continue;
-        if (a[i][col])
-        {
-            return false;
-        }
-    }
-    // 왼쪽 위 대각선
-    int x = row - 1;
-    int y = col - 1;
-    while (x >= 0 && y >= 0)
-    {
-        if (a[x][y] == true)
-        {
-            return false;
-        }
-        x -= 1;
-        y -= 1;
-    }
-    // /
-    x = row - 1;
-    y = col + 1;
-    while (x >= 0 && y < n)
-    {
-        if (a[x][y] == true)
-        {
-            return false;
-        }
-        x -= 1;
-        y += 1;
-    }
-    return true;
-}
-void calc(int row)
-{
-    if (row == n)
-    {
-        ans += 1;
-    }
-    for (int col = 0; col < n; col++)
-    {
-        a[row][col] = true;
-        if (check(row, col))
-        {
-            calc(row + 1);
-        }
-        a[row][col] = false;
-    }
-}
 int main()
 {
+    int n;
     cin >> n;
-    calc(0);
+    vector<vector<int>> a(n, vector<int>(n));
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cin >> a[i][j];
+        }
+    }
+    vector<int> b(n);
+    for (int i = 0; i < n / 2; i++)
+    {
+        b[i] = 1;
+    }
+    sort(b.begin(), b.end());
+    int ans = 2147483647;
+    do
+    {
+        vector<int> first, second;
+        for (int i = 0; i < n; i++)
+        {
+            if (b[i] == 0)
+            {
+                first.push_back(i);
+            }
+            else
+            {
+                second.push_back(i);
+            }
+        }
+        int one = 0;
+        int two = 0;
+        for (int i = 0; i < n / 2; i++)
+        {
+            for (int j = 0; j < n / 2; j++)
+            {
+                if (i == j)
+                    continue;
+                one += a[first[i]][first[j]];
+                two += a[second[i]][second[j]];
+            }
+        }
+        int diff = one - two;
+        if (diff < 0)
+            diff = -diff;
+        if (ans > diff)
+            ans = diff;
+    } while (next_permutation(b.begin(), b.end()));
     cout << ans << '\n';
     return 0;
 }

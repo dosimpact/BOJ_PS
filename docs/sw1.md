@@ -46,6 +46,7 @@ bool next_permu(int *a, int n)
 # 1.2 Brute Force NM
 
 - 반드시 중복제거하는 유니크 쓸때는, sort->erase(unique) 3단계를 거칠것!!!!
+-     int ans = 2 147 483 647;
 
 ```
 N과M논리장

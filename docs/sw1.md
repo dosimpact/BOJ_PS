@@ -46,6 +46,7 @@ bool next_permu(int *a, int n)
 # 1.2 Brute Force NM
 
 - 반드시 중복제거하는 유니크 쓸때는, sort->erase(unique) 3단계를 거칠것!!!!
+-     int ans = 2 147 483 647;
 
 ```
 N과M논리장
@@ -72,4 +73,11 @@ N과M논리장
 //c체그만 빼주면 된다.
 
 //4. 중복 허용 고르는 조합
+
+//nm 다시 리뷰 ...
+start는 i로 넣기!! // 만약 i+1를 넣어버리면, check할 필요성이 없어지긴 함...
+중복 x 순열// check
+중복 x 조합// start check
+중복 o 순열//
+중복 o 조합// start
 ```

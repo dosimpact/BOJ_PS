@@ -1,66 +1,62 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
-bool a[15][15];
+int s[20][20];
 int n;
-int ans = 0;
-bool check(int row, int col)
+int go(int index, vector<int> &first, vector<int> &second)
 {
-    // |
-    for (int i = 0; i < n; i++)
+    if (index == n)
     {
-        if (i == row)
-            continue;
-        if (a[i][col])
+        if (first.size() != n / 2)
+            return -1;
+        if (second.size() != n / 2)
+            return -1;
+        int t1 = 0;
+        int t2 = 0;
+        for (int i = 0; i < n / 2; i++)
         {
-            return false;
+            for (int j = 0; j < n / 2; j++)
+            {
+                if (i == j)
+                    continue;
+                t1 += s[first[i]][first[j]];
+                t2 += s[second[i]][second[j]];
+            }
         }
+        int diff = t1 - t2;
+        if (diff < 0)
+            diff = -diff;
+        return diff;
     }
-    // 왼쪽 위 대각선
-    int x = row - 1;
-    int y = col - 1;
-    while (x >= 0 && y >= 0)
+    int ans = -1;
+    first.push_back(index);
+    int t1 = go(index + 1, first, second);
+    if (ans == -1 || (t1 != -1 && ans > t1))
     {
-        if (a[x][y] == true)
-        {
-            return false;
-        }
-        x -= 1;
-        y -= 1;
+        ans = t1;
     }
-    // /
-    x = row - 1;
-    y = col + 1;
-    while (x >= 0 && y < n)
+    first.pop_back();
+    second.push_back(index);
+    int t2 = go(index + 1, first, second);
+    if (ans == -1 || (t2 != -1 && ans > t2))
     {
-        if (a[x][y] == true)
-        {
-            return false;
-        }
-        x -= 1;
-        y += 1;
+        ans = t2;
     }
-    return true;
-}
-void calc(int row)
-{
-    if (row == n)
-    {
-        ans += 1;
-    }
-    for (int col = 0; col < n; col++)
-    {
-        a[row][col] = true;
-        if (check(row, col))
-        {
-            calc(row + 1);
-        }
-        a[row][col] = false;
-    }
+    second.pop_back();
+    return ans;
 }
 int main()
 {
     cin >> n;
-    calc(0);
-    cout << ans << '\n';
-    return 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cin >> s[i][j];
+        }
+    }
+    vector<int> first, second;
+    cout << go(0, first, second) << '\n';
 }

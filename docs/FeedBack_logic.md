@@ -154,3 +154,53 @@ d = { {0,1}, {0,-1},{1,0},{-1,0}};
         return;
     }
 ```
+
+### DFS check의 순서 논리 = 만약 다음 노드가 check가 안되있으면, check하고 .. 의 논리는 =>처음 시작하는 노드가 체크가 안됨
+
+```cpp
+void dfs(int x)
+{
+    //출력
+    cout << x << " ";
+
+    //주변 노드들을 돌면서, 방문안했다면 방문해주기.
+    for (int i = 0; i < graph[x].size(); i++)
+    {
+        int next = graph[x][i];
+        cout << "DEBUG" << x << " => " << next << "\n";
+        if (check[next] == 0)
+        {
+            //fb) 이 코드에서는 처음 1이 들어올때, check를 안하기때문에 다시 1를 방문하게 될꺼임.
+            //check[x] = 1;
+            dfs(next);
+        }
+    }
+}
+```
+
+### 간단하게 나누기, 나머지 구하는 함수, 매개변수 있는거 그대로 사용해~
+
+```
+//fb,왜 매개변수 x활용 안하는거야? - x의 각자리수마다 p씩 곱한 결과 출력하기.
+// int nextNode(int x)
+// {
+//     int sum = 0;
+//     do
+//     {
+//         int a = x / 10;
+//         int b = x % 10;
+//         sum += pow(b, p);
+//     } while (a != 0);
+//     return sum;
+// }
+int nextNode(int x)
+{
+    int sum = 0;
+    while (x != 0)
+    {
+        sum += pow(x % 10, p);
+        x = x / 10;
+    }
+    return sum;
+}
+```

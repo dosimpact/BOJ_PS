@@ -2,79 +2,61 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <queue>
 using namespace std;
-
-int n; //20보다 작다.
-int graph[20][20];
-int ans = 2100000000;
-//천천히 숫자를 하나씩 고를꺼야, 물론 한쪽으로 쏠릴수도 있는데, 예외처리를 해주자.
-// 고를 인덱스(idx  ==n이면 다고름), 컨테이너 두개
-void go(int idx, vector<int> &con1, vector<int> &con2)
+int a, p;
+int check[10000001];
+int pow(int a, int p)
 {
-    //다모은 경우
-    if (idx == n)
+    int ans = 1;
+    for (int i = 1; i <= p; i++)
     {
-
-        //각자 골고루 나온 경우.
-        if (con1.size() != (n / 2) || con2.size() != (n / 2))
-            return;
-        // cout << "\n다모음!!\n";
-        // for (auto &k : con1)
-        // {
-        //     cout << k;
-        // }
-        // cout << "\n";
-        // for (auto &k : con2)
-        // {
-        //     cout << k;
-        // }
-        //각각 합산값을 구해본다.
-        int t1 = 0, t2 = 0;
-        for (int i = 0; i < (n / 2); i++)
-        {
-            for (int j = 0; j < (n / 2); j++)
-            {
-                if (i == j)
-                    continue;
-                t1 += graph[con1[i]][con1[j]];
-                t2 += graph[con2[i]][con2[j]];
-            }
-        }
-
-        //최소라면 ans 넣기
-        int diff = t1 - t2;
-        if (diff < 0)
-            diff = -diff;
-        //cout << diff << "\n";
-        if (ans > diff)
-        {
-            ans = diff;
-        }
+        ans *= a;
+    }
+    return ans;
+}
+// int nextNode(int x)
+// {
+//     int sum = 0;
+//     do
+//     {
+//         int a = x / 10;
+//         int b = x % 10;
+//         sum += pow(b, p);
+//     } while (a != 0);
+//     return sum;
+// }
+int nextNode(int x)
+{
+    int sum = 0;
+    while (x != 0)
+    {
+        sum += pow(x % 10, p);
+        x = x / 10;
+    }
+    return sum;
+}
+void dfs(int x, int checkNum)
+{
+    //현재 노드를 체크해주고, 다음 노드를 구해온다.
+    check[x] = checkNum;
+    int next = nextNode(x);
+    //cout << "DEBUG" << x << " -> " << next << "\n";
+    if (check[next] == 0)
+    { //다음 노드가 방문 안했다면 다음노드로 방문하고, 체크를 +1
+        dfs(next, checkNum + 1);
+    }
+    else
+    {
+        //방문했다면 다음노드의 체크넘버보다 -1 출력
+        cout << check[next] - 1;
         return;
     }
-    //    //계속)con1에 idx를 넣보고 go 다시 빼고
-    con1.push_back(idx);
-    go(idx + 1, con1, con2);
-    con1.pop_back();
-    //con2에 시도
-    con2.push_back(idx);
-    go(idx + 1, con1, con2);
-    con2.pop_back();
-
-    return;
 }
 int main()
 {
-    cin >> n;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            cin >> graph[i][j];
-        }
-    }
-    vector<int> con1;
-    vector<int> con2;
-    go(0, con1, con2);
-    cout << ans;
+    cin >> a >> p;
+    dfs(a, 1);
+    //cout << pow(2, 3) << "\n";
+    //cout << nextNode(a);
 }

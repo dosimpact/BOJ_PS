@@ -1,80 +1,101 @@
-//https://www.acmicpc.net/problem/14889
+//https://www.acmicpc.net/problem/1012
+#include <cstring>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <queue>
 using namespace std;
-
-int n; //20보다 작다.
-int graph[20][20];
-int ans = 2100000000;
-//천천히 숫자를 하나씩 고를꺼야, 물론 한쪽으로 쏠릴수도 있는데, 예외처리를 해주자.
-// 고를 인덱스(idx  ==n이면 다고름), 컨테이너 두개
-void go(int idx, vector<int> &con1, vector<int> &con2)
+int graph[10][10];
+int c1[10][10]; // 행 체크
+int c2[10][10]; // 열 체크
+int c3[10][10]; // 스퀘어 체크
+void printGraph()
 {
-    //다모은 경우
-    if (idx == n)
+    for (int i = 0; i < 9; i++)
     {
-
-        //각자 골고루 나온 경우.
-        if (con1.size() != (n / 2) || con2.size() != (n / 2))
-            return;
-        // cout << "\n다모음!!\n";
-        // for (auto &k : con1)
-        // {
-        //     cout << k;
-        // }
-        // cout << "\n";
-        // for (auto &k : con2)
-        // {
-        //     cout << k;
-        // }
-        //각각 합산값을 구해본다.
-        int t1 = 0, t2 = 0;
-        for (int i = 0; i < (n / 2); i++)
+        for (int j = 0; j < 9; j++)
         {
-            for (int j = 0; j < (n / 2); j++)
+            cout << graph[i][j] << " ";
+        }
+        cout << "\n";
+    }
+}
+int squre(int x, int y)
+{
+    return ((x / 3) * 3) + (y / 3);
+}
+//fb)백트래킹 이기때문에, 데이터를 싹다 지워야되고 + | 리턴값이 false이면 계속해서 탐색을 시작한다.
+bool go(int z)
+{
+    if (z == 81)
+    {
+        //다 두었으면,출력하고 리턴하기
+        printGraph();
+        return true;
+    }
+    //다음 z를 넘어가는데,
+    //그래프에 이미 0아닌 숫자면, 다음 노드로
+    int x = z / 9;
+    int y = z % 9;
+    if (graph[x][y] != 0)
+    {
+        return go(z + 1);
+    }
+    else
+    {
+        //아니라면 1부터 9까지 돎면서 check를 통해 다 허락을 받으면, 두기.
+        for (int i = 1; i <= 9; i++)
+        {
+            if ((c1[x][i] == 0) && (c2[y][i] == 0) && (c3[squre(x, y)][i] == 0))
             {
-                if (i == j)
-                    continue;
-                t1 += graph[con1[i]][con1[j]];
-                t2 += graph[con2[i]][con2[j]];
+                c1[x][i] = c2[y][i] = c3[squre(x, y)][i] = 1;
+                graph[x][y] = i;
+                //go에서 백트래킹을 종료하는 로직.
+                if (go(z + 1))
+                {
+                    return true;
+                }
+                //fb) 그래프를 0으로 만들어주어야된다. 그래야. 백트래킹 했던 흔적을 지워야지. 안그러면, graph에 숫자가 남아서 그냥 다음노드로 넘어가잖아..
+                graph[x][y] = 0;
+                c1[x][i] = c2[y][i] = c3[squre(x, y)][i] = 0;
             }
         }
-
-        //최소라면 ans 넣기
-        int diff = t1 - t2;
-        if (diff < 0)
-            diff = -diff;
-        //cout << diff << "\n";
-        if (ans > diff)
-        {
-            ans = diff;
-        }
-        return;
+        return false;
     }
-    //    //계속)con1에 idx를 넣보고 go 다시 빼고
-    con1.push_back(idx);
-    go(idx + 1, con1, con2);
-    con1.pop_back();
-    //con2에 시도
-    con2.push_back(idx);
-    go(idx + 1, con1, con2);
-    con2.pop_back();
-
-    return;
 }
 int main()
 {
-    cin >> n;
-    for (int i = 0; i < n; i++)
+    //스토구 입력받기.
+    for (int i = 0; i < 9; i++)
     {
-        for (int j = 0; j < n; j++)
+        for (int j = 0; j < 9; j++)
         {
-            cin >> graph[i][j];
+            int tmp;
+            cin >> tmp;
+            graph[i][j] = tmp;
+            if (tmp != 0)
+            {
+                // i행에 3은 있다.
+                c1[i][tmp] = 1;
+                // j열에 3은 있다.
+                c2[j][tmp] = 1;
+                // i,j행의 사각형안에 3은 있다.
+                c3[squre(i, j)][tmp] = 1;
+            }
         }
     }
-    vector<int> con1;
-    vector<int> con2;
-    go(0, con1, con2);
-    cout << ans;
+    go(0);
+    //printGraph();
+    //cout << squre(8, 8);
 }
+/*
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+*/

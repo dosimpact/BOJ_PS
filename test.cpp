@@ -1,62 +1,68 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
-
 using namespace std;
-int s[20][20];
-int n;
-int go(int index, vector<int> &first, vector<int> &second)
+int a[10][10];
+bool c[10][10];
+bool c2[10][10];
+bool c3[10][10];
+int n = 9;
+int square(int x, int y)
 {
-    if (index == n)
+    return (x / 3) * 3 + (y / 3);
+}
+bool go(int z)
+{
+    if (z == 81)
     {
-        if (first.size() != n / 2)
-            return -1;
-        if (second.size() != n / 2)
-            return -1;
-        int t1 = 0;
-        int t2 = 0;
-        for (int i = 0; i < n / 2; i++)
+        for (int i = 0; i < n; i++)
         {
-            for (int j = 0; j < n / 2; j++)
+            for (int j = 0; j < n; j++)
             {
-                if (i == j)
-                    continue;
-                t1 += s[first[i]][first[j]];
-                t2 += s[second[i]][second[j]];
+                cout << a[i][j] << ' ';
+            }
+            cout << '\n';
+        }
+        return true;
+    }
+    int x = z / n;
+    int y = z % n;
+    if (a[x][y] != 0)
+    {
+        return go(z + 1);
+    }
+    else
+    {
+        for (int i = 1; i <= 9; i++)
+        {
+            if (c[x][i] == 0 && c2[y][i] == 0 && c3[square(x, y)][i] == 0)
+            {
+                c[x][i] = c2[y][i] = c3[square(x, y)][i] = true;
+                a[x][y] = i;
+                if (go(z + 1))
+                {
+                    return true;
+                }
+                a[x][y] = 0;
+                c[x][i] = c2[y][i] = c3[square(x, y)][i] = false;
             }
         }
-        int diff = t1 - t2;
-        if (diff < 0)
-            diff = -diff;
-        return diff;
     }
-    int ans = -1;
-    first.push_back(index);
-    int t1 = go(index + 1, first, second);
-    if (ans == -1 || (t1 != -1 && ans > t1))
-    {
-        ans = t1;
-    }
-    first.pop_back();
-    second.push_back(index);
-    int t2 = go(index + 1, first, second);
-    if (ans == -1 || (t2 != -1 && ans > t2))
-    {
-        ans = t2;
-    }
-    second.pop_back();
-    return ans;
+    return false;
 }
 int main()
 {
-    cin >> n;
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            cin >> s[i][j];
+            cin >> a[i][j];
+            if (a[i][j] != 0)
+            {
+                c[i][a[i][j]] = true;
+                c2[j][a[i][j]] = true;
+                c3[square(i, j)][a[i][j]] = true;
+            }
         }
     }
-    vector<int> first, second;
-    cout << go(0, first, second) << '\n';
+    go(0);
+    return 0;
 }

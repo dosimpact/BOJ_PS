@@ -1,49 +1,56 @@
 #include <iostream>
-#include <tuple>
 #include <queue>
-#include <cstring>
+#include <deque>
 using namespace std;
-int d[1001][1001];
+bool c[1000000];
+int d[1000000];
+int MAX = 1000000;
 int main()
 {
-    int n;
-    cin >> n;
-    memset(d, -1, sizeof(d));
-    queue<pair<int, int>> q;
-    q.push(make_pair(1, 0));
-    d[1][0] = 0;
+    int n, m;
+    cin >> n >> m;
+    c[n] = true;
+    d[n] = 0;
+    queue<int> q;
+    queue<int> next_queue;
+    q.push(n);
     while (!q.empty())
     {
-        int s, c;
-        tie(s, c) = q.front();
+        int now = q.front();
         q.pop();
-        if (d[s][s] == -1)
+        if (now * 2 < MAX)
         {
-            d[s][s] = d[s][c] + 1;
-            q.push(make_pair(s, s));
-        }
-        if (s + c <= n && d[s + c][c] == -1)
-        {
-            d[s + c][c] = d[s][c] + 1;
-            q.push(make_pair(s + c, c));
-        }
-        if (s - 1 >= 0 && d[s - 1][c] == -1)
-        {
-            d[s - 1][c] = d[s][c] + 1;
-            q.push(make_pair(s - 1, c));
-        }
-    }
-    int ans = -1;
-    for (int i = 0; i <= n; i++)
-    {
-        if (d[n][i] != -1)
-        {
-            if (ans == -1 || ans > d[n][i])
+            if (c[now * 2] == false)
             {
-                ans = d[n][i];
+                q.push(now * 2);
+                c[now * 2] = true;
+                d[now * 2] = d[now];
             }
         }
+        if (now - 1 >= 0)
+        {
+            if (c[now - 1] == false)
+            {
+                next_queue.push(now - 1);
+                c[now - 1] = true;
+                d[now - 1] = d[now] + 1;
+            }
+        }
+        if (now + 1 < MAX)
+        {
+            if (c[now + 1] == false)
+            {
+                next_queue.push(now + 1);
+                c[now + 1] = true;
+                d[now + 1] = d[now] + 1;
+            }
+        }
+        if (q.empty())
+        {
+            q = next_queue;
+            next_queue = queue<int>();
+        }
     }
-    cout << ans << '\n';
+    cout << d[m] << '\n';
     return 0;
 }

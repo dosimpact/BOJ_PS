@@ -3,6 +3,7 @@
 #include <tuple>
 #include <queue>
 #include <algorithm>
+#include <vector>
 #define SIZE 100001
 using namespace std;
 int d[SIZE];
@@ -12,8 +13,10 @@ int main()
     fill(&d[0], &d[0] + SIZE, -1);
     int n, k;
     cin >> n >> k;
+    vector<int> v;
     queue<int> q1;
     queue<int> q2;
+    v[0];
     q1.push(n);
     d[n] = 0;
     while (!q1.empty())

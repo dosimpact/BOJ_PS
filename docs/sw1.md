@@ -87,3 +87,77 @@ start는 i로 넣기!! // 만약 i+1를 넣어버리면, check할 필요성이 없어지긴 함...
 ### 문제 유형 : 노드가 분리되는 경우 ( 클립보드에 복사를 해둔다던가, 벽을 부순다던가. )
 
 - 2차원 배열로 간다. ex) 이모티콘 문제 - (s,c) 이차원배열로 , (n,0~n) 까지의 노드를 모두 bfs 탐색을 통해 가 봐야함. - 사실 제일 먼저 도달하는 녀석을 구하면 됨.
+
+### 문제 유형 : 다음 노드로 가는데 가중치가 다른 경우
+
+- 가중치 종류가 2개라면 : 이중 큐나 덱을 사용한다. ex) 숨바꼭질3 - 순간이동(0),걷기(1) => 순간이동을 먼저 다 q1으로 돌고 , q2로 간다.
+- 가중치 종류가 3개 이상이라면: 다중 큐를 사용한다.
+
+- ex) 일반화된 큐
+
+```cpp
+//https://www.acmicpc.net/problem/13549
+#include <iostream>
+#include <tuple>
+#include <queue>
+#include <algorithm>
+#define SIZE 100001
+using namespace std;
+int d[SIZE];
+
+int main()
+{
+    fill(&d[0], &d[0] + SIZE, -1);
+    int n, k;
+    cin >> n >> k;
+    vector<queue<int>> rotation_q;
+    rotation_q.push_back(queue<int>());
+    rotation_q.push_back(queue<int>());
+    rotation_q[0].push(n);
+    d[n] = 0;
+    while (!rotation_q[0].empty())
+    {
+        //현재 위치 빼기
+        int now = rotation_q[0].front();
+        rotation_q[0].pop();
+        if (now == k)
+        {
+            cout << d[now];
+            return 0;
+        }
+        // 순간이동 x => x*2    // 범위 체크 | 방문 여부 | ,q1에 가중치 없이 계속 넣어준다.
+        if (now * 2 <= SIZE)
+        {
+            if (d[now * 2] == -1)
+            {
+                d[now * 2] = d[now];
+                rotation_q[0].push(now * 2);
+            }
+        }
+        // 걷기 x => x+1 // 범위 체크 / 방문 여부 / q2.에 가중치 + 1
+        if (now + 1 <= SIZE)
+        {
+            if (d[now + 1] == -1)
+            {
+                d[now + 1] = d[now] + 1;
+                rotation_q[1].push(now + 1);
+            }
+        }
+        // x => x - 1  // 범위 체크 / 방문 여부 / q2.에 가중치 + 1
+        if (now - 1 >= 0)
+        {
+            if (d[now - 1] == -1)
+            {
+                d[now - 1] = d[now] + 1;
+                rotation_q[1].push(now - 1);
+            }
+        }
+        //q1이 비워졌다면 , q1을 2로 교체 후 q2는 비워 두기
+        if (rotation_q[0].empty())
+        {
+            rotation_q.erase(rotation_q.begin(), rotation_q.begin() + 1);
+            rotation_q.push_back(queue<int>());
+        }
+    }
+}
+```

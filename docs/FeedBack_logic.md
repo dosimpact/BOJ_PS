@@ -262,3 +262,7 @@ int nextNode(int x)
 ```
 
 > > > > > > > 2994ee1974dc28748a47225485fd5ca50dbbb7ff
+
+# 2차원 배열 초기화 하기.
+
+[https://stackoverflow.com/questions/3948290/whats-the-safe-way-to-fill-multidimensional-array-using-stdfill](https://stackoverflow.com/questions/3948290/whats-the-safe-way-to-fill-multidimensional-array-using-stdfill)

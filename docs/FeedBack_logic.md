@@ -265,4 +265,6 @@ int nextNode(int x)
 
 # 2차원 배열 초기화 하기.
 
-[https://stackoverflow.com/questions/3948290/whats-the-safe-way-to-fill-multidimensional-array-using-stdfill](https://stackoverflow.com/questions/3948290/whats-the-safe-way-to-fill-multidimensional-array-using-stdfill)
+```
+    fill(&d[0][0], &d[0][0] + SIZE * SIZE, -1); //fB). 2차원 배열 초기화..
+```

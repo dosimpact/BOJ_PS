@@ -25,7 +25,7 @@
 
 # DP
 
-- DP 문제 발상 : 1. Overlapping Subproblem(문제 P는 A1,A2,... 로 같은 구조로 조깨짐.) + 2.Optiam Substructure (답 A는 A1,A2,... An을 통해 구함) -> 메모지에이션
+- DP 문제 발상 : 1. Overlapping Subproblem(문제 P는 A1,A2,... 로 같은 구조로 조깨짐.) + 2.Optimal Substructure (답 A는 A1,A2,... An을 통해 구함) -> 메모지에이션
 
 - 풀이방법 : 1. TopDown : 문제를 작은 문제로 나눈다. -> 작은 문제를 푼다. \_> 작은 문젤르 풀었으니 문제를 이제 푼다.
 - 풀이방법 : 2. BottomUp : 문제를 크기가 작은 문제부터 차례대로 푼다. -> 문제의 크기를 조금씩 크게 만들면서 문제를 점점 푼다. -> 큰문제가 풀린다.

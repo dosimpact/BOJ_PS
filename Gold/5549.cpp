@@ -21,7 +21,7 @@ int Igraph[SIZE][SIZE];
 int main()
 {
     ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    0 cin.tie(NULL);
     cout.tie(NULL);
     int n, m, k;
     vector<string> graph;

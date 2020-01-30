@@ -1,4 +1,9 @@
 //https://www.acmicpc.net/problem/5549
+/*
+1차시도 DP로 접근 : 시간초과
+2차시도 메타데이터 x 축 생성 : 3초대로 시간초과 : 3kN 이므로 , 3초가 나옴....
+3차시도 메타데이터 x,y 축 생성 : k 시간 걸림 통과!!
+*/
 
 #include <iostream>
 #include <tuple>

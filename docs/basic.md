@@ -1,5 +1,14 @@
 # 기초
 
+---
+
+복습 문제 :
+
+- N과M 복습
+- LST 문제 https://www.acmicpc.net/problem/11053
+
+---
+
 ## 시간복잡도
 
 - N 1억 | nlogn 5백만 | N제곱 1만 | N세제곱 500 | 2의 n승 20 | n팩 10

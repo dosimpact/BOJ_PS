@@ -25,12 +25,12 @@ int main()
     }
     for (int i = 1; i <= n; i++)
     {
-        d[i] = 1;
+        d[i] = p[i];
         for (int j = 1; j < i; j++)
         {
-            if (p[j] < p[i] && d[i] < d[j] + 1)
+            if (p[j] < p[i] && d[i] < d[j] + p[i])
             {
-                d[i] = d[j] + 1;
+                d[i] = d[j] + p[i];
             }
         }
     }

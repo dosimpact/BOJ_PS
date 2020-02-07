@@ -4,7 +4,6 @@
 
 복습 문제 :
 
-- N과M 복습
 - LST 문제 https://www.acmicpc.net/problem/11053
 
 ---

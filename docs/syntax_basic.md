@@ -58,6 +58,8 @@ scanf("%d,%d",&x,&y); // 10,20 이런식의 좌표를 받을 수 있음.
 //주의
 while(scanf(...))는 EOF입력시 리턴값이 -1 이 되어 while(참)이 되어 무한루푸에 빠질 수 있음
 
+---
+
 2. C++ 입출력 기본
 
 //2.1 한줄 다 입력 받기
@@ -117,12 +119,12 @@ auto f = [&](){..} //외부변수 모두 참조하려면 캡처에 &쓰기
 
 eg)
 #include<functional> 에
-  
- function<int(int,int)> sum = [](int,int){....}
+
+function<int(int,int)> sum = [](int,int){....}
 function<int()>
 function<void()>
 등등의 자료형 하지만 auto 써라.
-  
+
 eg) 람다로 recursion 피보나치 구현 또는 vector에 람다 넣고 foreach돌리면서 사칙연산 해보기~
 
 3. STL(1) 사용법
@@ -167,7 +169,7 @@ v.push_back(); v.pop_back();
 v.clear(); v.resize(); v.empty(); v.size();
 
 v.begin(); v.end(); //포인터
-  
+
 v.front(); v.back(); v[1] //값 참조
 
 v.emplace_back(1,2) //원소가 pair인 경우
@@ -176,11 +178,11 @@ eg)
 v.insert(it,<t>)//해당 위치에 , 넣을거
 v.insert(it,10,<t>) // 해당 위치에, 갯수 만큼 , 넣을거
 v.insert(it,d.begin(),d.end())// 해당 위치에, 넣을 첫, 넣을 끝
-  
+
 eg)
 v.erase(it);//지울거 포인팅
 v.erase(it.start(),it.end())//지울거 시작 - 끝
-  
+
 //3.5 deque
 #include<deque>
 deque<int> dq;
@@ -208,7 +210,7 @@ l.reverse
 set<int> s1;
 set<int> s2 = {1,2,3,4} // 자동 오름차 정렬 저장 및 중복 제거됨
 set<int,greater<int>> s3 // 자동 내림차 정렬 하기
-  
+
 eg)
 s1.insert(4); // 대입
 pair<set<int>::iterator, bool > result = s2.insert(4); //결과 반환(넣은 위치,성공 여부)
@@ -217,7 +219,6 @@ pair<set<int>::iterator, bool > result = s2.insert(4); //결과 반환(넣은 위치,성�
     s1[] X //set은 순서 가 아니야
     auto it = s.erase(s.begin()+1);//{1,2,3,4} -> {1,3,4}
     it = s.erase(it) //{1,3,4} -> {1,4}
-
 
 eg)
 set은 for 나 foreach로 순회가 가능하다. lgN
@@ -237,9 +238,9 @@ map,unordered_map,set 에서는 0또는 1 (생성하지 않고 존재 유무 )
 multiset 에서는 0또는 N( 존재 및 갯수)
 
 //3.9 map - key와 value로 이루어짐
-  
+
 #include<map>
-  
+
 map<int,int> d2 = {{1,2},{3,4}};
 d2.size();//2
 d2[1] //2 key를 이용해서 value참조
@@ -259,7 +260,7 @@ cout<<it->first<<it->second;
 for(auto& p:d){
 cout<<p.first<<p.second;
 }
-  
+
 //컨테이너 어댑터 : stack,queu,우선큐,bitset : 앞의 자료구조로 만듬.
 
 //3.10 stack
@@ -302,13 +303,12 @@ cout<<p.first<<p.second;
     pq.top() //  우선 큐는 특이하게 front 가 아닌 top 이다. tree형 stack을 연상하나봄.
     pq.empty() pq.size()
 
-
 eg) 우선큐는 기본적으로 오름차 순으로 정렬된다. 그럼 내림차 우선 큐는 어떻게 만드나? 1. priority_queue<int,vector<int>,greater<int>> q3; 2. 입력시 pq.push(-x); 출력시 -pq.top() // a<b 는 -a > -b 이므로 -를 붙여 반대순서로 넣고/ 출력시 -붙여 원상복귀
 
 //3.13 bitset
-  
+
 //vector<bool> 형태 , 1bit만 사용한다.
-  
+
 bitset<10> b2(88) //10자리 2진수를 만드는데, 십진수 88을 넣을꺼임
 bitset<10> b2("10010")//10자리 2진수를 만드는데, 2진수 10010을 넣을꺼임
 bitset<n> b2 // 애러
@@ -328,11 +328,11 @@ eg)참조
 
 b2[i]
 b2.test(i)
-  
+
 b.flip() b.flip(1) // 0 => 1, 1 => 0
 b.set() b.set(1) // 0,1 => 1로
 b.reset() b.reset(1) //0,1 => 0으로
-  
+
 b.all() //모두 1?
 b.any() //적어도 한개는 1?
 b.none() //모두 0?

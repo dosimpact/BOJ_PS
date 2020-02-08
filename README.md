@@ -2,6 +2,7 @@
 복습 문제:
   - LST 문제: https://www.acmicpc.net/problem/11053
   - 합문해 1,2 문제: https://www.acmicpc.net/problem/2225
+  - dp: [//https://www.acmicpc.net/problem/10942]
 ---
 
 # 백준 알고리즘 !

@@ -33,13 +33,13 @@ void cover(int size, int x, int y) //5 5 사이즈로 x,y시작점 부터 덮는다.
         }
     }
 }
-bool canCover(int size, int x, int y)
+bool canCover(int size, int x, int y) //범위 체크 ~
 {
     for (int i = x; i < x + size; i++)
     {
         for (int j = y; j < y + size; j++)
         {
-            if (graph[i][j] == 0 || tmp_graph[i][j] == 1)
+            if (x > 9 || y > 9 || x < 0 || y < 0 || graph[i][j] == 0 || tmp_graph[i][j] == 1)
             {
                 return false;
             }
@@ -55,7 +55,6 @@ int go(int count, int z, vector<int> &cp)
     {
         return count;
     }
-
     int x = z / 10;
     int y = z % 10;
     if (graph[x][y] == 0)
@@ -91,7 +90,6 @@ int go(int count, int z, vector<int> &cp)
         return min; //리턴 결과 -1이면 안되는 경우 | 빼고 최곳값 => 리턴
     }
 }
-
 int main()
 {
     ios_base::sync_with_stdio(false);

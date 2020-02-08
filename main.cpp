@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/17136
+//https://www.acmicpc.net/problem/10942
 #include <iostream>
 #include <tuple>
 #include <queue>
@@ -7,104 +7,54 @@
 #include <vector>
 #include <string>
 #include <stack>
-#define SIZE 10
+#include <string>
+#define SIZE 2001
 using namespace std;
 
-int graph[SIZE][SIZE];     //원본 판 0~9
-int tmp_graph[SIZE][SIZE]; // 고생할 판.
-
-void disCover(int size, int x, int y) //5 5 사이즈로 x,y시작점 부터  안 덮는다.
-{
-    for (int i = x; i < x + size; i++)
+int s[SIZE];
+int n;
+int d[SIZE][SIZE];
+int dp(int i, int j)
+{ //문자열 i부터 j까지 펠린드롬이냐 | 길이 1 : true | 길이 2 : 경우 같은이 true | 길이 3 이상인 경우 : dp[i-1][j-1]도 참이고, s[i]==s[j] 라면 펠린드롬
+    if (i == j)
     {
-        for (int j = y; j < y + size; j++)
-        {
-            tmp_graph[i][j] = 0;
-        }
+        return 1;
     }
-}
-void cover(int size, int x, int y) //5 5 사이즈로 x,y시작점 부터 덮는다.
-{
-    for (int i = x; i < x + size; i++)
+    else if (i + 1 == j)
     {
-        for (int j = y; j < y + size; j++)
-        {
-            tmp_graph[i][j] = 1;
-        }
-    }
-}
-bool canCover(int size, int x, int y)
-{
-    for (int i = x; i < x + size; i++)
-    {
-        for (int j = y; j < y + size; j++)
-        {
-            if (graph[i][j] == 0 || tmp_graph[i][j] == 1)
-            {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-//덮은 색종이수 | 현재까지 덮은 수 , 현재 z인덱스 , 남은 색종이수
-int go(int count, int z, vector<int> &cp)
-{
-    //z가 끝까지 도달한 경우
-    if (z == 100)
-    {
-        return count;
+        return s[i] == s[j];
     }
 
-    int x = z / 10;
-    int y = z % 10;
-    if (graph[x][y] == 0)
-    { //z가 graph 0이면 계속
-        return go(count, z + 1, cp);
-    }
-    else if (graph[x][y] == 1 && tmp_graph[x][y] == 1)
+    if (d[i][j] >= 0)
     {
-        return go(count, z + 1, cp);
+        return d[i][j];
     }
-    else if (graph[x][y] == 1 && tmp_graph[x][y] == 0)
-    { //z graph 1이면 | 5부터 1까지 덮어본다. | 못덮으면, -1 리턴
-        int min = -1;
-        for (int i = 4; i >= 0; i--)
-        {
-            if (cp[i] > 0)
-            {
-                if (canCover(i + 1, x, y)) // 5 사이즈로 덮냐?
-                {
-                    cp[i] -= 1;
-                    cover(i + 1, x, y);
-                    int tmp = go(count + 1, z + 1, cp);
-                    //FB if ((min == -1 || min > tmp))
-                    if (tmp != -1 && (min == -1 || min > tmp)) //tmp 가 -1이 아니여야됨.
-                    {
-                        min = tmp;
-                    }
-                    disCover(i + 1, x, y);
-                    cp[i] += 1;
-                }
-            }
-        }
-        return min; //리턴 결과 -1이면 안되는 경우 | 빼고 최곳값 => 리턴
+    if (s[i] != s[j])
+    {
+        return d[i][j] = 0;
+    }
+    else
+    {
+        return d[i][j] = dp(i + 1, j - 1);
     }
 }
-
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    for (int i = 0; i < 10; i++)
+    fill(&d[0][0], &d[0][0] + SIZE * SIZE, -1);
+    int t;
+    cin >> n;
+    for (int i = 1; i <= n; i++)
     {
-        for (int j = 0; j < 10; j++)
-        {
-            cin >> graph[i][j];
-        }
+        cin >> s[i];
     }
-    vector<int> cp = {5, 5, 5, 5, 5};
-    int ans = go(0, 0, cp);
-    cout << ans;
+    cin >> t;
+    while (t--)
+    {
+        int s, e;
+        cin >> s >> e;
+        cout << dp(s, e) << " \n";
+    }
 }

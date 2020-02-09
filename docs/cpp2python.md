@@ -41,6 +41,49 @@ else:
 
 ```
 
+# 나머지 연산의 개념 => 양수는 직관적인데, 음수는 -1이 가르키는 배열이 마지막 배열임을 안다면 별거없다.
+
+```python
+"""
+0 1 2 3 4 <- 배열 길이 : 5
+
+0 1 2 3 4
+5 6 7 8 ...
+
+-5 -4 -3 -2 -1
+.. -9 -8 -7 -6
+
+"""
+
+var = [0, 1, 2, 3, 4]
+
+print(len(var)) # 길이 5
+
+print(0 % len(var)) # 0 ~ 4
+print(1 % len(var))
+print(2 % len(var))
+print(3 % len(var))
+print(4 % len(var))
+
+print(5 % len(var)) # 0 ~ 4
+print(6 % len(var))
+print(7 % len(var))
+print(8 % len(var))
+print(9 % len(var))
+
+print(-1 % len(var)) # 4 ~ 0
+print(-2 % len(var))
+print(-3 % len(var))
+print(-4 % len(var))
+print(-5 % len(var))
+
+print(-6 % len(var)) # 4 ~ 0
+print(-7 % len(var))
+print(-8 % len(var))
+print(-9 % len(var))
+print(-10 % len(var))
+```
+
 ## 변수 (선언)
 
 ```python
@@ -138,7 +181,41 @@ print('하하하' if False else '노노노')  # 노노노
 var = ['하하하' if True else 'nonono']
 print(var)  # ['하하하']
 
+# 실전 한줄씩 읽기
+# https://www.acmicpc.net/problem/10866
+from collections import deque
+import sys
 
+
+def input(): return sys.stdin.readline().rstrip()
+
+
+dq = deque()
+t = int(input())
+
+for _ in range(t):
+    a, *b = input().split()
+    if(a == 'push_front'):
+        dq.appendleft(b[0])
+    elif(a == 'push_back'):
+        dq.append(b[0])
+    elif(a == 'pop_front'):
+        print(dq.popleft() if len(dq) != 0 else -1)
+    elif(a == 'pop_back'):
+        print(dq.pop() if len(dq) != 0 else -1)
+    elif(a == 'size'):
+        print(len(dq))
+    elif(a == 'empty'):
+        print(0 if len(dq) != 0 else 1)
+    elif(a == 'front'):
+        print(dq[0] if len(dq) != 0 else -1)
+    elif(a == 'back'):
+        print(dq[-1] if len(dq) != 0 else -1)
+
+
+```
+
+```
 # 문자열 한줄을 그냥 받기
 a = input()
 print(a)

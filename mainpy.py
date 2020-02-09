@@ -1,46 +1,40 @@
-from collections import deque
+# 나머지 연산의 개념 => 양수는 직관적인데, 음수는 -1이 가르키는 배열이 마지막 배열임을 안다면 별거없다.
+"""
+0   1   2   3   4    <- 배열 길이 : 5
 
-dq = deque()
+0   1   2   3   4
+5   6   7   8   ...
 
-t = int(input())
+-5  -4  -3  -2  -1
+..  -9  -8  -7  -6
 
-for i in range(t):
-    cmd = input().split()
-    if(cmd == 'push_front'):
-        x = int(input())
-        dq.append(x)
+"""
 
-    if(cmd == 'push_back'):
-        x = int(input())
-        dq.appendleft(x)
+var = [0, 1, 2, 3, 4]
 
-    if(cmd == 'pop_front'):
-        if(len(dq) == 0):
-            print(-1)
-            break
-        print(dq.popleft())
+print(len(var))  # 길이 5
 
-    if(cmd == 'pop_back'):
-        if(len(dq) == 0):
-            print(-1)
-            break
-        print(dq.pop())
+print(0 % len(var))  # 0 ~ 4
+print(1 % len(var))
+print(2 % len(var))
+print(3 % len(var))
+print(4 % len(var))
 
-    if(cmd == 'size'):
-        print(len(dq))
+print(5 % len(var))  # 0 ~ 4
+print(6 % len(var))
+print(7 % len(var))
+print(8 % len(var))
+print(9 % len(var))
 
-    if(cmd == 'empty'):
-        if(len(dq) == 0):
-            print(1)
-        else:
-            print(0)
-    if(cmd == 'front'):
-        if(len(dq) == 0):
-            print(-1)
-            break
-        print(dq[0])
-    if(cmd == 'back'):
-        if(len(dq) == 0):
-            print(-1)
-            break
-        print(dq[-1])
+print(-1 % len(var))  # 4 ~ 0
+print(-2 % len(var))
+print(-3 % len(var))
+print(-4 % len(var))
+print(-5 % len(var))
+
+
+print(-6 % len(var))  # 4 ~ 0
+print(-7 % len(var))
+print(-8 % len(var))
+print(-9 % len(var))
+print(-10 % len(var))

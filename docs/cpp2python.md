@@ -40,7 +40,7 @@ else:
 
 ```
 
-## 변수 (선언,입력,출력)
+## 변수 (선언)
 
 ```python
 # variable & type
@@ -64,6 +64,8 @@ var1 = None
 print(var1)  # None
 
 ```
+
+## 변수 (입력,출력)
 
 ```python
 # input
@@ -108,54 +110,73 @@ print(c, end='')
 
 ```
 
+# python - 입력 , EOF 까지 | 한줄 그냥 | spilt 이용해서
+
+```python
+
+# 문자열 한줄을 그냥 받기
+a = input()
+print(a)
+
+# 공백을 제외한 알맹쓰만 받기 -> 리스트로 반환됨
+a = input().split()
+print(a)
+
+# EOF(ctrl+Z) 까지 한줄 한줄 입력받기 (공백 포함 싹다 포함)
+
+import sys
+
+for line in sys.stdin:
+    a = line
+    print(a)
+
+# EOF(ctrl+Z) 까지 한줄 한줄 입력받기 (공백 없이 알맹이 문자열만)
+
+import sys
+
+for line in sys.stdin:
+    a = line.split()
+    print(a)
+
+# EOF(ctrl+Z) 까지 정수 a,b  입력받기
+
+import sys
+
+for line in sys.stdin:
+    a, b = map(int, line.split())
+    print(a + b)
+
+```
+
+## 람다식 | map ( 각원소를 2씩 곱할수있다. ) | filter (배열에서 짝수인경우만 퉤)
+
+```python
+
+# 람다식 | map ( 각원소를 2씩 곱할수있다. ) | filter (배열에서 짝수인경우만 퉤)
+# (x,y) => x+y
+# lamda x,y: x+y
+
+
+def g(x): return x**2
+
+
+(a, b, c) = map(g, [1, 2, 3])  # 람다 없이 각 원소 2제곱
+print(a, b, c)
+
+
+(a, b, c) = map(lambda x: x*2, [1, 2, 3])  # 람다로, 각 원소 2곱
+print(a, b, c)
+
+res = list(map(lambda x: x*2, [1, 2, 3]))  # 람다로, 각 원소 2곱
+print(res)
+
+wannaEven = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+res = list(filter(lambda e: e % 2 == 0, wannaEven))  # filter오브젝트에서 list로 반환하기.
+print(res)
+
+```
+
 C언어
-
-```
-//1.1 포멧 문자열
-
-int %d 10진수 %x 16진수 %o 8진수
-long long %lld %I64d
-
-char %c char\* %s
-float %f double %lf long double %Lf
-```
-
-//1.2 TestCase 또는 EOF 받기
-
-//TetsCase
-int cases; cin>>cases; while(cases--){...}
-
-//EOF 까지
-
-while(scanf("%d %d",&a,&b)==2){...}
-while(scanf("%d %d",&a,&b)!=EOF){...}
-while(c = getchar() && c!= EOF){...}
-
-// TestCase EOF 같이 있는 경우 -> 독립적으로 생각
-
-// %c는 공백문자 ' ' = 32 와 줄바꿈 문자 '\n'=10 을 받으므로 주의!!.
-// scanf안의 공백은 공백이나 줄바꿈을 무시 하게 한다. scanf("%c %c"..)
-
-//1.3 scanf의 공백 및 줄 바꿈 처리, 한줄 입력 받기
-
-//(1)
-scanf("%d\n",&n);
-scanf("%c %c %c",&x,&y,&z);
-//(2)
-scanf(" %c %c %c",&x,&y,&z);
-//(3)
-scanf("%[^\n]\n",s); // s 에 char s[] 문자배열형
-//(4)
-fgets() //줄바꿈 포함 한줄 입력 가능
-
-//1.4
-scanf("%[123]",s);
-scanf("%[^123]",s);
-
-//1.5 문장의 앞뒤 공백도 다 입력 받고 싶다면?
-while( (c = getchar()) && c!= EOF){
-print("%c",c);
-}
 
 //1.6 scanf 지정한 갯수만 입력받기
 scanf("%ld",&x); //1234입력-> 1,2,3,4 1개씩 scanf

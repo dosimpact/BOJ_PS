@@ -17,6 +17,7 @@ print(divmod(7, 3))  # 튜플로 (2,1) 반환.
 print(type(3.3))  # float 형
 print(int(3.3))  # 소수점 버리기 | int형
 print(int('10'))  # string to int
+print(str(10)) # int to str
 
 # 2,8,16 진수 포멧
 
@@ -215,7 +216,7 @@ if(True and False or not True):
 
 # 리스트 만들기
 
-```
+```python
 a = [] # 혹은 a = list()
 b = list(range(10)) # 0부터 9까지 range 객체 만들어 list로 변환
 print(b)
@@ -232,10 +233,55 @@ print(c)
 
 # 튜플 만들기 ( 튜플은 읽기 전용 리스트 )
 
-```
+```python
 c = tuple(range(0, 10)) # range to tuple
 print(c) # print (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 print(list(c)) # tuple to list
+```
+
+# 시퀀스 활용.
+
+- 시퀀스 자료형이란: 리스트, 튜플, range, string, bytes, bytearray = > 슬라이싱 등등 가능!
+
+## 존재성.
+
+```python
+a = [0, 1, 2, 'a', "hello", True, [0, 'dos', True], (0, 'impact', False)]
+
+print(1 in a) # 참
+print(10 in a) # 거짓
+print('a' in a) # 참
+print(True in a) # 참
+
+print(1 not in a) # 거짓
+print(10 not in a) # 참
+print('a' not in a) # 거짓
+print(True not in a) # 거짓
+
+print('ll' in a[4]) # 참
+
+print('dos' in a[6])  # 참
+print('do' in a[6])  # 거짓
+print('do' in a[6][1])  # 참
+
+print('impact' in a[7])  # 참
+print('act' in a[7])  # 거짓
+print('act' in a[7][1])  # 참
+```
+
+# 시퀀스 with => len + \* del
+
+```python
+a = [1, 2, 3]
+b = [4, 5, 6, 7, 8, 9, 10]
+st = 'hello'
+print(len(st)) # 5
+print(a+b) # [1, 2, 3, 4, 5, 6]
+print(a\*2) # [1, 2, 3, 1, 2, 3]
+print(a[-1]) # 3 (뒤에서 첫번째)
+
+del a[1] # 1번째 인덱스 삭제
+print(a) # [1, 3]
 ```
 
 C언어

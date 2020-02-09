@@ -88,7 +88,7 @@ int go(int count, int z, vector<int> &cp)
         return go(count, z + 1, cp);
     }
     else if (graph[x][y] == 1 && tmp_graph[x][y] == 0)
-    { //z graph 1이면 | 5부터 1까지 덮어본다. | 못덮으면, -1 리턴
+    { //z graph 1이면 | 5부터 1까지 덮어본다. | 못덮으면, -1 리
         int min = -1;
         for (int i = 4; i >= 0; i--)
         {

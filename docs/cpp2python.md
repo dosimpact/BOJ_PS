@@ -125,11 +125,19 @@ print(a)
 
 # EOF(ctrl+Z) 까지 한줄 한줄 입력받기 (공백 포함 싹다 포함)
 
+# https://www.acmicpc.net/problem/11718
 import sys
 
 for line in sys.stdin:
     a = line
-    print(a)
+    print(a, end='')  # line자체가 enter를 포함학 있다.
+
+# EOF(ctrl+Z) 한번에 입력받기 (공백 포함 싹다 포함)
+
+# https://www.acmicpc.net/problem/11718
+import sys
+v = sys.stdin.read()
+print(v, end='')
 
 # EOF(ctrl+Z) 까지 한줄 한줄 입력받기 (공백 없이 알맹이 문자열만)
 
@@ -243,7 +251,7 @@ print(list(c)) # tuple to list
 
 - 시퀀스 자료형이란: 리스트, 튜플, range, string, bytes, bytearray = > 슬라이싱 등등 가능!
 
-## 존재성.
+## 시퀀스 존재성.
 
 ```python
 a = [0, 1, 2, 'a', "hello", True, [0, 'dos', True], (0, 'impact', False)]
@@ -284,23 +292,53 @@ del a[1] # 1번째 인덱스 삭제
 print(a) # [1, 3]
 ```
 
-C언어
+# 시퀀스 with => slice [][:]
 
-//1.6 scanf 지정한 갯수만 입력받기
-scanf("%ld",&x); //1234입력-> 1,2,3,4 1개씩 scanf
-scanf("%10s",s); // 문자열 길이가 10개 (이하) 씩 받음
+```
+print(b[0:2]) # [4, 5]
+print(b[0:]) # [4, 5, 6, 7, 8, 9, 10]
+print(b[0:-1]) # [4, 5, 6, 7, 8, 9]
+print(b[0:-1:2]) # 2씩 증가하면서 가져오기 [4, 6, 8]
 
-//1.7 scanf 형식을 만들어서 입력받기
-scanf("%d,%d",&x,&y); // 10,20 이런식의 좌표를 받을 수 있음.
-//주의
-while(scanf(...))는 EOF입력시 리턴값이 -1 이 되어 while(참)이 되어 무한루푸에 빠질 수 있음
+print(b[::2]) # [4, 6, 8, 10] 짝수번 인덱스만 가져오기.
 
----
+print(b[::-1]) # 뒤 집기 [10, 9, 8, 7, 6, 5, 4]
 
-2. C++ 입출력 기본
+print(b[1::] + b[0:1:]) # 로테이션 [5, 6, 7, 8, 9, 10, 4]
+```
 
-//2.1 한줄 다 입력 받기
-getline(cin,s); // s는 stirng 형으로
+# sum,min,max,sorted
+
+```
+var = [1, 2, 3, 4, -1, 100]
+
+print(sum(var))  # 109
+print(min(var))  # 01
+print(max(var))  # 100
+print(sorted(var))  # [-1, 1, 2, 3, 4, 100]
+print(sorted(var, reverse=True))  # [100, 4, 3, 2, 1, -1]
+
+var = (1, 2, 3, 4, -1, 100)
+
+print(sum(var))  # 109
+print(min(var))  # 01
+print(max(var))  # 100
+print(sorted(var))  # [-1, 1, 2, 3, 4, 100]
+
+var = "EABCD"
+# print(sum(var))  #TypeError: unsupported operand type(s) for +: 'int' and 'str'
+print(min(var))  # A
+print(max(var))  # E
+print(sorted(var))  # ['A', 'B', 'C', 'D', 'E']
+```
+
+# 딕셔너리 사용(obj)
+
+```
+x = {'base': 1, 'dos': 20}
+print(x['base'])
+
+```
 
 //2.2 출력시 소수점 처리하기
 #include<iomanip>
@@ -311,123 +349,6 @@ double f = 3.1415926535;
 cout<<setprecision(5)<<f; //앞에서 5번째까지 출력(반올림적용)
 
 cout<<fixed<<setprecision(5)<<f; //소수점 자리부터 5번째 가지 출력(반올림 적용)
-
-//2.3 출력 속도비교
-cout<<i<<endl; //4272msec 개행 + 스트림을 flush하기때문에 많은 시간이 걸린다.
-cout<<i<<'\n'; //36msec
-printf("%d\n",i); //20msec
-
-//2.4 cin/cout 속도 올리기 (scanf/printf와 혼용하지 말것!)
-main바로 다음에
-
-    cin.tie(NULL); cout.tie(NULL);
-    ios_base::sync_with_stdio(false);
-
-//2.5 C++11 의 auto
-vector<int> d;
-for(auto it = d.begin(); it != d.end(); it++){...}
-for(auto& k:d){...}
-
-//2.6 Range based for
-vector<int> a = {1,2,3,4,5};
-a.size(); // element수 반환 unsinged long long 형태
-for(auto k : a){...}//값 복사 방식으로 순환
-for(auto& k : a){...}//참조 방식으로 순환 // 더 좋은 성능
-
-//2.7 C 스타일,C++ 스타일 의 string
-const char cstr[] = "string"; // foreach돌리면 7번
-string str = "string"; // foreach 돌리면 6번
-// C스타일의 문자열에는 null이 포함되어 있기 때문 !!!
-
-//2.8 C++ 람다 함수 Lamda Function 익명 함수(함수의 형태인데 이름이 없음)
-
-구성 : [캡처](함수 인자){함수 내용}
-eg) cout<<[](int x,int y){return x+y;}(1,2)<<"\n";
-
-eg) auto sum = [](int x,int y){return x+y;};
-sum(1,2);
-
-eg)
-auto f = [&](){..} //외부변수 모두 참조하려면 캡처에 &쓰기
-
-    auto f = [&x,y](){...} //외부면수 x만 참조,y는 값 복사
-
-    auto f = [&x,y]() mutable {...}// 하지만 잘 안됨..(?)
-
-eg)
-#include<functional> 에
-
-function<int(int,int)> sum = [](int,int){....}
-function<int()>
-function<void()>
-등등의 자료형 하지만 auto 써라.
-
-eg) 람다로 recursion 피보나치 구현 또는 vector에 람다 넣고 foreach돌리면서 사칙연산 해보기~
-
-3. STL(1) 사용법
-
-// STL = algorithm + container + function + iterator 로 구성
-
-//3.1 pair
-#include<utility> 또는 #include<vector> 또는 #include<algorithm>
-
-pair<int,int> p1 = make_pair(10,20);
-pair<int,int> p1 = pair<int,int>(10,20);
-pair<int,int> p2(10,20);
-
-p1.first 와 p1.second 로 접근
-
-//3.2 tuple
-#include<tuple>
-tuple<int,int,int> t1 = make_tuple(10,20,30);
-cout<<get<0>(t1)<<'\n'; //<0>안에는 변수가 못들어 간다.
-
-//3.3 tie
-#include<tuple>
-
-eg)
-int x,y,z;
-tie(x,y,z) = make_tuple(1,2,3);
-eg)
-tie(b,a,ignore) = make_tuple(a,b,10);
-tie(a,b) = make_pair(b,a); //swap한줄 구현
-
-//3.4 vector
-#include<vector>
-
-eg)
-vector<int> v1;
-vector<int> v1(10); //크기 10
-vector<int> v1(10,5); // 크기 10이고 초기값 전부 5
-vector<int> v1 = {1,2,3}; // 초기화 리스트를 이용해서 행성
-
-eg)
-v.push_back(); v.pop_back();
-v.clear(); v.resize(); v.empty(); v.size();
-
-v.begin(); v.end(); //포인터
-
-v.front(); v.back(); v[1] //값 참조
-
-v.emplace_back(1,2) //원소가 pair인 경우
-
-eg)
-v.insert(it,<t>)//해당 위치에 , 넣을거
-v.insert(it,10,<t>) // 해당 위치에, 갯수 만큼 , 넣을거
-v.insert(it,d.begin(),d.end())// 해당 위치에, 넣을 첫, 넣을 끝
-
-eg)
-v.erase(it);//지울거 포인팅
-v.erase(it.start(),it.end())//지울거 시작 - 끝
-
-//3.5 deque
-#include<deque>
-deque<int> dq;
-
-dq.push_back(t);
-dq.push_front(t);
-dq.pop_back();
-dq.pop_front();
 
 //3.6 list 이중연결 리스트 : insert와 erase는 O(1)이 걸림
 #include<list>

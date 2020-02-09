@@ -182,6 +182,22 @@ for e in a:
 
 print(ans)
 
+# 뛰어쓰기 처리하기 -> replace('\n','')
+
+import sys
+
+var = sys.stdin.read()
+var = (var.replace('\n', '').split(','))
+print(sum(list(map(int, var))))
+
+# EOF 까지 한번에 읽어서, 뛰어쓰기는 제거하고 ,로 나눠서 리스트를 반환후 더한값을 출력하기
+# https://www.acmicpc.net/problem/10823
+import sys
+
+nlist = [int(x) for x in sys.stdin.read().replace('\n', '').split(',')]
+print(sum(nlist))
+
+
 
 ```
 
@@ -237,11 +253,17 @@ print(c)
 
 c = list(range(10, 0, -1)) # [10, 9, 8, 7, 6, 5, 4, 3, 2, 1] 이 역시 0은 미 포함.
 print(c)
+
+# for문으로 문자열 리스트 -> 정수 리스트 변환 및 합
+
+nlist = [int(x) for x in ['10', '20', '30']]
+print(sum(nlist))
+
 ```
 
 # enumerate()
 
-```
+```python
 var = ['a', 'b', 'c']
 
 for i, val in enumerate(var):
@@ -250,7 +272,7 @@ print(i, val)
 
 # 2차원 배열
 
-```
+```python
 a = [[10, 20], [30, 40], [50, 60]]
 
 for x, y in a:  # 리스트 자체를 받아서 사용
@@ -277,7 +299,7 @@ for i, x in enumerate(a):
         print(y)
 ```
 
-# 반복문으로 2차원 배열 만들기
+# 반복문으로 2차원 | 배열 만들기
 
 ```python
 a = ['x' for i in range(3)]
@@ -288,6 +310,12 @@ print(a) # [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
 a = [[0 for i in range(3)] for i in range(3)]
 print(a) # [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
+# for문으로 리스트 완성하기
+
+nlist = [int(x) for x in ['10', '20', '30']]
+print(sum(nlist))
+
 ```
 
 # 튜플 만들기 ( 튜플은 읽기 전용 리스트 )
@@ -449,6 +477,27 @@ print(dp(var))
 
 ```
 
+# python - 덱 ( 큐대신 댁을 쓰기. 큐는 시퀀서가 아니다.)
+
+```
+from collections import deque
+
+dq = deque([1, 2, 3, 4])
+
+print(dq[0])  # front
+print(dq[-1])  # back
+print(len(dq))  # size
+
+dq.append(5)  # push_back
+dq.appendleft(6)  # push_front
+
+print(dq.pop())  # pop_back
+print(dq.popleft())  # pop_front
+
+dq.rotate()
+print(list(dq))
+```
+
 //2.2 출력시 소수점 처리하기
 #include<iomanip>
 setprecision(5)
@@ -503,30 +552,6 @@ auto it = s.find(1); //{1,3,5,7} 첫번재 원소를 가르킴
 <T>.count의 의미
 map,unordered_map,set 에서는 0또는 1 (생성하지 않고 존재 유무 )
 multiset 에서는 0또는 N( 존재 및 갯수)
-
-//3.9 map - key와 value로 이루어짐
-
-#include<map>
-
-map<int,int> d2 = {{1,2},{3,4}};
-d2.size();//2
-d2[1] //2 key를 이용해서 value참조
-d2[0] //0 없으면 만들어진다. key값 0 에 value 기본값
-
-eg)
-if(d2[i]){...}//존재확인 + 없으면 만들어 버림
-if(d2.count(i)){..} //존재 확인만
-
-eg)
-map<int,int> d
-//내용물을 iterator 로 돌기
-for(auto it = d.begin(); it != d.end() ; it++){
-cout<<it->first<<it->second;
-}
-//내용물은 pair
-for(auto& p:d){
-cout<<p.first<<p.second;
-}
 
 //컨테이너 어댑터 : stack,queu,우선큐,bitset : 앞의 자료구조로 만듬.
 
@@ -607,56 +632,6 @@ b.count()//1이 몇개인가?
 
 //삽입 삭제 시간 --> 백터는 N , set은 lgN, 리스트는 1
 //count의 의미 set에서는 존재성 / multiset 에서는 갯수 / STL의 count도 갯수, map,unordered_map에서 존재성
-
-Sec4. string
-
-//4.1 생성자.
-string(char c[]);//문자열 가능
-string(const char\*); //문자열(상수) 가능
-string(string s); // 초기값 지정
-string(); // "" 초기화
-string(int,char);//갯수를 어떤 문자를
-
-//4.2 EOF 입력
-
-while(cin>>s){...} //EOF 기능 리턴값 T or F
-while(scanf() == 2 ){...}
-while(scanf() != EOF){...}
-while(getline(cin,s))
-while(getline(cin,s,char delimeter))// 문자열 분리, char으로 분리할 문자 넣주기
-->foreach 분석하기~
-
-//4.3 string s의 기능
-s.c_str(); //printf("%s") 형으로 출력이 가능하다.
-s.size();// s.size() - 1 은 unsigned long long 의 MAX 형
-s.length();//의미상
-s.empty();
-s1 == s1 , s1 != s2, s1<s2 //같은지,다른지,사전순서인지
-s1+=s2;
-s.push_back(char);
-s.substr(); // s.substr(2,3)//hellow면 llo
-
-s.append(int,char);//갯수,뭐를
-s.append(string);
-s.append(const char\*);
-s.append // 리턴형이 string이므로 chain으로 가능
-
-s.insert(int,string);//위치 뭐를
-s.insert(int,int,char);//위치,갯수,뭘
-s.insert(int,string,int,int);//넣을위치, string 의, 위치, 몇개
-
-//4.4 숫자 문자열 변환
-stoi(string);
-stoi(string,int,int);//? int번 문자부터 int진수로 보고 10진수로 저장??
-stll
-
-stoul
-stoull
-stof
-stod
-stld
-
-to_string(int 나 double 또는 float)
 
 Sec5. STL - Algorithm
 

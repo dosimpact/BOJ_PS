@@ -1,3 +1,7 @@
+# 기본문법 - 에디터 부터
+
+---
+
 ## C/C++/STL 기초 to Python
 
 ## 변수 | 타입 | 기본연산 | 진수
@@ -661,35 +665,6 @@ multiset 에서는 0또는 N( 존재 및 갯수)
 
 //컨테이너 어댑터 : stack,queu,우선큐,bitset : 앞의 자료구조로 만듬.
 
-//3.10 stack
-#include<stack>
-
-    stack<int> s1; //기본
-    deque<int> d = {1,2,3}; stack<int> s2(d); //댁을 스택으로
-    stack<int,list<int>> s3; // 리스트로 스택 만들기
-
-    s.push(<T>)
-    s.pop()
-    s.top()
-    s.size()
-    s.empty()
-    s.emplace(5,6)
-
-//3.11 queue
-#include<queue>
-
-    queue<int> q1;
-    deque<int> d = {1,2,3}; queue<int> q3(d) // 댁으로도 큐 가능
-    queue<int,list<int>> q2; //리스트로 큐 만들기
-
-    q1.push(<t>)
-    q1.pop()
-    q1.front()
-    q1.back()
-    q1.size()
-    q1.empty()
-    q1.emplace_back()
-
 //3.12 priority_queue - #include<queue>에 같이 동봉됨.
 
 #include<queue>
@@ -741,94 +716,24 @@ b.count()//1이 몇개인가?
 
 Sec5. STL - Algorithm
 
-#include<algorithm> : 명심 왠만해서는 범위는 [begin,end) 이다..
-
-//#5.1 카운팅 - 조건에 맞는, 원소 수 반환 O(N)
-count(begin,end,value);
-count_if(begin,end,p);
-
-//#5.2 위치 찾기 - 조건에 맞는 원소 위치 반환 O(N)
-find(begin,end,value);
-find_if(begin,end,p); //없으면 end() 반환
-
-//#5.3 원소들 (조건에 맞으면 ) 값으로 채우기
-fill(begin,end,value);
-
-//#5.4 뒤집기
-reverse(begin,end);
-
 //#5.5 회전하기
 rotate(begin,mid,end);
 [mid,end)를 앞으로, [begin,mid)를 뒤로 위치 바꾸기.
 rotate(begin,begin+1,end); //오른쪽으로 한칸씩 이동하기
 rotate(begin,end-1,end); //왼쪽으로 한칸씩 이동하기
 
----
-
-//#5.6 swap
-swap(a,b) // int,vector<int>
-swap(_(v.begin()), _(v.begin()+1) ); // 범위가 아닌, 선택이다.!!
-
-//#5.7 unique 구간에서 연속된 값을 제거하고 하나만 만들고 다시 넣는다.
+---//#5.7 unique 구간에서 연속된 값을 제거하고 하나만 만들고 다시 넣는다.
 정렬 -> 유니크 -> erase
 vector<int> v;
 v.sort(); // 1.정렬
 auto it = v.unique(v.begin(),v.end()); //2. 유니크
 erase(it,v.end()); // 3. 잔존 지우기
 
-//#5.8 정렬 sort
-
-sort(begin,end);
-sort(begin,end,cmp);
-
-sort(begin,end,greater<int>());
-sort(begin,end,cmp);
-bool cmp(const int& u, const int& v){return u > v ;}
-sort(begin,end,[](const int& u,const int& v){return u > v; });
-
-eg)pair를 이용한 람다 정렬, 문자열 -> 우선 길이 내림차, 긜고 사전 오름차
-sort(s.begin,s.end,[](const string& u,const string& v){
-return make_pair(-u.size(),u) < make_pair(-v.size(),v) ;} );
-
-eg) 구조체나 클래스는 sort시 함수를 작성해 주어야 함. 내부 함수 또는 cmp 외부 함수 작성.
-
-//#5.8.2 정렬 stable_sort 같으면 정렬전 순서가 유지됨.
-stable_sort(begin,end);
-stable_sort(begin,end,cmp);
-
 //#5.9 이진 탐색, 보통 커스터 직접 만드는 경우가 흔한데,
 binary_search(begin,end,value); //true or false
 binary_search(begin,end,value,cmp); // true or false
 
 ---
-
-//#5.10 최대값 최솟값 찾기
-
-min(2,3); max(2,3);
-min({1,2,3,4}); max({1,2,3,4});
-min(p1,p2,cmp); max(p1,p2,cmp);
-
-eg) 가장 작은 문자열 출력
-min(s1,s2,[](string u,string v){ return u.size() < v.size(); });
-
-minmax -> min과max를 pair형태로 반환
-
-min_element(begin,end);
-min_element(begin,end,cmp);
-//최대 및 최소값의 이터레이터 반환.
-
-eg) 정렬 -> min_element
-
-    vector<string> ss = { "a","ab","abc","abcd"};
-    auto it = min_element(ss.begin(),ss.end(),[](string u, string v){return u.size() < v.size();});
-    cout<<*it;
-
-//#5.11 값 비교, 후 크거나 같은 첫 iterator 찾기
-
-lower_bound(begin,end,val); // val 보다 크거나 같은 첫 iterator
-lower_bound(begin,end,val,cmp);
-upper_bound(begin,end,val); //val 보다 큰 첫 iterator
-upper_bound(begin,end,val,cmp);
 
 //#5.12 순열
 

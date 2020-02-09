@@ -115,6 +115,30 @@ print(c, end='')
 
 ```python
 
+# 한줄 한줄 읽기 | 보통 많이 사용하는듯 : rstrip()  # 해당 문자열의 공백 및 개행 제거
+import sys
+
+var = ' hi \n'
+print(len(var))  # 5
+var = var.rstrip()  # 해당 문자열의 공백 및 개행 제거
+print(len(var))  # 3
+
+# 리스트에서 여러개 받는데 몇개인지 모를경우
+
+a, *b = [1, 2, 3, 4, 5, 6]
+print(a)
+print(b)
+
+# print 안에 if문 사용
+
+print('하하하' if False else '노노노')  # 노노노
+
+# [] 안에 if문 사용
+
+var = ['하하하' if True else 'nonono']
+print(var)  # ['하하하']
+
+
 # 문자열 한줄을 그냥 받기
 a = input()
 print(a)
@@ -155,6 +179,13 @@ for line in sys.stdin:
     a, b = map(int, line.split())
     print(a + b)
 
+# EOF 까지 한번에 읽어서, 뛰어쓰기는 제거하고 ,로 나눠서 리스트를 반환후 더한값을 출력하기
+# https://www.acmicpc.net/problem/10823
+import sys
+
+nlist = [int(x) for x in sys.stdin.read().replace('\n', '').split(',')]
+print(sum(nlist))
+
 #  공백 포함 문자열 하나하나 분리하기
 
 a = input()
@@ -182,6 +213,8 @@ for e in a:
 
 print(ans)
 
+
+
 # 뛰어쓰기 처리하기 -> replace('\n','')
 
 import sys
@@ -190,12 +223,8 @@ var = sys.stdin.read()
 var = (var.replace('\n', '').split(','))
 print(sum(list(map(int, var))))
 
-# EOF 까지 한번에 읽어서, 뛰어쓰기는 제거하고 ,로 나눠서 리스트를 반환후 더한값을 출력하기
-# https://www.acmicpc.net/problem/10823
-import sys
 
-nlist = [int(x) for x in sys.stdin.read().replace('\n', '').split(',')]
-print(sum(nlist))
+
 
 
 
@@ -479,7 +508,7 @@ print(dp(var))
 
 # python - 덱 ( 큐대신 댁을 쓰기. 큐는 시퀀서가 아니다.)
 
-```
+```python
 from collections import deque
 
 dq = deque([1, 2, 3, 4])

@@ -1,6 +1,8 @@
-# EOF 까지 읽어서, 뛰어쓰기는 제거하고 ,로 나눠서 리스트를 반환후 더한값을 출력하기
-# https://www.acmicpc.net/problem/10823
-import sys
+# print 안에 if문 사용
 
-nlist = [int(x) for x in sys.stdin.read().replace('\n', '').split(',')]
-print(sum(nlist))
+print('하하하' if False else '노노노')  # 노노노
+
+# [] 안에 if문 사용
+
+var = ['하하하' if True else 'nonono']
+print(var)  # ['하하하']

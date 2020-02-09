@@ -239,6 +239,57 @@ c = list(range(10, 0, -1)) # [10, 9, 8, 7, 6, 5, 4, 3, 2, 1] 이 역시 0은 미 포함
 print(c)
 ```
 
+# enumerate()
+
+```
+var = ['a', 'b', 'c']
+
+for i, val in enumerate(var):
+print(i, val)
+```
+
+# 2차원 배열
+
+```
+a = [[10, 20], [30, 40], [50, 60]]
+
+for x, y in a:  # 리스트 자체를 받아서 사용
+    print(x, y)
+
+for i in a:  # 리스트를 원소를 2번꺼내 사용
+    for j in i:
+        print(j, end=' ')
+
+for i in range(len(a)):  # 길이만큼 사용
+    for j in range(len(a[i])):
+        print(a[i][j])
+
+for i, x in enumerate(a):
+    for j, y in enumerate(x):
+        print(a[i][j])
+
+for i, x in enumerate(a):
+    for j, y in enumerate(x):
+        print(a[i][j])
+
+for i, x in enumerate(a):
+    for j, y in enumerate(x):
+        print(y)
+```
+
+# 반복문으로 2차원 배열 만들기
+
+```python
+a = ['x' for i in range(3)]
+print(a) # ['x', 'x', 'x']
+
+a = [[0, 0, 0] for i in range(3)]
+print(a) # [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
+a = [[0 for i in range(3)] for i in range(3)]
+print(a) # [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+```
+
 # 튜플 만들기 ( 튜플은 읽기 전용 리스트 )
 
 ```python
@@ -294,7 +345,7 @@ print(a) # [1, 3]
 
 # 시퀀스 with => slice [][:]
 
-```
+```python
 print(b[0:2]) # [4, 5]
 print(b[0:]) # [4, 5, 6, 7, 8, 9, 10]
 print(b[0:-1]) # [4, 5, 6, 7, 8, 9]
@@ -309,7 +360,7 @@ print(b[1::] + b[0:1:]) # 로테이션 [5, 6, 7, 8, 9, 10, 4]
 
 # sum,min,max,sorted
 
-```
+```python
 var = [1, 2, 3, 4, -1, 100]
 
 print(sum(var))  # 109
@@ -332,11 +383,69 @@ print(max(var))  # E
 print(sorted(var))  # ['A', 'B', 'C', 'D', 'E']
 ```
 
+# 리스트 append sort reverse index insert remove pop count extend
+
+```python
+a = [50, 20, 3, 4, 5]
+a.append(6)
+print(a)  # [50, 20, 3, 4, 5, 6]
+
+a.extend([7, 8])
+print(a)  # [50, 20, 3, 4, 5, 6, 7, 8]
+
+a.sort()
+print(a)  # [3, 4, 5, 6, 7, 8, 20, 50]
+
+a.sort(reverse=True)
+print(a)  # [50, 20, 8, 7, 6, 5, 4, 3]
+
+a.reverse()
+print(a)  # [3, 4, 5, 6, 7, 8, 20, 50]
+
+idx = a.index(20)  # 현재 20의 위치는 6번째.
+print(idx)  # 6
+
+a.insert(idx, 21)  # 20위치가 하나 밀리고, 21이 들어감
+print(a)  # [3, 4, 5, 6, 7, 8, 21, 20, 50]
+
+a.remove(21)  # 21 찾아서 제거
+print(a)  # [3, 4, 5, 6, 7, 8, 20, 50]
+
+a.pop()
+a.pop()
+print(a)  # [3, 4, 5, 6, 7, 8]
+
+print([3, 3, 3, 2, 2, 1].count(3))  # 3
+```
+
 # 딕셔너리 사용(obj)
 
-```
+```python
+
 x = {'base': 1, 'dos': 20}
 print(x['base'])
+
+# 피보나치 + dp for문 | dp 재귀
+
+d = {}
+
+
+def dp(n):
+    if(n <= 1):
+        return n
+    if((n) in d):
+        return d[(n)]
+    d[n] = dp(n-1)+dp(n-2)
+    return d[n]
+
+
+var = int(input())
+d[0] = 0
+d[1] = 1
+for i in range(2, var+1):
+    d[i] = d[i-1] + d[i-2]
+print(dp(var))
+
 
 ```
 

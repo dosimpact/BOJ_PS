@@ -1,5 +1,7 @@
 ## C/C++/STL 기초 to Python
 
+## 변수 | 타입 | 기본연산 | 진수
+
 ```python
 
 #  기본 연산자
@@ -24,8 +26,21 @@ print(0o10)  # 십진수로 8
 
 print(0xF)  # 십진수로 15
 
+# 출력 진수 포멧 정하기
+# https://www.acmicpc.net/problem/11816
+a = input()
+if(a[0] == '0'):
+    if(a[0:2] == '0x'):
+        print(int(a[2:], 16))
+    else:
+        print(int(a[1:], 8))
+
+else:
+    print(int(a))
 
 ```
+
+## 변수 (선언,입력,출력)
 
 ```python
 # variable & type
@@ -39,6 +54,57 @@ print(type(a), type(b), type(c))
 
 a, c = c, a
 print(a, b, c)
+
+# variable => None | del
+
+var1 = 10
+del var1
+# print(var1) # NameError: name 'var1' is not defined
+var1 = None
+print(var1)  # None
+
+```
+
+```python
+# input
+
+var1 = input()  # input : 10 | str 형으로 입력됨
+print(type(var1))
+
+var1 = int(input())  # input : 10 | int로 형 변환
+print(type(var1))
+
+
+# input 한줄을 받아서, 공백으로 구분하기 하지만 str로 들어감
+
+u, v = input().split()
+print(u, v)
+print(type(u), type(v))
+
+# input 바로 int형으로 받는 방법.
+
+u, v = map(int, input().split())
+print(u, v)
+print(type(u), type(v))
+
+# print 마다  \n 을 넣기
+
+a, b, c = map(int, input().split(','))  # input 10,20,30
+print(a, b, c, sep='\n')  # output 10\n20\n30
+
+# print 마다  \n 을 넣기
+
+a, b, c = map(int, input().split(','))  # input 10,20,30
+print(a, b, c, sep='\n')  # output 10\n20\n30
+
+print(a, end='')  # output 102030
+print(b, end='')
+print(c, end='\n')
+
+print(a, end=' ')  # output 102030
+print(b, end=' ')
+print(c, end='')
+
 
 ```
 

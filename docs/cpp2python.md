@@ -6,7 +6,7 @@
 
 #  기본 연산자
 print(7/3)  # 소수점 챙기는 나눗셈
-print(7//3)  # 수수점 버리는 나눗셈
+print(7//3)  # 소수점 버리는 나눗셈
 print(7 % 3)  # mod
 print(2 ** 3)  # pow
 
@@ -103,14 +103,14 @@ print(a, end='')  # output 102030
 print(b, end='')
 print(c, end='\n')
 
-print(a, end=' ')  # output 102030
+print(a, end=' ')  # output 10 20 30
 print(b, end=' ')
 print(c, end='')
 
 
 ```
 
-# python - 입력 , EOF 까지 | 한줄 그냥 | spilt 이용해서
+# python - 입력 정리, EOF 까지 | 한줄 그냥 | spilt 이용해서
 
 ```python
 
@@ -146,6 +146,34 @@ for line in sys.stdin:
     a, b = map(int, line.split())
     print(a + b)
 
+#  공백 포함 문자열 하나하나 분리하기
+
+a = input()
+print(list(a))
+
+#  공백 제거 후 문자열 하나하나 분리하기
+
+a = input().split()
+for e in a:
+    print(list(e))
+
+#  1234 숫자 입력시 , 1,2,3,4 로 하나씩 끊어 받기 ( 공백 처리 불가능  )
+
+a = list(input())
+res = list(map(int, a))
+
+print(res)
+
+#  1234 숫자 입력시 , 1,2,3,4 로 하나씩 끊어 받기 ( 공백 처리 가능 )
+ans = []
+a = input().split()
+for e in a:
+    res = list(map(int, e))
+    ans.extend(res)
+
+print(ans)
+
+
 ```
 
 ## 람다식 | map ( 각원소를 2씩 곱할수있다. ) | filter (배열에서 짝수인경우만 퉤)
@@ -174,6 +202,40 @@ wannaEven = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 res = list(filter(lambda e: e % 2 == 0, wannaEven))  # filter오브젝트에서 list로 반환하기.
 print(res)
 
+```
+
+# bool 과 논리
+
+```python
+if(True and False or not True):
+    while(True):
+        if(bool('False')):  # 모든 문자열은 참값!!!
+            break
+```
+
+# 리스트 만들기
+
+```
+a = [] # 혹은 a = list()
+b = list(range(10)) # 0부터 9까지 range 객체 만들어 list로 변환
+print(b)
+
+c = list(range(1, 5)) # [1, 2, 3, 4]
+print(c)
+
+c = list(range(1, 11, 2)) # [1, 3, 5, 7, 9] # 1부터 10까지 2씩증가 | 11포함 안됨
+print(c)
+
+c = list(range(10, 0, -1)) # [10, 9, 8, 7, 6, 5, 4, 3, 2, 1] 이 역시 0은 미 포함.
+print(c)
+```
+
+# 튜플 만들기 ( 튜플은 읽기 전용 리스트 )
+
+```
+c = tuple(range(0, 10)) # range to tuple
+print(c) # print (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+print(list(c)) # tuple to list
 ```
 
 C언어

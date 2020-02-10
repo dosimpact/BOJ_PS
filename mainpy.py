@@ -1,21 +1,9 @@
-import sys
+# set 함수 정리 (존재성 사용법은 동일)
 
+var = [5, 1, 1, 2, 2, 2, 3, 3, 3, 3]
 
-def input(): return sys.stdin.readline().rstrip()
+print(set(var))  # 내부적으로 obj인듯 {1, 2, 3, 5}
 
-
-data = []
-N = int(input())
-
-for _ in range(N):
-    a, *b = input().split()
-    if a == 'push':
-        data.append(b[0])
-    if a == 'pop':
-        print(data.pop() if len(data) > 0 else -1)
-    if a == 'size':
-        print(len(data))
-    if a == 'empty':
-        print(1 if len(data) == 0 else 0)
-    if a == 'top':
-        print(data[-1] if len(data) > 0 else -1)
+var = list(set(var))
+var.sort()
+print(var)  # unique 중복제거 && 정렬 [1, 2, 3, 5]

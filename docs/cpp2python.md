@@ -1,8 +1,15 @@
-# 기본문법 - 에디터 부터
-
----
-
 ## C/C++/STL 기초 to Python
+
+## 주의!
+
+1. input() 말고 sys.stdin.readline() 를 사용하자.
+
+2. 재귀함수가 있는 경우, 최대 재귀 깊이를 설정해줘야 한다.
+
+```
+import sys sys.setrecursionlimit(10**8) # 10^8 까지 늘림.
+
+```
 
 ## 변수 | 타입 | 기본연산 | 진수
 
@@ -607,6 +614,50 @@ print(dq.popleft())  # pop_front
 
 dq.rotate()
 print(list(dq))
+```
+
+# set 함수 정리 (존재성 사용법은 동일)
+
+```python
+var = [5, 1, 1, 2, 2, 2, 3, 3, 3, 3]
+
+print(set(var))  # 내부적으로 obj인듯 {1, 2, 3, 5}
+
+var = list(set(var))
+var.sort()
+print(var)  # unique 중복제거 && 정렬 [1, 2, 3, 5]
+```
+
+# 우선순위 큐 사용하기. heappush,heappop,heapify
+
+```python
+import heapq
+
+# 힙 만들기 push = logn && n개 원소 = n => 총 시간 복잡도 : nlogn
+h = []  # 우선순위 큐로 사용될 리스트
+heapq.heappush(h, (3, "Go to home"))  # 두번쨰 인자는 (우선순위,값)
+heapq.heappush(h, (10, "Do not study"))
+heapq.heappush(h, (1, "Enjoy!"))
+heapq.heappush(h, (4, "Eat!"))
+heapq.heappush(h, (7, "Pray!"))
+print(h)
+
+
+# 힙 꺼내기 nlogn
+print(heapq.heappop(h))  # 우선순위 순서대로 나온다. 1 -> 3 -> 4 -> 7 -> 10
+print(heapq.heappop(h))
+print(heapq.heappop(h))
+print(heapq.heappop(h))
+print(heapq.heappop(h))
+
+# 힙 만들기 by 이미  만들어진 리스트 -> 힙 정렬 : O(n) 걸림
+hlist = [(7, 'kdy'), (2, 'dos'), (4, 'hello')]
+
+heapq.heapify(hlist)
+print(heapq.heappop(hlist))
+print(heapq.heappop(hlist))
+print(heapq.heappop(hlist))
+
 ```
 
 //2.2 출력시 소수점 처리하기

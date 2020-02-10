@@ -1,9 +1,22 @@
-# set 함수 정리 (존재성 사용법은 동일)
+# 순열 조합 정리 permutations combinations import itertools
 
-var = [5, 1, 1, 2, 2, 2, 3, 3, 3, 3]
+import itertools
 
-print(set(var))  # 내부적으로 obj인듯 {1, 2, 3, 5}
+pool = ['A', 'B', 'C']
 
-var = list(set(var))
-var.sort()
-print(var)  # unique 중복제거 && 정렬 [1, 2, 3, 5]
+# 결과는 튜플로 반환된다. -> join을 통해 하나의 문자열로 뭉처줄 수 있다.
+
+# [('A', 'B', 'C'), ('A', 'C', 'B'), ('B', 'A', 'C'), ('B', 'C', 'A'), ('C', 'A', 'B'), ('C', 'B', 'A')]
+print(list(itertools.permutations(pool)))
+
+#['ABC', 'ACB', 'BAC', 'BCA', 'CAB', 'CBA']
+print(list(map(''.join, itertools.permutations(pool))))  # 3개의 원소로 수열 만들기
+#['AB', 'AC', 'BA', 'BC', 'CA', 'CB']
+print(list(map(''.join, itertools.permutations(pool, 2))))  # 2개의 원소로 수열 만들기
+
+# [('A', 'B'), ('A', 'C'), ('B', 'C')]
+print(list(itertools.combinations(pool, 2)))
+# ['ABC']
+print(list(map(''.join, itertools.combinations(pool, 3))))  # 3개의 원소로 수열 만들기
+#['AB', 'AC', 'BC']
+print(list(map(''.join, itertools.combinations(pool, 2))))  # 2개의 원소로 수열 만들기

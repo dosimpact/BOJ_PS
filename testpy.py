@@ -1,22 +1,7 @@
-import sys
 
+# join 함수 : 리스트사이사이 특정 문자열을 넣고, 하나의 문자열로 만들어준다. ( splite와 반대대는 개념)
 
-def input(): return sys.stdin.readline().rstrip()
+var = ['A', 'B', 'C']
 
-
-n, k = map(int, input().split())
-data = [i for i in range(1, n+1)]
-ans = []
-i = 0
-for _ in range(n):
-    # 현재위치에서 k-1만큼 이동후 len나눠
-    i = (i + k - 1) % len(data)
-    ans.append(data.pop(i))
-
-print('<', end='')
-for i, e in enumerate(ans):
-    if i == len(ans) - 1:
-        print(e, end='')
-    else:
-        print(e, end=', ')
-print('>', end='')
+print(''.join(var))  # ABC
+print('|'.join(var))  # A|B|C

@@ -504,6 +504,15 @@ print(b[::-1]) # 뒤 집기 [10, 9, 8, 7, 6, 5, 4]
 print(b[1::] + b[0:1:]) # 로테이션 [5, 6, 7, 8, 9, 10, 4]
 ```
 
+# join 함수 : 리스트사이사이 특정 문자열을 넣고, 하나의 문자열로 만들어준다. ( splite와 반대대는 개념)
+
+```
+var = ['A', 'B', 'C']
+
+print(''.join(var))  # ABC
+print('|'.join(var))  # A|B|C
+```
+
 # sum,min,max,sorted
 
 ```python
@@ -660,6 +669,31 @@ print(heapq.heappop(hlist))
 
 ```
 
+# 순열 조합 정리 permutations combinations import itertools
+
+```python
+import itertools
+
+pool = ['A', 'B', 'C']
+
+# 결과는 튜플로 반환된다. -> join을 통해 하나의 문자열로 뭉처줄 수 있다.
+
+# [('A', 'B', 'C'), ('A', 'C', 'B'), ('B', 'A', 'C'), ('B', 'C', 'A'), ('C', 'A', 'B'), ('C', 'B', 'A')]
+print(list(itertools.permutations(pool)))
+
+#['ABC', 'ACB', 'BAC', 'BCA', 'CAB', 'CBA']
+print(list(map(''.join, itertools.permutations(pool))))  # 3개의 원소로 수열 만들기
+#['AB', 'AC', 'BA', 'BC', 'CA', 'CB']
+print(list(map(''.join, itertools.permutations(pool, 2))))  # 2개의 원소로 수열 만들기
+
+# [('A', 'B'), ('A', 'C'), ('B', 'C')]
+print(list(itertools.combinations(pool, 2)))
+# ['ABC']
+print(list(map(''.join, itertools.combinations(pool, 3))))  # 3개의 원소로 수열 만들기
+#['AB', 'AC', 'BC']
+print(list(map(''.join, itertools.combinations(pool, 2))))  # 2개의 원소로 수열 만들기
+```
+
 //2.2 출력시 소수점 처리하기
 #include<iomanip>
 setprecision(5)
@@ -669,66 +703,6 @@ double f = 3.1415926535;
 cout<<setprecision(5)<<f; //앞에서 5번째까지 출력(반올림적용)
 
 cout<<fixed<<setprecision(5)<<f; //소수점 자리부터 5번째 가지 출력(반올림 적용)
-
-//3.6 list 이중연결 리스트 : insert와 erase는 O(1)이 걸림
-#include<list>
-
-list<int> l ={2,1,-5};
-l.sort(); // 기본 : 오름차순
-l.sort(greater<int>());//내림차순
-l.sort([](int& u,int& v){return abs(u)<abs(v);}); //커스텀 정렬
-l.reverse
-
-//순차 컨테이너 : vector list deque
-//연관 컨테이너 : set map
-
-//3.8 set 삽입 삭제 탐색에 log(n) 걸림
-#include<set>
-
-set<int> s1;
-set<int> s2 = {1,2,3,4} // 자동 오름차 정렬 저장 및 중복 제거됨
-set<int,greater<int>> s3 // 자동 내림차 정렬 하기
-
-eg)
-s1.insert(4); // 대입
-pair<set<int>::iterator, bool > result = s2.insert(4); //결과 반환(넣은 위치,성공 여부)
-
-    s1.erase(s.begin()); //삭제
-    s1[] X //set은 순서 가 아니야
-    auto it = s.erase(s.begin()+1);//{1,2,3,4} -> {1,3,4}
-    it = s.erase(it) //{1,3,4} -> {1,4}
-
-eg)
-set은 for 나 foreach로 순회가 가능하다. lgN
-
-eg)
-s = {1,3,5,7}
-auto it = s.find(1); //{1,3,5,7} 첫번재 원소를 가르킴
-//없으면 s.end()를 반환함
-
-    s.count(7) // 원소 7이 몇개? 1개
-
-//3.8.2 multiset: 같은 원소 여러개를 저장 가능하다.
-
-정리)
-<T>.count의 의미
-map,unordered_map,set 에서는 0또는 1 (생성하지 않고 존재 유무 )
-multiset 에서는 0또는 N( 존재 및 갯수)
-
-//컨테이너 어댑터 : stack,queu,우선큐,bitset : 앞의 자료구조로 만듬.
-
-//3.12 priority_queue - #include<queue>에 같이 동봉됨.
-
-#include<queue>
-
-    priority_queue<int> pq;
-
-    pq.push()
-    pq.pop()
-    pq.top() //  우선 큐는 특이하게 front 가 아닌 top 이다. tree형 stack을 연상하나봄.
-    pq.empty() pq.size()
-
-eg) 우선큐는 기본적으로 오름차 순으로 정렬된다. 그럼 내림차 우선 큐는 어떻게 만드나? 1. priority_queue<int,vector<int>,greater<int>> q3; 2. 입력시 pq.push(-x); 출력시 -pq.top() // a<b 는 -a > -b 이므로 -를 붙여 반대순서로 넣고/ 출력시 -붙여 원상복귀
 
 //3.13 bitset
 
@@ -767,19 +741,6 @@ b.count()//1이 몇개인가?
 //count의 의미 set에서는 존재성 / multiset 에서는 갯수 / STL의 count도 갯수, map,unordered_map에서 존재성
 
 Sec5. STL - Algorithm
-
-//#5.5 회전하기
-rotate(begin,mid,end);
-[mid,end)를 앞으로, [begin,mid)를 뒤로 위치 바꾸기.
-rotate(begin,begin+1,end); //오른쪽으로 한칸씩 이동하기
-rotate(begin,end-1,end); //왼쪽으로 한칸씩 이동하기
-
----//#5.7 unique 구간에서 연속된 값을 제거하고 하나만 만들고 다시 넣는다.
-정렬 -> 유니크 -> erase
-vector<int> v;
-v.sort(); // 1.정렬
-auto it = v.unique(v.begin(),v.end()); //2. 유니크
-erase(it,v.end()); // 3. 잔존 지우기
 
 //#5.9 이진 탐색, 보통 커스터 직접 만드는 경우가 흔한데,
 binary_search(begin,end,value); //true or false

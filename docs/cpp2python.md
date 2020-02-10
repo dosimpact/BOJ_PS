@@ -158,7 +158,9 @@ print(c, end='')
 
 ```
 
-# python - 기본 입력은 이걸로 ~
+# python - 기본 입력은 이걸로 ~ 빠른 입력하기.
+
+# def input(): return sys.stdin.readline().rstrip()
 
 ```python
 

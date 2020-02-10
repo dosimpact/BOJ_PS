@@ -1,7 +1,12 @@
+# 이거랑
+print([c for c in [1, 2, 3]])
 
-# join 함수 : 리스트사이사이 특정 문자열을 넣고, 하나의 문자열로 만들어준다. ( splite와 반대대는 개념)
+# 이거랑
+print(*(c for c in [1, 2, 3]))
 
-var = ['A', 'B', 'C']
+a = int(input(), 2)
+b = int(input(), 2)
+m = 2**10**2
 
-print(''.join(var))  # ABC
-print('|'.join(var))  # A|B|C
+print(*(bin(c)[2:].zfill(10**2)
+        for c in[a & b, a | b, a ^ b, m+~a, m+~b]), sep='\n')

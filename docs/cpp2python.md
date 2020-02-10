@@ -30,7 +30,58 @@ print(int(3.3))  # 소수점 버리기 | int형
 print(int('10'))  # string to int
 print(str(10)) # int to str
 
-# 2,8,16 진수 포멧 및 출력
+
+
+```
+
+import sys
+import heapq
+
+def input(): return sys.stdin.readline().rstrip()
+
+# 비트 연산자 및 진수 변환
+
+```
+# 1. int 10진수를 통해 -> 비트 연산자 가능 ( 보기에는 10진수지만 내부적으로는 bit연산 잘 되고 있음)
+# 2. int 10진수를 -> str 형태의 2진수,8진수,16진수 로 출력 가능
+# 3. str형태를 자시 int 10진수로 변환 가능
+
+
+# 1. int 10진수를 통해 -> 비트 연산자 가능 ( 보기에는 10진수지만 내부적으로는 bit연산 잘 되고 있음)
+
+var = 1
+print(var << 1)  # 2
+print(var << 2)  # 4
+print(var << 3)  # 8
+print(7 | 5)  # 7
+
+# 2. 십진수 int -> str : 이진수, 팔진수, 16진수 변환 및 출력
+
+
+var = bin(7)
+print(type(var))  # <class 'str'>
+print(var)  # 0b111
+
+var = hex(15)
+print(type(var))  # <class 'str'>
+print(var)  # 0xf
+
+var = oct(8)
+print(type(var))  # <class 'str'>
+print(var)  # 0o10
+
+# 3. str : 이진수, 팔진수, 16진수  -> int 십진수  변환 및 출력
+
+var = '0b111'
+print(int(var, 2))  # 7
+
+var = '0xf'
+print(int(var, 16))  # 15
+
+var = '0o10'
+print(int(var, 8))  # 8
+
+# 4. 포멧을 가진 : 이진수, 팔진수, 16진수  -> int 십진수  변환 및 출력
 
 print(0b101)  # 십진수로 5
 
@@ -38,8 +89,9 @@ print(0o10)  # 십진수로 8
 
 print(0xF)  # 십진수로 15
 
-# 출력 진수 포멧 정하기
+# 예제 ) 출력 진수 포멧 정하기 ( 2진수,8진수,16진수  문자열을 -> 10진수로 출력)
 # https://www.acmicpc.net/problem/11816
+
 a = input()
 if(a[0] == '0'):
     if(a[0:2] == '0x'):
@@ -692,6 +744,35 @@ print(list(itertools.combinations(pool, 2)))
 print(list(map(''.join, itertools.combinations(pool, 3))))  # 3개의 원소로 수열 만들기
 #['AB', 'AC', 'BC']
 print(list(map(''.join, itertools.combinations(pool, 2))))  # 2개의 원소로 수열 만들기
+```
+
+# python - bitset
+
+```python
+
+import sys
+
+
+def input(): return sys.stdin.readline().rstrip()
+
+
+a = list(map(int, input()))
+b = list(map(int, input()))
+tmp = [0]*len(a)
+
+
+def sol(func):
+    for i in range(len(a)):
+        tmp[i] = func(a[i], b[i]) % 2
+    print(''.join(map(str, tmp)))
+
+
+sol(lambda x, y: x & y)
+sol(lambda x, y: x | y)
+sol(lambda x, y: x ^ y)
+sol(lambda x, y: ~x)
+sol(lambda x, y: ~y)
+
 ```
 
 //2.2 출력시 소수점 처리하기

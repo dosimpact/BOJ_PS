@@ -17,13 +17,13 @@ print(2 ** 3)  # pow
 # 몫 과 나머지
 print(divmod(7, 3))  # 튜플로 (2,1) 반환.
 
-# 형 변환
-print(type(3.3))  # float 형
+# 형 출력 및 형 변환
+print(type(3.3))  # float 형 출력
 print(int(3.3))  # 소수점 버리기 | int형
 print(int('10'))  # string to int
 print(str(10)) # int to str
 
-# 2,8,16 진수 포멧
+# 2,8,16 진수 포멧 및 출력
 
 print(0b101)  # 십진수로 5
 
@@ -103,7 +103,7 @@ print(type(a), type(b), type(c))
 a, c = c, a
 print(a, b, c)
 
-# variable => None | del
+# variable => None | del ( 즉 , None 과 not defined는 다르다.!!)
 
 var1 = 10
 del var1
@@ -158,7 +158,7 @@ print(c, end='')
 
 ```
 
-# python - 입력 정리, EOF 까지 | 한줄 그냥 | spilt 이용해서
+# python - 기본 입력은 이걸로 ~
 
 ```python
 
@@ -219,7 +219,9 @@ for _ in range(t):
 
 ```
 
-```
+# python - 입력 정리, EOF 까지 | 한줄 그냥 | spilt 이용해서
+
+```python
 # 문자열 한줄을 그냥 받기
 a = input()
 print(a)
@@ -348,7 +350,7 @@ if(True and False or not True):
             break
 ```
 
-# 리스트 만들기
+# 리스트 만들기 (range 객체 사용하기.)
 
 ```python
 a = [] # 혹은 a = list()
@@ -400,9 +402,6 @@ for i, x in enumerate(a):
     for j, y in enumerate(x):
         print(a[i][j])
 
-for i, x in enumerate(a):
-    for j, y in enumerate(x):
-        print(a[i][j])
 
 for i, x in enumerate(a):
     for j, y in enumerate(x):
@@ -466,7 +465,7 @@ print('act' in a[7])  # 거짓
 print('act' in a[7][1])  # 참
 ```
 
-# 시퀀스 with => len + \* del
+# 시퀀스 with => len + 곱하기 del
 
 ```python
 a = [1, 2, 3]
@@ -474,7 +473,7 @@ b = [4, 5, 6, 7, 8, 9, 10]
 st = 'hello'
 print(len(st)) # 5
 print(a+b) # [1, 2, 3, 4, 5, 6]
-print(a\*2) # [1, 2, 3, 1, 2, 3]
+print(a*2) # [1, 2, 3, 1, 2, 3]
 print(a[-1]) # 3 (뒤에서 첫번째)
 
 del a[1] # 1번째 인덱스 삭제

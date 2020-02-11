@@ -1,12 +1,3 @@
-# ì´ê±°ë‘
-print([c for c in [1, 2, 3]])
-
-# ì´ê±°ë‘
-print(*(c for c in [1, 2, 3]))
-
-a = int(input(), 2)
-b = int(input(), 2)
-m = 2**10**2
-
-print(*(bin(c)[2:].zfill(10**2)
-        for c in[a & b, a | b, a ^ b, m+~a, m+~b]), sep='\n')
+a, *b = [1, 2, 3, 4, 5, 6]
+print(a)  # ±×³É int 1
+print(b)  # ¸®½ºÆ® ÇüÅÂ [2, 3, 4, 5, 6]

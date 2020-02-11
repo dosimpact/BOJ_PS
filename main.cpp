@@ -10,38 +10,54 @@
 #define SIZE 101
 
 using namespace std;
-int x, y;
+int n, m;
 int graph[SIZE][SIZE];
-int check[SIZE][SIZE];
+int check[SIZE][SIZE][2]; //0 ¹æ¹® x | 1ÀÌ»óºÎÅÍ ¹æ¹®ÇÔ + °Å¸®ÀÓ
 int dx[4] = {0, 0, -1, 1};
 int dy[4] = {1, -1, 0, 0};
+bool noans = true;
 
-//ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ : checkï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½, ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ 1ï¿½Î°ï¿½ï¿½ check++, ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ 0ï¿½Î°ï¿½ï¿½ check ï¿½×·ï¿½ï¿½ï¿½
-void bfs(int x, int y)
+void bfs(int x, int y, int c)
 {
-    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½æ¹®Ã¼Å© | ï¿½Öºï¿½ ï¿½ï¿½å¸¦ Å½ï¿½ï¿½ | ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ 0ï¿½Î°ï¿½ï¿½ -> ... | ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ 1ï¿½Î°ï¿½ï¿½ -> ...
-    check[x][y] = 0;
-    deque<pair<int, int>> dq;
-    dq.push_back({x, y});
+    check[x][y][c] = 1;
+    deque<tuple<int, int, int>> dq;
+    dq.push_back({x, y, c});
     while (!dq.empty())
     {
-        tie(x, y) = dq.front();
+        tie(x, y, c) = dq.front();
         dq.pop_front();
-        for (int k = 0; k < 4; k++)
+        if (x == n - 1 && y == m - 1)
         {
-            int nx = x + dx[k];
-            int ny = y + dy[k];
-            if ((nx >= 0 && ny >= 0 && nx < x && ny < y) && check[nx][ny] == -1)
-            {
-                if (graph[nx][ny] == 0)
+            printf("%d", check[x][y][c]);
+            noans = false;
+            return;
+        }
+        for (int k = 0; k < 4; k++) // ÁÖº¯ ³ëµå¸¦ Å½»ö
+        {
+
+            int nx = x + dx[k], ny = y + dy[k];
+            //¹üÀ§ Ã¼Å© -> ÇöÀç º®À» ¾ÈºÎ½Å°æ¿ì -> ±×³ÉÀÌµ¿ ¶Ç´Â ºÎ½Ã°í ÀÌµ¿ | ºÎ½Å°æ¿ì
+            if (nx < 0 || ny < 0 || nx >= n || ny >= m)
+                continue;
+            if (c == 0)
+            { //¹üÀ§ Ã¼Å© -> ÇöÀç º®À» ¾ÈºÎ½Å°æ¿ì -> º®ÀÌ ¾Æ´Ñ°æ¿ì
+                if (graph[nx][ny] == 0 && check[nx][ny][c] == 0)
                 {
-                    check[nx][ny] = check[x][y];
-                    dq.push_front({nx, ny});
+                    check[nx][ny][c] = check[x][y][c] + 1;
+                    dq.push_back({nx, ny, c});
                 }
-                else
+                else if (graph[nx][ny] == 1 && check[nx][ny][c] == 0)
                 {
-                    check[nx][ny] = check[x][y] + 1;
-                    dq.push_back({nx, ny});
+                    check[nx][ny][c + 1] = check[x][y][c] + 1;
+                    dq.push_back({nx, ny, c + 1});
+                }
+            }
+            else if (c == 1)
+            {
+                if (graph[nx][ny] == 0 && check[nx][ny][c] == 0)
+                {
+                    check[nx][ny][c] = check[x][y][c] + 1;
+                    dq.push_back({nx, ny, c});
                 }
             }
         }
@@ -49,15 +65,17 @@ void bfs(int x, int y)
 }
 int main()
 {
-    for (int i = 0; i < x; i++)
+    scanf("%d %d", &n, &m);
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < y; j++)
+        for (int j = 0; j < m; j++)
         {
-            cin >> graph[i][j];
             scanf("%1d", &graph[i][j]);
         }
     }
-    fill(&check[0][0], &check[0][0] + SIZE * SIZE, -1);
-    bfs(0, 0);
-    cout << check[x - 1][y - 1];
+    bfs(0, 0, 0);
+    if (noans)
+    {
+        printf("%d", -1);
+    }
 }

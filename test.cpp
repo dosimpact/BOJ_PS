@@ -13,5 +13,5 @@ using namespace std;
 
 int main()
 {
-    cout << "ÇÑ±ÛÀÌ¿¡¿° ";
+    cout << "±ê cpp ºê·±Ä¡ÀÔˆ•. ";
 }

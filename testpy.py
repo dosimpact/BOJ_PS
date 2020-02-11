@@ -1,3 +1,5 @@
-a, *b = [1, 2, 3, 4, 5, 6]
-print(a)  # 그냥 int 1
-print(b)  # 리스트 형태 [2, 3, 4, 5, 6]
+
+var = [1, 2, 3, 4]
+#var = var[0:2].reverse()
+
+print(var)

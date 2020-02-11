@@ -23,6 +23,20 @@ print(str(10)) # int to str
 
 ```
 
+# 아스키코드 (int) -> chr 변환 및 역 변환 ord
+
+```python
+data = 97
+
+data = chr(data)
+print(data) # a
+print(type(data)) # <class 'str'>
+
+data = ord(data)
+print(data) # 97
+print(type(data)) # <class 'int'>
+```
+
 # bool 과 논리
 
 ```python

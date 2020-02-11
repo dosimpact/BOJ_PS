@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/problem/17136
+#include <cstdio>
 #include <iostream>
 #include <tuple>
 #include <queue>
@@ -7,162 +7,57 @@
 #include <vector>
 #include <string>
 #include <stack>
-#define SIZE 10
+#define SIZE 101
+
 using namespace std;
+int x, y;
+int graph[SIZE][SIZE];
+int check[SIZE][SIZE];
+int dx[4] = {0, 0, -1, 1};
+int dy[4] = {1, -1, 0, 0};
 
-int graph[SIZE][SIZE];     //원본 판 0~9
-int tmp_graph[SIZE][SIZE]; // 고생할 판.
-
-void disCover(int size, int x, int y) //5 5 사이즈로 x,y시작점 부터  안 덮는다.
+//덱을 이용한 탐사 : check배열에 결과가 나오는데, 가중치가 1인경우 check++, 가중치가 0인경우 check 그래도
+void bfs(int x, int y)
 {
-    for (int i = x; i < x + size; i++)
+    //현재 위치를 방문체크 | 주변 노드를 탐색 | 가중치가 0인경우 -> ... | 가중치가 1인경우 -> ...
+    check[x][y] = 0;
+    deque<pair<int, int>> dq;
+    dq.push_back({x, y});
+    while (!dq.empty())
     {
-        for (int j = y; j < y + size; j++)
+        tie(x, y) = dq.front();
+        dq.pop_front();
+        for (int k = 0; k < 4; k++)
         {
-            tmp_graph[i][j] = 0;
-        }
-    }
-}
-void cover(int size, int x, int y) //5 5 사이즈로 x,y시작점 부터 덮는다.
-{
-    for (int i = x; i < x + size; i++)
-    {
-        for (int j = y; j < y + size; j++)
-        {
-            tmp_graph[i][j] = 1;
-        }
-    }
-}
-bool canCover(int size, int x, int y) //범위 체크 ~
-{
-    for (int i = x; i < x + size; i++)
-    {
-        for (int j = y; j < y + size; j++)
-        {
-            if (x > 9 || y > 9 || x < 0 || y < 0 || graph[i][j] == 0 || tmp_graph[i][j] == 1)
+            int nx = x + dx[k];
+            int ny = y + dy[k];
+            if ((nx >= 0 && ny >= 0 && nx < x && ny < y) && check[nx][ny] == -1)
             {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-//덮은 색종이수 | 현재까지 덮은 수 , 현재 z인덱스 , 남은 색종이수
-int go(int count, int z, vector<int> &cp)
-{
-    //z가 끝까지 도달한 경우
-    if (z == 100)
-    {
-        cout << "[DEBUG]";
-        cout << cp[0] << " " << cp[1] << " " << cp[2] << " " << cp[3] << " " << cp[4] << "\n";
-        // for (int i = 0; i < 10; i++)
-        // {
-        //     for (int j = 0; j < 10; j++)
-        //     {
-        //         cout << graph[i][j] << " ";
-        //     }
-        //     cout << "\n";
-        // }
-        // cout << "\n";
-        // cout << "\n";
-        // for (int i = 0; i < 10; i++)
-        // {
-        //     for (int j = 0; j < 10; j++)
-        //     {
-        //         cout << tmp_graph[i][j] << " ";
-        //     }
-        //     cout << "\n";
-        // }
-        // int tmp;
-        // cin >> tmp;
-        return count;
-    }
-    int x = z / 10;
-    int y = z % 10;
-    if (graph[x][y] == 0)
-    { //z가 graph 0이면 계속
-        return go(count, z + 1, cp);
-    }
-    else if (graph[x][y] == 1 && tmp_graph[x][y] == 1)
-    {
-        return go(count, z + 1, cp);
-    }
-    else if (graph[x][y] == 1 && tmp_graph[x][y] == 0)
-    { //z graph 1이면 | 5부터 1까지 덮어본다. | 못덮으면, -1 리
-        int min = -1;
-        for (int i = 4; i >= 0; i--)
-        {
-            if (cp[i] > 0)
-            {
-                if (canCover(i + 1, x, y)) // 5 사이즈로 덮냐?
+                if (graph[nx][ny] == 0)
                 {
-                    cp[i] -= 1;
-                    cover(i + 1, x, y);
-                    int tmp = go(count + 1, z + 1, cp);
-                    //FB if ((min == -1 || min > tmp))
-                    if (tmp != -1 && (min == -1 || min > tmp)) //tmp 가 -1이 아니여야됨.
-                    {
-                        min = tmp;
-                    }
-                    disCover(i + 1, x, y);
-                    cp[i] += 1;
+                    check[nx][ny] = check[x][y];
+                    dq.push_front({nx, ny});
+                }
+                else
+                {
+                    check[nx][ny] = check[x][y] + 1;
+                    dq.push_back({nx, ny});
                 }
             }
         }
-        return min; //리턴 결과 -1이면 안되는 경우 | 빼고 최곳값 => 리턴
     }
 }
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < x; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < y; j++)
         {
             cin >> graph[i][j];
+            scanf("%1d", &graph[i][j]);
         }
     }
-    vector<int> cp = {5, 5, 5, 5, 5};
-    int ans = go(0, 0, cp);
-    cout << ans;
+    fill(&check[0][0], &check[0][0] + SIZE * SIZE, -1);
+    bfs(0, 0);
+    cout << check[x - 1][y - 1];
 }
-/*
-
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 1 1 1
-0 0 0 0 0 0 0 1 1 1
-0 0 0 0 0 0 1 1 1 1
-0 0 0 0 0 0 1 1 0 0
-0 0 0 0 0 0 0 0 0 0
-
-1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 0 1
-1 1 1 1 1 1 1 1 1 1
-
-
-
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 1 1 1 1 1 
-0 0 0 0 0 1 1 1 1 1 
-0 0 0 0 0 1 1 1 1 1 
-0 0 0 0 0 1 1 1 0 1 
-0 0 0 0 0 1 1 1 1 1 
-
-*/

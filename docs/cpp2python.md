@@ -2,11 +2,15 @@
 
 # Section1. 변수 연산 입력 출력
 
-[# Section2. 시퀀스 데이터 자료 구조](pythonBasic/Section1.md)
+[# Section1. 시퀀스 데이터 자료 구조](pythonBasic/Section1.md)
 
 # Section2. 시퀀스 데이터 자료 구조
 
-[# Section2. 시퀀스 데이터 자료 구조](pythonBasic/Section1.md)
+[# Section2. 시퀀스 데이터 자료 구조](pythonBasic/Section2.md)
+
+# Section3. 시퀀스 데이터 알고리즘
+
+[# Section3. 시퀀스 데이터 알고리즘](pythonBasic/Section3.md)
 
 ## 주의!
 

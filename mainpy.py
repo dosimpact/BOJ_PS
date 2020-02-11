@@ -1,23 +1,14 @@
-
 import sys
 
 
 def input(): return sys.stdin.readline().rstrip()
 
 
-a = list(map(int, input()))
-b = list(map(int, input()))
-tmp = [0]*len(a)
+n, m = map(int, input().split())
+data = [0]*(n+1)
+for _ in range(m):
+    i, j, k = map(int, input().split())
+    for it in range(i, j+1):
+        data[it] = k
 
-
-def sol(func):
-    for i in range(len(a)):
-        tmp[i] = func(a[i], b[i]) % 2
-    print(''.join(map(str, tmp)))
-
-
-sol(lambda x, y: x & y)
-sol(lambda x, y: x | y)
-sol(lambda x, y: x ^ y)
-sol(lambda x, y: ~x)
-sol(lambda x, y: ~y)
+print(' '.join(map(str, data[1:])))

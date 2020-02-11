@@ -1,6 +1,6 @@
 # Section3. 시퀀스 데이터 알고리즘
 
-# sum,min,max,sorted
+# sum,min,max,sorted | 합,최소,최대,정렬
 
 ```python
 var = [1, 2, 3, 4, -1, 100]
@@ -25,7 +25,7 @@ print(max(var))  # E
 print(sorted(var))  # ['A', 'B', 'C', 'D', 'E']
 ```
 
-# 리스트 append sort reverse index insert remove pop count extend
+# 리스트 append sort reverse index insert remove pop count extend | push,pop | 정렬, 위치, 갯수,
 
 ```python
 a = [50, 20, 3, 4, 5]
@@ -91,7 +91,7 @@ print(dp(var))
 
 ```
 
-# python - 덱 ( 큐대신 댁을 쓰기. 큐는 시퀀서가 아니다.)
+# python - 덱 ( 큐대신 댁을 쓰기. 큐는 시퀀서가 아니다.) | 로테이션도 추가되어 있음.
 
 ```python
 from collections import deque

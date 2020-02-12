@@ -10,31 +10,81 @@
 #define SIZE 1001
 using namespace std;
 
-int ans_list[4000];
-int t[45];
+char graph[5][9];
+bool check[12];
+
+bool checkAll()
+{
+    if ((graph[0][4] - 'A' + 1) + (graph[1][3] - 'A' + 1) + (graph[2][2] - 'A' + 1) + (graph[3][1] - 'A' + 1) != 26)
+        return false;
+    if ((graph[0][4] - 'A' + 1) + (graph[1][5] - 'A' + 1) + (graph[2][6] - 'A' + 1) + (graph[3][7] - 'A' + 1) != 26)
+        return false;
+    if ((graph[1][1] - 'A' + 1) + (graph[1][3] - 'A' + 1) + (graph[1][5] - 'A' + 1) + (graph[1][7] - 'A' + 1) != 26)
+        return false;
+    if ((graph[3][1] - 'A' + 1) + (graph[3][3] - 'A' + 1) + (graph[3][5] - 'A' + 1) + (graph[3][7] - 'A' + 1) != 26)
+        return false;
+    if ((graph[4][4] - 'A' + 1) + (graph[3][3] - 'A' + 1) + (graph[2][2] - 'A' + 1) + (graph[1][1] - 'A' + 1) != 26)
+        return false;
+    if ((graph[4][4] - 'A' + 1) + (graph[3][5] - 'A' + 1) + (graph[2][6] - 'A' + 1) + (graph[1][7] - 'A' + 1) != 26)
+        return false;
+    return true;
+}
+
+void go(int z)
+{ //다 채운 경우. ->
+    if (z >= 45)
+    {
+        if (checkAll())
+        {
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    cout << graph[i][j] << "";
+                }
+                cout << "\n";
+            }
+            exit(0);
+        }
+        return;
+    }
+    int x = z / 9, y = z % 9;
+    if (graph[x][y] == '.')
+    {
+        go(z + 1);
+    }
+    else if (graph[x][y] == 'x')
+    {
+        for (char i = 'A'; i <= 'L'; i++)
+        {
+            if (check[i - 'A'] == true)
+                continue;
+            check[i - 'A'] = true;
+            graph[x][y] = i;
+            go(z + 1);
+            graph[x][y] = 'x';
+            check[i - 'A'] = false;
+        }
+    }
+    else
+    {
+        go(z + 1);
+    }
+}
+
 int main()
 {
-    t[1] = 1;
-    for (int i = 2; i <= 45; i++)
+    for (int i = 0; i < 5; i++)
     {
-        t[i] = t[i - 1] + i;
-    }
-    for (int i = 1; i <= 45; i++)
-    {
-        for (int j = 1; j <= 45; j++)
+        for (int j = 0; j < 9; j++)
         {
-            for (int k = 1; k <= 45; k++)
+            cin >> graph[i][j];
+            if (graph[i][j] >= 'A' && graph[i][j] <= 'L')
             {
-                ans_list[t[i] + t[j] + t[k]] = 1;
+                check[graph[i][j] - 'A'] = true;
             }
         }
     }
-    int tc;
-    cin >> tc;
-    while (tc--)
-    {
-        int tmp;
-        cin >> tmp;
-        cout << ans_list[tmp] << '\n';
-    }
+    go(0);
 }

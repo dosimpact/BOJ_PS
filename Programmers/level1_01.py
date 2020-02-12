@@ -9,7 +9,7 @@ def input(): return sys.stdin.readline().rstrip()
 
 def solution(s):
     answer = []
-    # Î¨∏ÏûêÏó¥ Í∏∏Ïù¥ÎßåÌÅº 1~len(s) forÎ¨∏ - iÍ∞úÎ°ú Ï™ºÍ∞úÏÑú Î∞∞Ïó¥ÏùÑ ÎßåÎì¨ -> Í∞ôÏùÄÍ±∞Î•º ÎπÑÍµêÌïòÎäî Ìï®Ïàò -> Í∏∏Ïù¥ Ï†ÄÎ¶¨
+    # πÆ¿⁄ø≠ ±Ê¿Ã∏∏≈≠ 1~len(s) forπÆ - i∞≥∑Œ ¬…∞≥º≠ πËø≠¿ª ∏∏µÎ -> ∞∞¿∫∞≈∏¶ ∫Ò±≥«œ¥¬ «‘ºˆ -> ±Ê¿Ã ¿˙∏Æ
     for i in range(1, len(s)+1):
         var = []
         for j in range(0, len(s), i):  # j
@@ -17,9 +17,9 @@ def solution(s):
         res = ""
         count = 1
         for i in range(len(var)-1):
-            if(var[i] == var[i+1]):  # Í∞ôÏùÄÍ≤ΩÏö∞ÎùºÎ©¥  countÏ¶ùÍ∞Ä
+            if(var[i] == var[i+1]):  # ∞∞¿∫∞ÊøÏ∂Û∏È  count¡ı∞°
                 count += 1
-            else:  # Îã§Î•∏Í≤ΩÏö∞ÎùºÎ©¥ Î¨∏ÏûêÏó¥ ÎßåÎì§Ïñ¥ Ï£ºÍ∏∞ -> count Í∞Ä 2Ïù¥ÏÉÅÎ∂ÄÌÑ∞ Ï†ëÎëêÌï¥ÏÑú Î∂ôÏó¨Ï£ºÍ∏∞
+            else:  # ¥Ÿ∏•∞ÊøÏ∂Û∏È πÆ¿⁄ø≠ ∏∏µÈæÓ ¡÷±‚ -> count ∞° 2¿ÃªÛ∫Œ≈Õ ¡¢µŒ«ÿº≠ ∫Ÿø©¡÷±‚
                 if count == 1:
                     res += var[i]
                 else:

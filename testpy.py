@@ -5,6 +5,9 @@ import sys
 def input(): return sys.stdin.readline().rstrip()
 
 
+data = []
+
+
 def solution(n, lost, reserve):
     answer = 0
     datalist = [1]*n  # 0,1,2,3,4 번 사람들

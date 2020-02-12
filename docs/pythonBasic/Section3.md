@@ -25,6 +25,32 @@ print(max(var))  # E
 print(sorted(var))  # ['A', 'B', 'C', 'D', 'E']
 ```
 
+# 파이썬 정렬하기 | 커스텀 정렬
+
+```python
+# data.sort() 역시 정렬후, None반환 -> 원본이 훼손된다.
+
+# sorted(리스트,reverse,key) 는 원본 훼손 없이 사용 가능
+
+
+data = ['su', 'bed', 'app', 'king']
+
+res = sorted(data)
+print(res)  # ['bed', 'king', 'su']
+
+res = sorted(data, reverse=True)
+print(res)  # ['su', 'king', 'bed']
+
+res = sorted(data, key=lambda x: len(x))  # 길이가 작은순
+print(res)  # ['su', 'bed', 'app', 'king']
+
+res = sorted(data, key=lambda x: (len(x), x))  # 길이가 작은순 + 사전순
+print(res)  # ['su', 'app', 'bed', 'king']
+
+res = sorted(data, key=lambda x: (len(x), x), reverse=True)  # 길이가 작은순 + 사전순
+print(res)  # ['king', 'bed', 'app', 'su']
+```
+
 # 리스트 append sort reverse index insert remove pop count extend | push,pop | 정렬, 위치, 갯수,
 
 ```python

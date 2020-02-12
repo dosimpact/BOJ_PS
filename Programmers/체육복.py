@@ -1,19 +1,12 @@
-from collections import deque
-import sys
-
-
-def input(): return sys.stdin.readline().rstrip()
-
-
 def solution(n, lost, reserve):
     answer = 0
-    datalist = [1]*n  # 0,1,2,3,4 ë²ˆ ì‚¬ëŒë“¤
+    datalist = [1]*n  # 0,1,2,3,4 ¹ø »ç¶÷µé
     for i in lost:
         datalist[i-1] -= 1
     for i in reserve:
         datalist[i-1] += 1
     for i, val in enumerate(datalist):
-        if val == 0:  # ë¨¼ì € ë’·ì‚¬ëŒí•œí…Œ ë¹Œë ¤ | ì¸ë±ìŠ¤ ì²´í¬ | 2ì¸ì§€ ì²´í¬ | 2->1 , 0 -> 1
+        if val == 0:  # ¸ÕÀú µŞ»ç¶÷ÇÑÅ× ºô·Á | ÀÎµ¦½º Ã¼Å© | 2ÀÎÁö Ã¼Å© | 2->1 , 0 -> 1
             if(i-1 >= 0 and datalist[i-1] == 2):
                 datalist[i-1] -= 1
                 datalist[i] += 1
@@ -23,6 +16,3 @@ def solution(n, lost, reserve):
     answer = len(list(filter(lambda x: x == 1 or x == 2, datalist)))
     print(answer)
     return answer
-
-
-solution(5, [2, 4], [1, 3, 5])

@@ -5,34 +5,32 @@ import sys
 def input(): return sys.stdin.readline().rstrip()
 
 
-def solution(arr, divisor):
+def solution(progresses, speeds):
+    comdate = [0]*len(progresses)
     answer = []
-    for i in arr:
-        if i % divisor == 0:
-            answer.append(i)
-    answer.sort()
+    # for문을 1->100(일)번 돌리면서 progresses를 각 속도 마다 증가 시킨다. 각 일수를 체크하여 최초 배포일을 넣어준다.
+    for i in range(1, 101):
+        for j in range(0, len(progresses)):
+            isbapo = False
+            progresses[j] += speeds[j]
+            if(progresses[j] >= 100 and comdate[j] == 0 and not isbapo):
+                comdate[j] = i  # 완료했어, 출력하거나, 스택에 넣거나.
+                isbapo = True
+
+    res = comdate
+    while(len(res) > 0):
+        now = res[0]
+        filtered = list(filter(lambda x: x > now, res))
+        answer.append(len(res) - len(filtered))
+        res = filtered
+
     return answer
 
-# 파이썬 정렬하기 | 커스텀 정렬
 
-# data.sort() 역시 정렬후, None반환 -> 원본이 훼손된다.
+'''
+작업을 100일동안 돌려보면서, 각 작업을 스피드 만큼 증가시킵니다. 해당 작업량이 100이 넘어가면
+i일을 해당 작업 리스트에 등록
+각 작업 예상 결과일 리스트를 반환
 
-# sorted(리스트,reverse,key) 는 원본 훼손 없이 사용 가능
-
-
-data = ['su', 'bed', 'app', 'king']
-
-res = sorted(data)
-print(res)  # ['bed', 'king', 'su']
-
-res = sorted(data, reverse=True)
-print(res)  # ['su', 'king', 'bed']
-
-res = sorted(data, key=lambda x: len(x))  # 길이가 작은순
-print(res)  # ['su', 'bed', 'app', 'king']
-
-res = sorted(data, key=lambda x: (len(x), x))  # 길이가 작은순 + 사전순
-print(res)  # ['su', 'app', 'bed', 'king']
-
-res = sorted(data, key=lambda x: (len(x), x), reverse=True)  # 길이가 작은순 + 사전순
-print(res)  # ['king', 'bed', 'app', 'su']
+앞에서부터 
+'''

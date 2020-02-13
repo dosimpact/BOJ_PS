@@ -5,27 +5,28 @@ import sys
 def input(): return sys.stdin.readline().rstrip()
 
 
-data = []
+def solution(p, l):
+    data = []
+    for i, val in enumerate(p):
+        if i == l:
+            data.append([val, 1])
+        else:
+            data.append([val, 0])
+    counter = 1
+    maxval = max(data)  # 현재 최대값을 찾는다.
+
+    while(True):
+        now = data.pop(0)
+        print(data, '<data now>', now, 'counter', counter)
+        if now[0] == maxval[0]:
+            if now[1] == 1:
+                return counter
+            counter += 1
+            maxval = max(data)
+        else:
+            data.append(now)
+    return 0
 
 
-def solution(n, lost, reserve):
-    answer = 0
-    datalist = [1]*n  # 0,1,2,3,4 번 사람들
-    for i in lost:
-        datalist[i-1] -= 1
-    for i in reserve:
-        datalist[i-1] += 1
-    for i, val in enumerate(datalist):
-        if val == 0:  # 먼저 뒷사람한테 빌려 | 인덱스 체크 | 2인지 체크 | 2->1 , 0 -> 1
-            if(i-1 >= 0 and datalist[i-1] == 2):
-                datalist[i-1] -= 1
-                datalist[i] += 1
-            elif(i+1 <= len(datalist)-1 and datalist[i+1] == 2):
-                datalist[i+1] -= 1
-                datalist[i] += 1
-    answer = len(list(filter(lambda x: x == 1 or x == 2, datalist)))
-    print(answer)
-    return answer
-
-
-solution(5, [2, 4], [1, 3, 5])
+res = solution([1, 1, 9, 1, 1, 1], 0)
+print(res)

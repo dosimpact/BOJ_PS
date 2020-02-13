@@ -1,90 +1,66 @@
-//https://www.acmicpc.net/problem/10448
 #include <iostream>
-#include <tuple>
-#include <queue>
-#include <algorithm>
-#include <deque>
 #include <vector>
-#include <string>
-#include <stack>
-#define SIZE 1001
+#include <algorithm>
+#include <queue>
+#include <tuple>
+#define SIZE 101
 using namespace std;
 
-char graph[5][9];
-bool check[12];
+int x, y;
+int check[SIZE][SIZE];
 
-bool checkAll()
+int bfs(int u, int v, vector<vector<int>> &graph)
 {
-    if ((graph[0][4] - 'A' + 1) + (graph[1][3] - 'A' + 1) + (graph[2][2] - 'A' + 1) + (graph[3][1] - 'A' + 1) != 26)
-        return false;
-    if ((graph[0][4] - 'A' + 1) + (graph[1][5] - 'A' + 1) + (graph[2][6] - 'A' + 1) + (graph[3][7] - 'A' + 1) != 26)
-        return false;
-    if ((graph[1][1] - 'A' + 1) + (graph[1][3] - 'A' + 1) + (graph[1][5] - 'A' + 1) + (graph[1][7] - 'A' + 1) != 26)
-        return false;
-    if ((graph[3][1] - 'A' + 1) + (graph[3][3] - 'A' + 1) + (graph[3][5] - 'A' + 1) + (graph[3][7] - 'A' + 1) != 26)
-        return false;
-    if ((graph[4][4] - 'A' + 1) + (graph[3][3] - 'A' + 1) + (graph[2][2] - 'A' + 1) + (graph[1][1] - 'A' + 1) != 26)
-        return false;
-    if ((graph[4][4] - 'A' + 1) + (graph[3][5] - 'A' + 1) + (graph[2][6] - 'A' + 1) + (graph[1][7] - 'A' + 1) != 26)
-        return false;
-    return true;
-}
+    int dx[4] = {0, 0, 1, -1};
+    int dy[4] = {1, -1, 0, 0};
 
-void go(int z)
-{ //다 채운 경우. ->
-    if (z >= 45)
+    int counter = 1;
+    check[u][v] = 1;
+    queue<pair<int, int>> q;
+    q.push({u, v});
+    while (!q.empty())
     {
-        if (checkAll())
+        int nowx, nowy;
+        tie(nowx, nowy) = q.front();
+        q.pop();
+        for (int k = 0; k < 4; k++)
         {
-
-            for (int i = 0; i < 5; i++)
+            int nx = nowx + dx[k];
+            int ny = nowy + dy[k];
+            //다음 그래프의 범위체크 | 같은 영역 | 방문 x 라면 | 방문해주기
+            if ((nx >= 0 && ny >= 0 && nx < x && ny < y) && graph[nx][ny] == graph[nowx][nowy] && check[nx][ny] == -1)
             {
-                for (int j = 0; j < 9; j++)
-                {
-                    cout << graph[i][j] << "";
-                }
-                cout << "\n";
-            }
-            exit(0);
-        }
-        return;
-    }
-    int x = z / 9, y = z % 9;
-    if (graph[x][y] == '.')
-    {
-        go(z + 1);
-    }
-    else if (graph[x][y] == 'x')
-    {
-        for (char i = 'A'; i <= 'L'; i++)
-        {
-            if (check[i - 'A'] == true)
-                continue;
-            check[i - 'A'] = true;
-            graph[x][y] = i;
-            go(z + 1);
-            graph[x][y] = 'x';
-            check[i - 'A'] = false;
-        }
-    }
-    else
-    {
-        go(z + 1);
-    }
-}
-
-int main()
-{
-    for (int i = 0; i < 5; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {
-            cin >> graph[i][j];
-            if (graph[i][j] >= 'A' && graph[i][j] <= 'L')
-            {
-                check[graph[i][j] - 'A'] = true;
+                check[nx][ny] = 1;
+                q.push({nx, ny});
+                counter++;
             }
         }
     }
-    go(0);
+    return counter;
+}
+// 전역 변수를 정의할 경우 함수 내에 초기화 코드를 꼭 작성해주세요.
+vector<int> solution(int m, int n, vector<vector<int>> picture)
+{
+    int number_of_area = 0;
+    int max_size_of_one_area = -1;
+
+    graph = picture;
+    tie(x, y) = tie(m, n);
+    fill(&check[0][0], &check[0][0] + SIZE * SIZE, -1);
+    // 전체 그래프 돌면서 - picture가 있고,방문하지 않았다면 -> 방문
+    for (int i = 0; i < x; i++)
+    {
+        for (int j = 0; j < y; j++)
+        {
+            if (picture[i][j] != 0 && check[i][j] == -1)
+            {
+                bfs(i, j, picture);
+                number_of_area++;
+            }
+        }
+    }
+    vector<int> answer(2);
+    answer[0] = number_of_area;
+    answer[1] = max_size_of_one_area;
+    return answer;
 }

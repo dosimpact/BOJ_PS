@@ -28,5 +28,5 @@ def solution(p, l):
     return 0
 
 
-res = solution([1, 1, 9, 1, 1, 1], 0)
-print(res)
+data = []
+print(max(data))

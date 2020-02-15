@@ -6,66 +6,31 @@
 #include <vector>
 #include <string>
 #include <stack>
-#define SIZE 1001
+#define SIZE 101
 
 using namespace std;
 int n, m;
-int d[SIZE][SIZE];
-int graph[SIZE][SIZE];
-
-int dp(int x, int y)
-{
-    if (x == 0 && y == 0)
-    {
-        return graph[0][0];
-    }
-    if (d[x][y] != -1)
-    {
-        return d[x][y];
-    }
-    else
-    {
-        d[x][y] = graph[x][y];
-        int max_tmp = 0;
-        if (x - 1 >= 0)
-        {
-            int tmp = dp(x - 1, y);
-            if (tmp > max_tmp)
-            {
-                max_tmp = tmp;
-            }
-        }
-        if (y - 1 >= 0)
-        {
-            int tmp = dp(x, y - 1);
-            if (tmp > max_tmp)
-            {
-                max_tmp = tmp;
-            }
-        }
-        if (x - 1 >= 0 && y - 1 >= 0)
-        {
-            int tmp = dp(x - 1, y - 1);
-            if (tmp > max_tmp)
-            {
-                max_tmp = tmp;
-            }
-        }
-        d[x][y] += max_tmp;
-        return d[x][y];
-    }
-}
+vector<int> graph[SIZE];
 int main()
 {
     cin >> n >> m;
-    for (int i = 0; i < n; i++)
+    vector<int> truman;
+    int T;
+    cin >> T;
+    int tmp;
+    for (int i = 0; i < T; i++)
     {
-        for (int j = 0; j < m; j++)
+        cin >> tmp;
+        truman.push_back(tmp);
+    }
+    for (int i = 0; i < m; i++)
+    {
+        cin >> T;
+        vector<int> persons;
+        for (int j = 0; j < T; j++)
         {
-            cin >> graph[i][j];
+            cin >> tmp;
+            persons.push_back(tmp);
         }
     }
-    fill(&d[0][0], &d[0][0] + SIZE * SIZE, -1);
-    int res = dp(n - 1, m - 1);
-    cout << res;
 }

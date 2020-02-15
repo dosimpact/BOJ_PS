@@ -1,44 +1,45 @@
-# ¿Ö branchµéÀÌ ¾Èº¸ÀÏ±î merged µÇ¾ú´Âµ¥
+# ì™œ branchë“¤ì´ ì•ˆë³´ì¼ê¹Œ merged ë˜ì—ˆëŠ”ë°
 
-# ÄÚµå ·¯³Ê ÀÍ½ºÅÙ¼Ç ¼³Ä¡!!
+# ì½”ë“œ ëŸ¬ë„ˆ ìµìŠ¤í…ì…˜ ì„¤ì¹˜!!
 
 ---
 
-º¹½À ¹®Á¦:
+ë³µìŠµ ë¬¸ì œ:
 
-- LST ¹®Á¦: https://www.acmicpc.net/problem/11053
-- ÇÕ¹®ÇØ 1,2 ¹®Á¦: https://www.acmicpc.net/problem/2225
+- LST ë¬¸ì œ: https://www.acmicpc.net/problem/11053
+- í•©ë¬¸í•´ 1,2 ë¬¸ì œ: https://www.acmicpc.net/problem/2225
 - dp: [//https://www.acmicpc.net/problem/10942]
+- 1790 ìˆ˜ ì´ì–´ì“°ê¸°
 
 ---
 
-# ¹éÁØ ¾Ë°í¸®Áò !
+# ë°±ì¤€ ì•Œê³ ë¦¬ì¦˜ !
 
-- È¯°æ ¼³Ä¡ÇÏ±â.
+- í™˜ê²½ ì„¤ì¹˜í•˜ê¸°.
   [https://webnautes.tistory.com/1158](https://webnautes.tistory.com/1158)
 
 # PS
 
-# ¾Ë°í¸®Áò C/C++/STL ±âÃÊ
+# ì•Œê³ ë¦¬ì¦˜ C/C++/STL ê¸°ì´ˆ
 
-# ¾Ë°í¸®Áò ±âÃÊ
+# ì•Œê³ ë¦¬ì¦˜ ê¸°ì´ˆ
 
-- scanf("%1d") ·Î ÇÏ³ª¾¿ ¹Þ¾Æµµ µÊ. | ÇÃ·¯µåÇÊ ¹üÀ§Ã¼Å©,±×·¡ÇÁÁ¸ ÀçÃ¼Å©,¹æ¹® Ã¼Å© 3°¡Áö~|
+- scanf("%1d") ë¡œ í•˜ë‚˜ì”© ë°›ì•„ë„ ë¨. | í”ŒëŸ¬ë“œí•„ ë²”ìœ„ì²´í¬,ê·¸ëž˜í”„ì¡´ ìž¬ì²´í¬,ë°©ë¬¸ ì²´í¬ 3ê°€ì§€~|
 
 # SW1
 
-- Á¤·Ä¸¦ÇØ¾ß ¸ðµç ¼ø¿­À» ´Ù µ¹²¨ ¾Æ´Ñ°¡!!
-- ¼ø¿­·Î Á¶ÇÕÀ» ¸¸µé¶§´Â, 1¿Í 2¸¦ »ç¿ëÇÏÀÚ, 1Àº ¼±ÅÃ, 2´Â ¾È¼±ÅÃ ( ¸¸¾à ¾È¼±ÅÃÀ» 0À¸·Î ÇÏ¸é ¼ø¼­°¡ °Å²Ù·ÎµÊ!)
+- ì •ë ¬ë¥¼í•´ì•¼ ëª¨ë“  ìˆœì—´ì„ ë‹¤ ëŒêº¼ ì•„ë‹Œê°€!!
+- ìˆœì—´ë¡œ ì¡°í•©ì„ ë§Œë“¤ë•ŒëŠ”, 1ì™€ 2ë¥¼ ì‚¬ìš©í•˜ìž, 1ì€ ì„ íƒ, 2ëŠ” ì•ˆì„ íƒ ( ë§Œì•½ ì•ˆì„ íƒì„ 0ìœ¼ë¡œ í•˜ë©´ ìˆœì„œê°€ ê±°ê¾¸ë¡œë¨!)
 
 # SW2
 
 # SW3
 
-¿ù
-È­ SW BF
-¼ö SW NM
-¸ñ ¹éÆ®·¹Å· 4¹®Á¦
-±Ý ¹éÆ®·¹Å· 4¹®Á¦.
-Åä
+ì›”
+í™” SW BF
+ìˆ˜ SW NM
+ëª© ë°±íŠ¸ë ˆí‚¹ 4ë¬¸ì œ
+ê¸ˆ ë°±íŠ¸ë ˆí‚¹ 4ë¬¸ì œ.
+í† 
 
-# ±êÇãºê Å×½ºÆ®
+# ê¹ƒí—ˆë¸Œ í…ŒìŠ¤íŠ¸

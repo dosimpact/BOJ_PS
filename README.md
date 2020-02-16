@@ -9,7 +9,8 @@
 - LST 문제: https://www.acmicpc.net/problem/11053
 - 합문해 1,2 문제: https://www.acmicpc.net/problem/2225
 - dp: [//https://www.acmicpc.net/problem/10942]
-- 1790 수 이어쓰기
+- 1790 수 이어쓰기2
+- 3101 토끼의 이동 https://www.acmicpc.net/problem/
 
 ---
 

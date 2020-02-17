@@ -9,6 +9,19 @@
 - LST 문제: https://www.acmicpc.net/problem/11053
 - 합문해 1,2 문제: https://www.acmicpc.net/problem/2225
 - dp: [//https://www.acmicpc.net/problem/10942]
+- 단순 오버플로우 / 문자열 : https://programmers.co.kr/learn/courses/30/lessons/12926?language=python3
+
+```
+def solution(s, n):
+    s = list(s)
+    for i in range(len(s)):
+        if s[i].isupper():
+            s[i]=chr( (ord(s[i])-ord('A')+ n)%26+ord('A') )
+        elif s[i].islower():
+            s[i]=chr((ord(s[i])-ord('a')+ n)%26+ord('a'))
+
+    return "".join(s)
+```
 
 복습 문제 : 유형(divmod for문)
 

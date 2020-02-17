@@ -1,6 +1,6 @@
-# Section3. ½ÃÄö½º µ¥ÀÌÅÍ ¾Ë°í¸®Áò
+# Section3. ì‹œí€€ìŠ¤ ë°ì´í„° ì•Œê³ ë¦¬ì¦˜
 
-# sum,min,max,sorted | ÇÕ,ÃÖ¼Ò,ÃÖ´ë,Á¤·Ä
+# sum,min,max,sorted | í•©,ìµœì†Œ,ìµœëŒ€,ì •ë ¬
 
 ```python
 var = [1, 2, 3, 4, -1, 100]
@@ -25,12 +25,12 @@ print(max(var))  # E
 print(sorted(var))  # ['A', 'B', 'C', 'D', 'E']
 ```
 
-# ÆÄÀÌ½ã Á¤·ÄÇÏ±â | Ä¿½ºÅÒ Á¤·Ä
+# íŒŒì´ì¬ ì •ë ¬í•˜ê¸° | ì»¤ìŠ¤í…€ ì •ë ¬
 
 ```python
-# data.sort() ¿ª½Ã Á¤·ÄÈÄ, None¹İÈ¯ -> ¿øº»ÀÌ ÈÑ¼ÕµÈ´Ù.
+# data.sort() ì—­ì‹œ ì •ë ¬í›„, Noneë°˜í™˜ -> ì›ë³¸ì´ í›¼ì†ëœë‹¤.
 
-# sorted(¸®½ºÆ®,reverse,key) ´Â ¿øº» ÈÑ¼Õ ¾øÀÌ »ç¿ë °¡´É
+# sorted(ë¦¬ìŠ¤íŠ¸,reverse,key) ëŠ” ì›ë³¸ í›¼ì† ì—†ì´ ì‚¬ìš© ê°€ëŠ¥
 
 
 data = ['su', 'bed', 'app', 'king']
@@ -41,17 +41,17 @@ print(res)  # ['bed', 'king', 'su']
 res = sorted(data, reverse=True)
 print(res)  # ['su', 'king', 'bed']
 
-res = sorted(data, key=lambda x: len(x))  # ±æÀÌ°¡ ÀÛÀº¼ø
+res = sorted(data, key=lambda x: len(x))  # ê¸¸ì´ê°€ ì‘ì€ìˆœ
 print(res)  # ['su', 'bed', 'app', 'king']
 
-res = sorted(data, key=lambda x: (len(x), x))  # ±æÀÌ°¡ ÀÛÀº¼ø + »çÀü¼ø
+res = sorted(data, key=lambda x: (len(x), x))  # ê¸¸ì´ê°€ ì‘ì€ìˆœ + ì‚¬ì „ìˆœ
 print(res)  # ['su', 'app', 'bed', 'king']
 
-res = sorted(data, key=lambda x: (len(x), x), reverse=True)  # ±æÀÌ°¡ ÀÛÀº¼ø + »çÀü¼ø
+res = sorted(data, key=lambda x: (len(x), x), reverse=True)  # ê¸¸ì´ê°€ ì‘ì€ìˆœ + ì‚¬ì „ìˆœ
 print(res)  # ['king', 'bed', 'app', 'su']
 ```
 
-# ¸®½ºÆ® append sort reverse index insert remove pop count extend | push,pop | Á¤·Ä, À§Ä¡, °¹¼ö,
+# ë¦¬ìŠ¤íŠ¸ append sort reverse index insert remove pop count extend | push,pop | ì •ë ¬, ìœ„ì¹˜, ê°¯ìˆ˜,
 
 ```python
 a = [50, 20, 3, 4, 5]
@@ -70,13 +70,13 @@ print(a)  # [50, 20, 8, 7, 6, 5, 4, 3]
 a.reverse()
 print(a)  # [3, 4, 5, 6, 7, 8, 20, 50]
 
-idx = a.index(20)  # ÇöÀç 20ÀÇ À§Ä¡´Â 6¹øÂ°.
+idx = a.index(20)  # í˜„ì¬ 20ì˜ ìœ„ì¹˜ëŠ” 6ë²ˆì§¸.
 print(idx)  # 6
 
-a.insert(idx, 21)  # 20À§Ä¡°¡ ÇÏ³ª ¹Ğ¸®°í, 21ÀÌ µé¾î°¨
+a.insert(idx, 21)  # 20ìœ„ì¹˜ê°€ í•˜ë‚˜ ë°€ë¦¬ê³ , 21ì´ ë“¤ì–´ê°
 print(a)  # [3, 4, 5, 6, 7, 8, 21, 20, 50]
 
-a.remove(21)  # 21 Ã£¾Æ¼­ Á¦°Å
+a.remove(21)  # 21 ì°¾ì•„ì„œ ì œê±°
 print(a)  # [3, 4, 5, 6, 7, 8, 20, 50]
 
 a.pop()
@@ -86,14 +86,14 @@ print(a)  # [3, 4, 5, 6, 7, 8]
 print([3, 3, 3, 2, 2, 1].count(3))  # 3
 ```
 
-# µñ¼Å³Ê¸® »ç¿ë(obj)
+# ë”•ì…”ë„ˆë¦¬ ì‚¬ìš©(obj)
 
 ```python
 
 x = {'base': 1, 'dos': 20}
 print(x['base'])
 
-# ÇÇº¸³ªÄ¡ + dp for¹® | dp Àç±Í
+# í”¼ë³´ë‚˜ì¹˜ + dp forë¬¸ | dp ì¬ê·€
 
 d = {}
 
@@ -117,7 +117,7 @@ print(dp(var))
 
 ```
 
-# python - µ¦ ( Å¥´ë½Å ´ìÀ» ¾²±â. Å¥´Â ½ÃÄö¼­°¡ ¾Æ´Ï´Ù.) | ·ÎÅ×ÀÌ¼Çµµ Ãß°¡µÇ¾î ÀÖÀ½.
+# python - ë± ( íëŒ€ì‹  ëŒì„ ì“°ê¸°. íëŠ” ì‹œí€€ì„œê°€ ì•„ë‹ˆë‹¤.) | ë¡œí…Œì´ì…˜ë„ ì¶”ê°€ë˜ì–´ ìˆìŒ.
 
 ```python
 from collections import deque
@@ -138,26 +138,26 @@ dq.rotate()
 print(list(dq))
 ```
 
-# set ÇÔ¼ö Á¤¸® (Á¸Àç¼º »ç¿ë¹ıÀº µ¿ÀÏ)
+# set í•¨ìˆ˜ ì •ë¦¬ (ì¡´ì¬ì„± ì‚¬ìš©ë²•ì€ ë™ì¼)
 
 ```python
 var = [5, 1, 1, 2, 2, 2, 3, 3, 3, 3]
 
-print(set(var))  # ³»ºÎÀûÀ¸·Î objÀÎµí {1, 2, 3, 5}
+print(set(var))  # ë‚´ë¶€ì ìœ¼ë¡œ objì¸ë“¯ {1, 2, 3, 5}
 
 var = list(set(var))
 var.sort()
-print(var)  # unique Áßº¹Á¦°Å && Á¤·Ä [1, 2, 3, 5]
+print(var)  # unique ì¤‘ë³µì œê±° && ì •ë ¬ [1, 2, 3, 5]
 ```
 
-# ¿ì¼±¼øÀ§ Å¥ »ç¿ëÇÏ±â. heappush,heappop,heapify
+# ìš°ì„ ìˆœìœ„ í ì‚¬ìš©í•˜ê¸°. heappush,heappop,heapify
 
 ```python
 import heapq
 
-# Èü ¸¸µé±â push = logn && n°³ ¿ø¼Ò = n => ÃÑ ½Ã°£ º¹Àâµµ : nlogn
-h = []  # ¿ì¼±¼øÀ§ Å¥·Î »ç¿ëµÉ ¸®½ºÆ®
-heapq.heappush(h, (3, "Go to home"))  # µÎ¹ø¤Š ÀÎÀÚ´Â (¿ì¼±¼øÀ§,°ª)
+# í™ ë§Œë“¤ê¸° push = logn && nê°œ ì›ì†Œ = n => ì´ ì‹œê°„ ë³µì¡ë„ : nlogn
+h = []  # ìš°ì„ ìˆœìœ„ íë¡œ ì‚¬ìš©ë  ë¦¬ìŠ¤íŠ¸
+heapq.heappush(h, (3, "Go to home"))  # ë‘ë²ˆì¨° ì¸ìëŠ” (ìš°ì„ ìˆœìœ„,ê°’)
 heapq.heappush(h, (10, "Do not study"))
 heapq.heappush(h, (1, "Enjoy!"))
 heapq.heappush(h, (4, "Eat!"))
@@ -165,14 +165,14 @@ heapq.heappush(h, (7, "Pray!"))
 print(h)
 
 
-# Èü ²¨³»±â nlogn
-print(heapq.heappop(h))  # ¿ì¼±¼øÀ§ ¼ø¼­´ë·Î ³ª¿Â´Ù. 1 -> 3 -> 4 -> 7 -> 10
+# í™ êº¼ë‚´ê¸° nlogn
+print(heapq.heappop(h))  # ìš°ì„ ìˆœìœ„ ìˆœì„œëŒ€ë¡œ ë‚˜ì˜¨ë‹¤. 1 -> 3 -> 4 -> 7 -> 10
 print(heapq.heappop(h))
 print(heapq.heappop(h))
 print(heapq.heappop(h))
 print(heapq.heappop(h))
 
-# Èü ¸¸µé±â by ÀÌ¹Ì  ¸¸µé¾îÁø ¸®½ºÆ® -> Èü Á¤·Ä : O(n) °É¸²
+# í™ ë§Œë“¤ê¸° by ì´ë¯¸  ë§Œë“¤ì–´ì§„ ë¦¬ìŠ¤íŠ¸ -> í™ ì •ë ¬ : O(n) ê±¸ë¦¼
 hlist = [(7, 'kdy'), (2, 'dos'), (4, 'hello')]
 
 heapq.heapify(hlist)
@@ -182,29 +182,29 @@ print(heapq.heappop(hlist))
 
 ```
 
-# ¼ø¿­ Á¶ÇÕ Á¤¸® permutations combinations import itertools
+# ìˆœì—´ ì¡°í•© ì •ë¦¬ permutations combinations import itertools
 
 ```python
 import itertools
 
 pool = ['A', 'B', 'C']
 
-# °á°ú´Â Æ©ÇÃ·Î ¹İÈ¯µÈ´Ù. -> joinÀ» ÅëÇØ ÇÏ³ªÀÇ ¹®ÀÚ¿­·Î ¹¶Ã³ÁÙ ¼ö ÀÖ´Ù.
+# ê²°ê³¼ëŠ” íŠœí”Œë¡œ ë°˜í™˜ëœë‹¤. -> joinì„ í†µí•´ í•˜ë‚˜ì˜ ë¬¸ìì—´ë¡œ ë­‰ì²˜ì¤„ ìˆ˜ ìˆë‹¤.
 
 # [('A', 'B', 'C'), ('A', 'C', 'B'), ('B', 'A', 'C'), ('B', 'C', 'A'), ('C', 'A', 'B'), ('C', 'B', 'A')]
 print(list(itertools.permutations(pool)))
 
 #['ABC', 'ACB', 'BAC', 'BCA', 'CAB', 'CBA']
-print(list(map(''.join, itertools.permutations(pool))))  # 3°³ÀÇ ¿ø¼Ò·Î ¼ö¿­ ¸¸µé±â
+print(list(map(''.join, itertools.permutations(pool))))  # 3ê°œì˜ ì›ì†Œë¡œ ìˆ˜ì—´ ë§Œë“¤ê¸°
 #['AB', 'AC', 'BA', 'BC', 'CA', 'CB']
-print(list(map(''.join, itertools.permutations(pool, 2))))  # 2°³ÀÇ ¿ø¼Ò·Î ¼ö¿­ ¸¸µé±â
+print(list(map(''.join, itertools.permutations(pool, 2))))  # 2ê°œì˜ ì›ì†Œë¡œ ìˆ˜ì—´ ë§Œë“¤ê¸°
 
 # [('A', 'B'), ('A', 'C'), ('B', 'C')]
 print(list(itertools.combinations(pool, 2)))
 # ['ABC']
-print(list(map(''.join, itertools.combinations(pool, 3))))  # 3°³ÀÇ ¿ø¼Ò·Î ¼ö¿­ ¸¸µé±â
+print(list(map(''.join, itertools.combinations(pool, 3))))  # 3ê°œì˜ ì›ì†Œë¡œ ìˆ˜ì—´ ë§Œë“¤ê¸°
 #['AB', 'AC', 'BC']
-print(list(map(''.join, itertools.combinations(pool, 2))))  # 2°³ÀÇ ¿ø¼Ò·Î ¼ö¿­ ¸¸µé±â
+print(list(map(''.join, itertools.combinations(pool, 2))))  # 2ê°œì˜ ì›ì†Œë¡œ ìˆ˜ì—´ ë§Œë“¤ê¸°
 ```
 
 # python - bitset

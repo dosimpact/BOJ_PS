@@ -1,33 +1,33 @@
-# Section2. ½ÃÄö½º µ¥ÀÌÅÍ ÀÚ·á ±¸Á¶
+# Section2. ì‹œí€€ìŠ¤ ë°ì´í„° ìžë£Œ êµ¬ì¡°
 
-# ¸®½ºÆ® ¸¸µé±â (range °´Ã¼ »ç¿ëÇÏ±â.)
+# ë¦¬ìŠ¤íŠ¸ ë§Œë“¤ê¸° (range ê°ì²´ ì‚¬ìš©í•˜ê¸°.)
 
 ```python
-a = [] # È¤Àº a = list()
-b = list(range(10)) # 0ºÎÅÍ 9±îÁö range °´Ã¼ ¸¸µé¾î list·Î º¯È¯
+a = [] # í˜¹ì€ a = list()
+b = list(range(10)) # 0ë¶€í„° 9ê¹Œì§€ range ê°ì²´ ë§Œë“¤ì–´ listë¡œ ë³€í™˜
 print(b)
 
 c = list(range(1, 5)) # [1, 2, 3, 4]
 print(c)
 
-c = list(range(1, 11, 2)) # [1, 3, 5, 7, 9] # 1ºÎÅÍ 10±îÁö 2¾¿Áõ°¡ | 11Æ÷ÇÔ ¾ÈµÊ
+c = list(range(1, 11, 2)) # [1, 3, 5, 7, 9] # 1ë¶€í„° 10ê¹Œì§€ 2ì”©ì¦ê°€ | 11í¬í•¨ ì•ˆë¨
 print(c)
 
-c = list(range(10, 0, -1)) # [10, 9, 8, 7, 6, 5, 4, 3, 2, 1] ÀÌ ¿ª½Ã 0Àº ¹Ì Æ÷ÇÔ.
+c = list(range(10, 0, -1)) # [10, 9, 8, 7, 6, 5, 4, 3, 2, 1] ì´ ì—­ì‹œ 0ì€ ë¯¸ í¬í•¨.
 print(c)
 
-# for¹®À¸·Î ¹®ÀÚ¿­ ¸®½ºÆ® -> Á¤¼ö ¸®½ºÆ® º¯È¯ ¹× ÇÕ
+# forë¬¸ìœ¼ë¡œ ë¬¸ìžì—´ ë¦¬ìŠ¤íŠ¸ -> ì •ìˆ˜ ë¦¬ìŠ¤íŠ¸ ë³€í™˜ ë° í•©
 
 nlist = [int(x) for x in ['10', '20', '30']]
 print(sum(nlist))
 
 ```
 
-## ¶÷´Ù½Ä | map ( °¢¿ø¼Ò¸¦ 2¾¿ °öÇÒ¼öÀÖ´Ù. ) | filter (¹è¿­¿¡¼­ Â¦¼öÀÎ°æ¿ì¸¸ Æ¡)
+## ëžŒë‹¤ì‹ | map ( ê°ì›ì†Œë¥¼ 2ì”© ê³±í• ìˆ˜ìžˆë‹¤. ) | filter (ë°°ì—´ì—ì„œ ì§ìˆ˜ì¸ê²½ìš°ë§Œ í‰¤)
 
 ```python
 
-# ¶÷´Ù½Ä | map ( °¢¿ø¼Ò¸¦ 2¾¿ °öÇÒ¼öÀÖ´Ù. ) | filter (¹è¿­¿¡¼­ Â¦¼öÀÎ°æ¿ì¸¸ Æ¡)
+# ëžŒë‹¤ì‹ | map ( ê°ì›ì†Œë¥¼ 2ì”© ê³±í• ìˆ˜ìžˆë‹¤. ) | filter (ë°°ì—´ì—ì„œ ì§ìˆ˜ì¸ê²½ìš°ë§Œ í‰¤)
 # (x,y) => x+y
 # lamda x,y: x+y
 
@@ -35,18 +35,18 @@ print(sum(nlist))
 def g(x): return x**2
 
 
-(a, b, c) = map(g, [1, 2, 3])  # ¶÷´Ù ¾øÀÌ °¢ ¿ø¼Ò 2Á¦°ö
+(a, b, c) = map(g, [1, 2, 3])  # ëžŒë‹¤ ì—†ì´ ê° ì›ì†Œ 2ì œê³±
 print(a, b, c)
 
 
-(a, b, c) = map(lambda x: x*2, [1, 2, 3])  # ¶÷´Ù·Î, °¢ ¿ø¼Ò 2°ö
+(a, b, c) = map(lambda x: x*2, [1, 2, 3])  # ëžŒë‹¤ë¡œ, ê° ì›ì†Œ 2ê³±
 print(a, b, c)
 
-res = list(map(lambda x: x*2, [1, 2, 3]))  # ¶÷´Ù·Î, °¢ ¿ø¼Ò 2°ö
+res = list(map(lambda x: x*2, [1, 2, 3]))  # ëžŒë‹¤ë¡œ, ê° ì›ì†Œ 2ê³±
 print(res)
 
 wannaEven = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-res = list(filter(lambda e: e % 2 == 0, wannaEven))  # filter¿ÀºêÁ§Æ®¿¡¼­ list·Î ¹ÝÈ¯ÇÏ±â.
+res = list(filter(lambda e: e % 2 == 0, wannaEven))  # filterì˜¤ë¸Œì íŠ¸ì—ì„œ listë¡œ ë°˜í™˜í•˜ê¸°.
 print(res)
 
 ```
@@ -60,19 +60,19 @@ for i, val in enumerate(var):
 print(i, val)
 ```
 
-# 2Â÷¿ø ¹è¿­
+# 2ì°¨ì› ë°°ì—´
 
 ```python
 a = [[10, 20], [30, 40], [50, 60]]
 
-for x, y in a:  # ¸®½ºÆ® ÀÚÃ¼¸¦ ¹Þ¾Æ¼­ »ç¿ë
+for x, y in a:  # ë¦¬ìŠ¤íŠ¸ ìžì²´ë¥¼ ë°›ì•„ì„œ ì‚¬ìš©
     print(x, y)
 
-for i in a:  # ¸®½ºÆ®¸¦ ¿ø¼Ò¸¦ 2¹ø²¨³» »ç¿ë
+for i in a:  # ë¦¬ìŠ¤íŠ¸ë¥¼ ì›ì†Œë¥¼ 2ë²ˆêº¼ë‚´ ì‚¬ìš©
     for j in i:
         print(j, end=' ')
 
-for i in range(len(a)):  # ±æÀÌ¸¸Å­ »ç¿ë
+for i in range(len(a)):  # ê¸¸ì´ë§Œí¼ ì‚¬ìš©
     for j in range(len(a[i])):
         print(a[i][j])
 
@@ -86,7 +86,7 @@ for i, x in enumerate(a):
         print(y)
 ```
 
-# ¹Ýº¹¹®À¸·Î 2Â÷¿ø | ¹è¿­ ¸¸µé±â
+# ë°˜ë³µë¬¸ìœ¼ë¡œ 2ì°¨ì› | ë°°ì—´ ë§Œë“¤ê¸°
 
 ```python
 a = ['x' for i in range(3)]
@@ -98,14 +98,14 @@ print(a) # [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 a = [[0 for i in range(3)] for i in range(3)]
 print(a) # [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
-# for¹®À¸·Î ¸®½ºÆ® ¿Ï¼ºÇÏ±â
+# forë¬¸ìœ¼ë¡œ ë¦¬ìŠ¤íŠ¸ ì™„ì„±í•˜ê¸°
 
 nlist = [int(x) for x in ['10', '20', '30']]
 print(sum(nlist))
 
 ```
 
-# Æ©ÇÃ ¸¸µé±â ( Æ©ÇÃÀº ÀÐ±â Àü¿ë ¸®½ºÆ® )
+# íŠœí”Œ ë§Œë“¤ê¸° ( íŠœí”Œì€ ì½ê¸° ì „ìš© ë¦¬ìŠ¤íŠ¸ )
 
 ```python
 c = tuple(range(0, 10)) # range to tuple
@@ -113,37 +113,37 @@ print(c) # print (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 print(list(c)) # tuple to list
 ```
 
-# ½ÃÄö½º È°¿ë.
+# ì‹œí€€ìŠ¤ í™œìš©.
 
-- ½ÃÄö½º ÀÚ·áÇüÀÌ¶õ: ¸®½ºÆ®, Æ©ÇÃ, range, string, bytes, bytearray = > ½½¶óÀÌ½Ì µîµî °¡´É!
+- ì‹œí€€ìŠ¤ ìžë£Œí˜•ì´ëž€: ë¦¬ìŠ¤íŠ¸, íŠœí”Œ, range, string, bytes, bytearray = > ìŠ¬ë¼ì´ì‹± ë“±ë“± ê°€ëŠ¥!
 
-## ½ÃÄö½º Á¸Àç¼º.
+## ì‹œí€€ìŠ¤ ì¡´ìž¬ì„±.
 
 ```python
 a = [0, 1, 2, 'a', "hello", True, [0, 'dos', True], (0, 'impact', False)]
 
-print(1 in a) # Âü
-print(10 in a) # °ÅÁþ
-print('a' in a) # Âü
-print(True in a) # Âü
+print(1 in a) # ì°¸
+print(10 in a) # ê±°ì§“
+print('a' in a) # ì°¸
+print(True in a) # ì°¸
 
-print(1 not in a) # °ÅÁþ
-print(10 not in a) # Âü
-print('a' not in a) # °ÅÁþ
-print(True not in a) # °ÅÁþ
+print(1 not in a) # ê±°ì§“
+print(10 not in a) # ì°¸
+print('a' not in a) # ê±°ì§“
+print(True not in a) # ê±°ì§“
 
-print('ll' in a[4]) # Âü
+print('ll' in a[4]) # ì°¸
 
-print('dos' in a[6])  # Âü
-print('do' in a[6])  # °ÅÁþ
-print('do' in a[6][1])  # Âü
+print('dos' in a[6])  # ì°¸
+print('do' in a[6])  # ê±°ì§“
+print('do' in a[6][1])  # ì°¸
 
-print('impact' in a[7])  # Âü
-print('act' in a[7])  # °ÅÁþ
-print('act' in a[7][1])  # Âü
+print('impact' in a[7])  # ì°¸
+print('act' in a[7])  # ê±°ì§“
+print('act' in a[7][1])  # ì°¸
 ```
 
-# ½ÃÄö½º with => len + °öÇÏ±â del
+# ì‹œí€€ìŠ¤ with => len + ê³±í•˜ê¸° del
 
 ```python
 a = [1, 2, 3]
@@ -152,28 +152,28 @@ st = 'hello'
 print(len(st)) # 5
 print(a+b) # [1, 2, 3, 4, 5, 6]
 print(a*2) # [1, 2, 3, 1, 2, 3]
-print(a[-1]) # 3 (µÚ¿¡¼­ Ã¹¹øÂ°)
+print(a[-1]) # 3 (ë’¤ì—ì„œ ì²«ë²ˆì§¸)
 
-del a[1] # 1¹øÂ° ÀÎµ¦½º »èÁ¦
+del a[1] # 1ë²ˆì§¸ ì¸ë±ìŠ¤ ì‚­ì œ
 print(a) # [1, 3]
 ```
 
-# ½ÃÄö½º with => slice [][:]
+# ì‹œí€€ìŠ¤ with => slice [][:]
 
 ```python
 print(b[0:2]) # [4, 5]
 print(b[0:]) # [4, 5, 6, 7, 8, 9, 10]
 print(b[0:-1]) # [4, 5, 6, 7, 8, 9]
-print(b[0:-1:2]) # 2¾¿ Áõ°¡ÇÏ¸é¼­ °¡Á®¿À±â [4, 6, 8]
+print(b[0:-1:2]) # 2ì”© ì¦ê°€í•˜ë©´ì„œ ê°€ì ¸ì˜¤ê¸° [4, 6, 8]
 
-print(b[::2]) # [4, 6, 8, 10] Â¦¼ö¹ø ÀÎµ¦½º¸¸ °¡Á®¿À±â.
+print(b[::2]) # [4, 6, 8, 10] ì§ìˆ˜ë²ˆ ì¸ë±ìŠ¤ë§Œ ê°€ì ¸ì˜¤ê¸°.
 
-print(b[::-1]) # µÚ Áý±â [10, 9, 8, 7, 6, 5, 4]
+print(b[::-1]) # ë’¤ ì§‘ê¸° [10, 9, 8, 7, 6, 5, 4]
 
-print(b[1::] + b[0:1:]) # ·ÎÅ×ÀÌ¼Ç [5, 6, 7, 8, 9, 10, 4]
+print(b[1::] + b[0:1:]) # ë¡œí…Œì´ì…˜ [5, 6, 7, 8, 9, 10, 4]
 ```
 
-# join ÇÔ¼ö : ¸®½ºÆ®»çÀÌ»çÀÌ Æ¯Á¤ ¹®ÀÚ¿­À» ³Ö°í, ÇÏ³ªÀÇ ¹®ÀÚ¿­·Î ¸¸µé¾îÁØ´Ù. ( splite¿Í ¹Ý´ë´ë´Â °³³ä)
+# join í•¨ìˆ˜ : ë¦¬ìŠ¤íŠ¸ì‚¬ì´ì‚¬ì´ íŠ¹ì • ë¬¸ìžì—´ì„ ë„£ê³ , í•˜ë‚˜ì˜ ë¬¸ìžì—´ë¡œ ë§Œë“¤ì–´ì¤€ë‹¤. ( spliteì™€ ë°˜ëŒ€ëŒ€ëŠ” ê°œë…)
 
 ```
 var = ['A', 'B', 'C']

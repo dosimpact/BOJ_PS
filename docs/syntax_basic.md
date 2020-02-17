@@ -1,34 +1,34 @@
-## // C/C++/STL ±âÃÊ
+## // C/C++/STL ê¸°ì´ˆ
 
 [https://docs.google.com/document/d/1xrhb-6Vm5_0zd2iImbdg_4kN2cTnY-ZSzyrFAavwABI/edit?usp=sharing](https://docs.google.com/document/d/1xrhb-6Vm5_0zd2iImbdg_4kN2cTnY-ZSzyrFAavwABI/edit?usp=sharing)
 
-C¾ğ¾î
+Cì–¸ì–´
 
-//1.1 Æ÷¸ä ¹®ÀÚ¿­
+//1.1 í¬ë©§ ë¬¸ìì—´
 
-int %d 10Áø¼ö %x 16Áø¼ö %o 8Áø¼ö
+int %d 10ì§„ìˆ˜ %x 16ì§„ìˆ˜ %o 8ì§„ìˆ˜
 long long %lld %I64d
 
 char %c char\* %s
 float %f double %lf long double %Lf
 
-//1.2 TestCase ¶Ç´Â EOF ¹Ş±â
+//1.2 TestCase ë˜ëŠ” EOF ë°›ê¸°
 
 //TetsCase
 int cases; cin>>cases; while(cases--){...}
 
-//EOF ±îÁö
+//EOF ê¹Œì§€
 
 while(scanf("%d %d",&a,&b)==2){...}
 while(scanf("%d %d",&a,&b)!=EOF){...}
 while(c = getchar() && c!= EOF){...}
 
-// TestCase EOF °°ÀÌ ÀÖ´Â °æ¿ì -> µ¶¸³ÀûÀ¸·Î »ı°¢
+// TestCase EOF ê°™ì´ ìˆëŠ” ê²½ìš° -> ë…ë¦½ì ìœ¼ë¡œ ìƒê°
 
-// %c´Â °ø¹é¹®ÀÚ ' ' = 32 ¿Í ÁÙ¹Ù²Ş ¹®ÀÚ '\n'=10 À» ¹ŞÀ¸¹Ç·Î ÁÖÀÇ!!.
-// scanf¾ÈÀÇ °ø¹éÀº °ø¹éÀÌ³ª ÁÙ¹Ù²ŞÀ» ¹«½Ã ÇÏ°Ô ÇÑ´Ù. scanf("%c %c"..)
+// %cëŠ” ê³µë°±ë¬¸ì ' ' = 32 ì™€ ì¤„ë°”ê¿ˆ ë¬¸ì '\n'=10 ì„ ë°›ìœ¼ë¯€ë¡œ ì£¼ì˜!!.
+// scanfì•ˆì˜ ê³µë°±ì€ ê³µë°±ì´ë‚˜ ì¤„ë°”ê¿ˆì„ ë¬´ì‹œ í•˜ê²Œ í•œë‹¤. scanf("%c %c"..)
 
-//1.3 scanfÀÇ °ø¹é ¹× ÁÙ ¹Ù²Ş Ã³¸®, ÇÑÁÙ ÀÔ·Â ¹Ş±â
+//1.3 scanfì˜ ê³µë°± ë° ì¤„ ë°”ê¿ˆ ì²˜ë¦¬, í•œì¤„ ì…ë ¥ ë°›ê¸°
 
 //(1)
 scanf("%d\n",&n);
@@ -36,114 +36,114 @@ scanf("%c %c %c",&x,&y,&z);
 //(2)
 scanf(" %c %c %c",&x,&y,&z);
 //(3)
-scanf("%[^\n]\n",s); // s ¿¡ char s[] ¹®ÀÚ¹è¿­Çü
+scanf("%[^\n]\n",s); // s ì— char s[] ë¬¸ìë°°ì—´í˜•
 //(4)
-fgets() //ÁÙ¹Ù²Ş Æ÷ÇÔ ÇÑÁÙ ÀÔ·Â °¡´É
+fgets() //ì¤„ë°”ê¿ˆ í¬í•¨ í•œì¤„ ì…ë ¥ ê°€ëŠ¥
 
 //1.4
 scanf("%[123]",s);
 scanf("%[^123]",s);
 
-//1.5 ¹®ÀåÀÇ ¾ÕµÚ °ø¹éµµ ´Ù ÀÔ·Â ¹Ş°í ½Í´Ù¸é?
+//1.5 ë¬¸ì¥ì˜ ì•ë’¤ ê³µë°±ë„ ë‹¤ ì…ë ¥ ë°›ê³  ì‹¶ë‹¤ë©´?
 while( (c = getchar()) && c!= EOF){
 print("%c",c);
 }
 
-//1.6 scanf ÁöÁ¤ÇÑ °¹¼ö¸¸ ÀÔ·Â¹Ş±â
-scanf("%ld",&x); //1234ÀÔ·Â-> 1,2,3,4 1°³¾¿ scanf
-scanf("%10s",s); // ¹®ÀÚ¿­ ±æÀÌ°¡ 10°³ (ÀÌÇÏ) ¾¿ ¹ŞÀ½
+//1.6 scanf ì§€ì •í•œ ê°¯ìˆ˜ë§Œ ì…ë ¥ë°›ê¸°
+scanf("%ld",&x); //1234ì…ë ¥-> 1,2,3,4 1ê°œì”© scanf
+scanf("%10s",s); // ë¬¸ìì—´ ê¸¸ì´ê°€ 10ê°œ (ì´í•˜) ì”© ë°›ìŒ
 
-//1.7 scanf Çü½ÄÀ» ¸¸µé¾î¼­ ÀÔ·Â¹Ş±â
-scanf("%d,%d",&x,&y); // 10,20 ÀÌ·±½ÄÀÇ ÁÂÇ¥¸¦ ¹ŞÀ» ¼ö ÀÖÀ½.
-//ÁÖÀÇ
-while(scanf(...))´Â EOFÀÔ·Â½Ã ¸®ÅÏ°ªÀÌ -1 ÀÌ µÇ¾î while(Âü)ÀÌ µÇ¾î ¹«ÇÑ·çÇª¿¡ ºüÁú ¼ö ÀÖÀ½
+//1.7 scanf í˜•ì‹ì„ ë§Œë“¤ì–´ì„œ ì…ë ¥ë°›ê¸°
+scanf("%d,%d",&x,&y); // 10,20 ì´ëŸ°ì‹ì˜ ì¢Œí‘œë¥¼ ë°›ì„ ìˆ˜ ìˆìŒ.
+//ì£¼ì˜
+while(scanf(...))ëŠ” EOFì…ë ¥ì‹œ ë¦¬í„´ê°’ì´ -1 ì´ ë˜ì–´ while(ì°¸)ì´ ë˜ì–´ ë¬´í•œë£¨í‘¸ì— ë¹ ì§ˆ ìˆ˜ ìˆìŒ
 
 ---
 
-2. C++ ÀÔÃâ·Â ±âº»
+2. C++ ì…ì¶œë ¥ ê¸°ë³¸
 
-//2.1 ÇÑÁÙ ´Ù ÀÔ·Â ¹Ş±â
-getline(cin,s); // s´Â stirng ÇüÀ¸·Î
+//2.1 í•œì¤„ ë‹¤ ì…ë ¥ ë°›ê¸°
+getline(cin,s); // sëŠ” stirng í˜•ìœ¼ë¡œ
 
-//2.2 Ãâ·Â½Ã ¼Ò¼öÁ¡ Ã³¸®ÇÏ±â
+//2.2 ì¶œë ¥ì‹œ ì†Œìˆ˜ì  ì²˜ë¦¬í•˜ê¸°
 #include<iomanip>
 setprecision(5)
 fixed
 eg)
 double f = 3.1415926535;
-cout<<setprecision(5)<<f; //¾Õ¿¡¼­ 5¹øÂ°±îÁö Ãâ·Â(¹İ¿Ã¸²Àû¿ë)
+cout<<setprecision(5)<<f; //ì•ì—ì„œ 5ë²ˆì§¸ê¹Œì§€ ì¶œë ¥(ë°˜ì˜¬ë¦¼ì ìš©)
 
-cout<<fixed<<setprecision(5)<<f; //¼Ò¼öÁ¡ ÀÚ¸®ºÎÅÍ 5¹øÂ° °¡Áö Ãâ·Â(¹İ¿Ã¸² Àû¿ë)
+cout<<fixed<<setprecision(5)<<f; //ì†Œìˆ˜ì  ìë¦¬ë¶€í„° 5ë²ˆì§¸ ê°€ì§€ ì¶œë ¥(ë°˜ì˜¬ë¦¼ ì ìš©)
 
-//2.3 Ãâ·Â ¼Óµµºñ±³
-cout<<i<<endl; //4272msec °³Çà + ½ºÆ®¸²À» flushÇÏ±â¶§¹®¿¡ ¸¹Àº ½Ã°£ÀÌ °É¸°´Ù.
+//2.3 ì¶œë ¥ ì†ë„ë¹„êµ
+cout<<i<<endl; //4272msec ê°œí–‰ + ìŠ¤íŠ¸ë¦¼ì„ flushí•˜ê¸°ë•Œë¬¸ì— ë§ì€ ì‹œê°„ì´ ê±¸ë¦°ë‹¤.
 cout<<i<<'\n'; //36msec
 printf("%d\n",i); //20msec
 
-//2.4 cin/cout ¼Óµµ ¿Ã¸®±â (scanf/printf¿Í È¥¿ëÇÏÁö ¸»°Í!)
-main¹Ù·Î ´ÙÀ½¿¡
+//2.4 cin/cout ì†ë„ ì˜¬ë¦¬ê¸° (scanf/printfì™€ í˜¼ìš©í•˜ì§€ ë§ê²ƒ!)
+mainë°”ë¡œ ë‹¤ìŒì—
 
     cin.tie(NULL); cout.tie(NULL);
     ios_base::sync_with_stdio(false);
 
-//2.5 C++11 ÀÇ auto
+//2.5 C++11 ì˜ auto
 vector<int> d;
 for(auto it = d.begin(); it != d.end(); it++){...}
 for(auto& k:d){...}
 
 //2.6 Range based for
 vector<int> a = {1,2,3,4,5};
-a.size(); // element¼ö ¹İÈ¯ unsinged long long ÇüÅÂ
-for(auto k : a){...}//°ª º¹»ç ¹æ½ÄÀ¸·Î ¼øÈ¯
-for(auto& k : a){...}//ÂüÁ¶ ¹æ½ÄÀ¸·Î ¼øÈ¯ // ´õ ÁÁÀº ¼º´É
+a.size(); // elementìˆ˜ ë°˜í™˜ unsinged long long í˜•íƒœ
+for(auto k : a){...}//ê°’ ë³µì‚¬ ë°©ì‹ìœ¼ë¡œ ìˆœí™˜
+for(auto& k : a){...}//ì°¸ì¡° ë°©ì‹ìœ¼ë¡œ ìˆœí™˜ // ë” ì¢‹ì€ ì„±ëŠ¥
 
-//2.7 C ½ºÅ¸ÀÏ,C++ ½ºÅ¸ÀÏ ÀÇ string
-const char cstr[] = "string"; // foreachµ¹¸®¸é 7¹ø
-string str = "string"; // foreach µ¹¸®¸é 6¹ø
-// C½ºÅ¸ÀÏÀÇ ¹®ÀÚ¿­¿¡´Â nullÀÌ Æ÷ÇÔµÇ¾î ÀÖ±â ¶§¹® !!!
+//2.7 C ìŠ¤íƒ€ì¼,C++ ìŠ¤íƒ€ì¼ ì˜ string
+const char cstr[] = "string"; // foreachëŒë¦¬ë©´ 7ë²ˆ
+string str = "string"; // foreach ëŒë¦¬ë©´ 6ë²ˆ
+// CìŠ¤íƒ€ì¼ì˜ ë¬¸ìì—´ì—ëŠ” nullì´ í¬í•¨ë˜ì–´ ìˆê¸° ë•Œë¬¸ !!!
 
-//2.8 C++ ¶÷´Ù ÇÔ¼ö Lamda Function ÀÍ¸í ÇÔ¼ö(ÇÔ¼öÀÇ ÇüÅÂÀÎµ¥ ÀÌ¸§ÀÌ ¾øÀ½)
+//2.8 C++ ëŒë‹¤ í•¨ìˆ˜ Lamda Function ìµëª… í•¨ìˆ˜(í•¨ìˆ˜ì˜ í˜•íƒœì¸ë° ì´ë¦„ì´ ì—†ìŒ)
 
-±¸¼º : [Ä¸Ã³](ÇÔ¼ö ÀÎÀÚ){ÇÔ¼ö ³»¿ë}
+êµ¬ì„± : [ìº¡ì²˜](í•¨ìˆ˜ ì¸ì){í•¨ìˆ˜ ë‚´ìš©}
 eg) cout<<[](int x,int y){return x+y;}(1,2)<<"\n";
 
 eg) auto sum = [](int x,int y){return x+y;};
 sum(1,2);
 
 eg)
-auto f = [&](){..} //¿ÜºÎº¯¼ö ¸ğµÎ ÂüÁ¶ÇÏ·Á¸é Ä¸Ã³¿¡ &¾²±â
+auto f = [&](){..} //ì™¸ë¶€ë³€ìˆ˜ ëª¨ë‘ ì°¸ì¡°í•˜ë ¤ë©´ ìº¡ì²˜ì— &ì“°ê¸°
 
-    auto f = [&x,y](){...} //¿ÜºÎ¸é¼ö x¸¸ ÂüÁ¶,y´Â °ª º¹»ç
+    auto f = [&x,y](){...} //ì™¸ë¶€ë©´ìˆ˜ xë§Œ ì°¸ì¡°,yëŠ” ê°’ ë³µì‚¬
 
-    auto f = [&x,y]() mutable {...}// ÇÏÁö¸¸ Àß ¾ÈµÊ..(?)
+    auto f = [&x,y]() mutable {...}// í•˜ì§€ë§Œ ì˜ ì•ˆë¨..(?)
 
 eg)
-#include<functional> ¿¡
+#include<functional> ì—
 
 function<int(int,int)> sum = [](int,int){....}
 function<int()>
 function<void()>
-µîµîÀÇ ÀÚ·áÇü ÇÏÁö¸¸ auto ½á¶ó.
+ë“±ë“±ì˜ ìë£Œí˜• í•˜ì§€ë§Œ auto ì¨ë¼.
 
-eg) ¶÷´Ù·Î recursion ÇÇº¸³ªÄ¡ ±¸Çö ¶Ç´Â vector¿¡ ¶÷´Ù ³Ö°í foreachµ¹¸®¸é¼­ »çÄ¢¿¬»ê ÇØº¸±â~
+eg) ëŒë‹¤ë¡œ recursion í”¼ë³´ë‚˜ì¹˜ êµ¬í˜„ ë˜ëŠ” vectorì— ëŒë‹¤ ë„£ê³  foreachëŒë¦¬ë©´ì„œ ì‚¬ì¹™ì—°ì‚° í•´ë³´ê¸°~
 
-3. STL(1) »ç¿ë¹ı
+3. STL(1) ì‚¬ìš©ë²•
 
-// STL = algorithm + container + function + iterator ·Î ±¸¼º
+// STL = algorithm + container + function + iterator ë¡œ êµ¬ì„±
 
 //3.1 pair
-#include<utility> ¶Ç´Â #include<vector> ¶Ç´Â #include<algorithm>
+#include<utility> ë˜ëŠ” #include<vector> ë˜ëŠ” #include<algorithm>
 
 pair<int,int> p1 = make_pair(10,20);
 pair<int,int> p1 = pair<int,int>(10,20);
 pair<int,int> p2(10,20);
 
-p1.first ¿Í p1.second ·Î Á¢±Ù
+p1.first ì™€ p1.second ë¡œ ì ‘ê·¼
 
 //3.2 tuple
 #include<tuple>
 tuple<int,int,int> t1 = make_tuple(10,20,30);
-cout<<get<0>(t1)<<'\n'; //<0>¾È¿¡´Â º¯¼ö°¡ ¸øµé¾î °£´Ù.
+cout<<get<0>(t1)<<'\n'; //<0>ì•ˆì—ëŠ” ë³€ìˆ˜ê°€ ëª»ë“¤ì–´ ê°„ë‹¤.
 
 //3.3 tie
 #include<tuple>
@@ -153,35 +153,35 @@ int x,y,z;
 tie(x,y,z) = make_tuple(1,2,3);
 eg)
 tie(b,a,ignore) = make_tuple(a,b,10);
-tie(a,b) = make_pair(b,a); //swapÇÑÁÙ ±¸Çö
+tie(a,b) = make_pair(b,a); //swapí•œì¤„ êµ¬í˜„
 
 //3.4 vector
 #include<vector>
 
 eg)
 vector<int> v1;
-vector<int> v1(10); //Å©±â 10
-vector<int> v1(10,5); // Å©±â 10ÀÌ°í ÃÊ±â°ª ÀüºÎ 5
-vector<int> v1 = {1,2,3}; // ÃÊ±âÈ­ ¸®½ºÆ®¸¦ ÀÌ¿ëÇØ¼­ Çà¼º
+vector<int> v1(10); //í¬ê¸° 10
+vector<int> v1(10,5); // í¬ê¸° 10ì´ê³  ì´ˆê¸°ê°’ ì „ë¶€ 5
+vector<int> v1 = {1,2,3}; // ì´ˆê¸°í™” ë¦¬ìŠ¤íŠ¸ë¥¼ ì´ìš©í•´ì„œ í–‰ì„±
 
 eg)
 v.push_back(); v.pop_back();
 v.clear(); v.resize(); v.empty(); v.size();
 
-v.begin(); v.end(); //Æ÷ÀÎÅÍ
+v.begin(); v.end(); //í¬ì¸í„°
 
-v.front(); v.back(); v[1] //°ª ÂüÁ¶
+v.front(); v.back(); v[1] //ê°’ ì°¸ì¡°
 
-v.emplace_back(1,2) //¿ø¼Ò°¡ pairÀÎ °æ¿ì
-
-eg)
-v.insert(it,<t>)//ÇØ´ç À§Ä¡¿¡ , ³ÖÀ»°Å
-v.insert(it,10,<t>) // ÇØ´ç À§Ä¡¿¡, °¹¼ö ¸¸Å­ , ³ÖÀ»°Å
-v.insert(it,d.begin(),d.end())// ÇØ´ç À§Ä¡¿¡, ³ÖÀ» Ã¹, ³ÖÀ» ³¡
+v.emplace_back(1,2) //ì›ì†Œê°€ pairì¸ ê²½ìš°
 
 eg)
-v.erase(it);//Áö¿ï°Å Æ÷ÀÎÆÃ
-v.erase(it.start(),it.end())//Áö¿ï°Å ½ÃÀÛ - ³¡
+v.insert(it,<t>)//í•´ë‹¹ ìœ„ì¹˜ì— , ë„£ì„ê±°
+v.insert(it,10,<t>) // í•´ë‹¹ ìœ„ì¹˜ì—, ê°¯ìˆ˜ ë§Œí¼ , ë„£ì„ê±°
+v.insert(it,d.begin(),d.end())// í•´ë‹¹ ìœ„ì¹˜ì—, ë„£ì„ ì²«, ë„£ì„ ë
+
+eg)
+v.erase(it);//ì§€ìš¸ê±° í¬ì¸íŒ…
+v.erase(it.start(),it.end())//ì§€ìš¸ê±° ì‹œì‘ - ë
 
 //3.5 deque
 #include<deque>
@@ -192,83 +192,83 @@ dq.push_front(t);
 dq.pop_back();
 dq.pop_front();
 
-//3.6 list ÀÌÁß¿¬°á ¸®½ºÆ® : insert¿Í erase´Â O(1)ÀÌ °É¸²
+//3.6 list ì´ì¤‘ì—°ê²° ë¦¬ìŠ¤íŠ¸ : insertì™€ eraseëŠ” O(1)ì´ ê±¸ë¦¼
 #include<list>
 
 list<int> l ={2,1,-5};
-l.sort(); // ±âº» : ¿À¸§Â÷¼ø
-l.sort(greater<int>());//³»¸²Â÷¼ø
-l.sort([](int& u,int& v){return abs(u)<abs(v);}); //Ä¿½ºÅÒ Á¤·Ä
+l.sort(); // ê¸°ë³¸ : ì˜¤ë¦„ì°¨ìˆœ
+l.sort(greater<int>());//ë‚´ë¦¼ì°¨ìˆœ
+l.sort([](int& u,int& v){return abs(u)<abs(v);}); //ì»¤ìŠ¤í…€ ì •ë ¬
 l.reverse
 
-//¼øÂ÷ ÄÁÅ×ÀÌ³Ê : vector list deque
-//¿¬°ü ÄÁÅ×ÀÌ³Ê : set map
+//ìˆœì°¨ ì»¨í…Œì´ë„ˆ : vector list deque
+//ì—°ê´€ ì»¨í…Œì´ë„ˆ : set map
 
-//3.8 set »ğÀÔ »èÁ¦ Å½»ö¿¡ log(n) °É¸²
+//3.8 set ì‚½ì… ì‚­ì œ íƒìƒ‰ì— log(n) ê±¸ë¦¼
 #include<set>
 
 set<int> s1;
-set<int> s2 = {1,2,3,4} // ÀÚµ¿ ¿À¸§Â÷ Á¤·Ä ÀúÀå ¹× Áßº¹ Á¦°ÅµÊ
-set<int,greater<int>> s3 // ÀÚµ¿ ³»¸²Â÷ Á¤·Ä ÇÏ±â
+set<int> s2 = {1,2,3,4} // ìë™ ì˜¤ë¦„ì°¨ ì •ë ¬ ì €ì¥ ë° ì¤‘ë³µ ì œê±°ë¨
+set<int,greater<int>> s3 // ìë™ ë‚´ë¦¼ì°¨ ì •ë ¬ í•˜ê¸°
 
 eg)
-s1.insert(4); // ´ëÀÔ
-pair<set<int>::iterator, bool > result = s2.insert(4); //°á°ú ¹İÈ¯(³ÖÀº À§Ä¡,¼º°ø ¿©ºÎ)
+s1.insert(4); // ëŒ€ì…
+pair<set<int>::iterator, bool > result = s2.insert(4); //ê²°ê³¼ ë°˜í™˜(ë„£ì€ ìœ„ì¹˜,ì„±ê³µ ì—¬ë¶€)
 
-    s1.erase(s.begin()); //»èÁ¦
-    s1[] X //setÀº ¼ø¼­ °¡ ¾Æ´Ï¾ß
+    s1.erase(s.begin()); //ì‚­ì œ
+    s1[] X //setì€ ìˆœì„œ ê°€ ì•„ë‹ˆì•¼
     auto it = s.erase(s.begin()+1);//{1,2,3,4} -> {1,3,4}
     it = s.erase(it) //{1,3,4} -> {1,4}
 
 eg)
-setÀº for ³ª foreach·Î ¼øÈ¸°¡ °¡´ÉÇÏ´Ù. lgN
+setì€ for ë‚˜ foreachë¡œ ìˆœíšŒê°€ ê°€ëŠ¥í•˜ë‹¤. lgN
 
 eg)
 s = {1,3,5,7}
-auto it = s.find(1); //{1,3,5,7} Ã¹¹øÀç ¿ø¼Ò¸¦ °¡¸£Å´
-//¾øÀ¸¸é s.end()¸¦ ¹İÈ¯ÇÔ
+auto it = s.find(1); //{1,3,5,7} ì²«ë²ˆì¬ ì›ì†Œë¥¼ ê°€ë¥´í‚´
+//ì—†ìœ¼ë©´ s.end()ë¥¼ ë°˜í™˜í•¨
 
-    s.count(7) // ¿ø¼Ò 7ÀÌ ¸î°³? 1°³
+    s.count(7) // ì›ì†Œ 7ì´ ëª‡ê°œ? 1ê°œ
 
-//3.8.2 multiset: °°Àº ¿ø¼Ò ¿©·¯°³¸¦ ÀúÀå °¡´ÉÇÏ´Ù.
+//3.8.2 multiset: ê°™ì€ ì›ì†Œ ì—¬ëŸ¬ê°œë¥¼ ì €ì¥ ê°€ëŠ¥í•˜ë‹¤.
 
-Á¤¸®)
-<T>.countÀÇ ÀÇ¹Ì
-map,unordered_map,set ¿¡¼­´Â 0¶Ç´Â 1 (»ı¼ºÇÏÁö ¾Ê°í Á¸Àç À¯¹« )
-multiset ¿¡¼­´Â 0¶Ç´Â N( Á¸Àç ¹× °¹¼ö)
+ì •ë¦¬)
+<T>.countì˜ ì˜ë¯¸
+map,unordered_map,set ì—ì„œëŠ” 0ë˜ëŠ” 1 (ìƒì„±í•˜ì§€ ì•Šê³  ì¡´ì¬ ìœ ë¬´ )
+multiset ì—ì„œëŠ” 0ë˜ëŠ” N( ì¡´ì¬ ë° ê°¯ìˆ˜)
 
-//3.9 map - key¿Í value·Î ÀÌ·ç¾îÁü
+//3.9 map - keyì™€ valueë¡œ ì´ë£¨ì–´ì§
 
 #include<map>
 
 map<int,int> d2 = {{1,2},{3,4}};
 d2.size();//2
-d2[1] //2 key¸¦ ÀÌ¿ëÇØ¼­ valueÂüÁ¶
-d2[0] //0 ¾øÀ¸¸é ¸¸µé¾îÁø´Ù. key°ª 0 ¿¡ value ±âº»°ª
+d2[1] //2 keyë¥¼ ì´ìš©í•´ì„œ valueì°¸ì¡°
+d2[0] //0 ì—†ìœ¼ë©´ ë§Œë“¤ì–´ì§„ë‹¤. keyê°’ 0 ì— value ê¸°ë³¸ê°’
 
 eg)
-if(d2[i]){...}//Á¸ÀçÈ®ÀÎ + ¾øÀ¸¸é ¸¸µé¾î ¹ö¸²
-if(d2.count(i)){..} //Á¸Àç È®ÀÎ¸¸
+if(d2[i]){...}//ì¡´ì¬í™•ì¸ + ì—†ìœ¼ë©´ ë§Œë“¤ì–´ ë²„ë¦¼
+if(d2.count(i)){..} //ì¡´ì¬ í™•ì¸ë§Œ
 
 eg)
 map<int,int> d
-//³»¿ë¹°À» iterator ·Î µ¹±â
+//ë‚´ìš©ë¬¼ì„ iterator ë¡œ ëŒê¸°
 for(auto it = d.begin(); it != d.end() ; it++){
 cout<<it->first<<it->second;
 }
-//³»¿ë¹°Àº pair
+//ë‚´ìš©ë¬¼ì€ pair
 for(auto& p:d){
 cout<<p.first<<p.second;
 }
 
-//ÄÁÅ×ÀÌ³Ê ¾î´ğÅÍ : stack,queu,¿ì¼±Å¥,bitset : ¾ÕÀÇ ÀÚ·á±¸Á¶·Î ¸¸µë.
+//ì»¨í…Œì´ë„ˆ ì–´ëŒ‘í„° : stack,queu,ìš°ì„ í,bitset : ì•ì˜ ìë£Œêµ¬ì¡°ë¡œ ë§Œë“¬.
 
 //3.10 stack
 #include<stack>
 
-    stack<int> s1; //±âº»
-    deque<int> d = {1,2,3}; stack<int> s2(d); //´ìÀ» ½ºÅÃÀ¸·Î
-    stack<int,list<int>> s3; // ¸®½ºÆ®·Î ½ºÅÃ ¸¸µé±â
+    stack<int> s1; //ê¸°ë³¸
+    deque<int> d = {1,2,3}; stack<int> s2(d); //ëŒì„ ìŠ¤íƒìœ¼ë¡œ
+    stack<int,list<int>> s3; // ë¦¬ìŠ¤íŠ¸ë¡œ ìŠ¤íƒ ë§Œë“¤ê¸°
 
     s.push(<T>)
     s.pop()
@@ -281,8 +281,8 @@ cout<<p.first<<p.second;
 #include<queue>
 
     queue<int> q1;
-    deque<int> d = {1,2,3}; queue<int> q3(d) // ´ìÀ¸·Îµµ Å¥ °¡´É
-    queue<int,list<int>> q2; //¸®½ºÆ®·Î Å¥ ¸¸µé±â
+    deque<int> d = {1,2,3}; queue<int> q3(d) // ëŒìœ¼ë¡œë„ í ê°€ëŠ¥
+    queue<int,list<int>> q2; //ë¦¬ìŠ¤íŠ¸ë¡œ í ë§Œë“¤ê¸°
 
     q1.push(<t>)
     q1.pop()
@@ -292,7 +292,7 @@ cout<<p.first<<p.second;
     q1.empty()
     q1.emplace_back()
 
-//3.12 priority_queue - #include<queue>¿¡ °°ÀÌ µ¿ºÀµÊ.
+//3.12 priority_queue - #include<queue>ì— ê°™ì´ ë™ë´‰ë¨.
 
 #include<queue>
 
@@ -300,18 +300,18 @@ cout<<p.first<<p.second;
 
     pq.push()
     pq.pop()
-    pq.top() //  ¿ì¼± Å¥´Â Æ¯ÀÌÇÏ°Ô front °¡ ¾Æ´Ñ top ÀÌ´Ù. treeÇü stackÀ» ¿¬»óÇÏ³ªº½.
+    pq.top() //  ìš°ì„  íëŠ” íŠ¹ì´í•˜ê²Œ front ê°€ ì•„ë‹Œ top ì´ë‹¤. treeí˜• stackì„ ì—°ìƒí•˜ë‚˜ë´„.
     pq.empty() pq.size()
 
-eg) ¿ì¼±Å¥´Â ±âº»ÀûÀ¸·Î ¿À¸§Â÷ ¼øÀ¸·Î Á¤·ÄµÈ´Ù. ±×·³ ³»¸²Â÷ ¿ì¼± Å¥´Â ¾î¶»°Ô ¸¸µå³ª? 1. priority_queue<int,vector<int>,greater<int>> q3; 2. ÀÔ·Â½Ã pq.push(-x); Ãâ·Â½Ã -pq.top() // a<b ´Â -a > -b ÀÌ¹Ç·Î -¸¦ ºÙ¿© ¹İ´ë¼ø¼­·Î ³Ö°í/ Ãâ·Â½Ã -ºÙ¿© ¿ø»óº¹±Í
+eg) ìš°ì„ íëŠ” ê¸°ë³¸ì ìœ¼ë¡œ ì˜¤ë¦„ì°¨ ìˆœìœ¼ë¡œ ì •ë ¬ëœë‹¤. ê·¸ëŸ¼ ë‚´ë¦¼ì°¨ ìš°ì„  íëŠ” ì–´ë–»ê²Œ ë§Œë“œë‚˜? 1. priority_queue<int,vector<int>,greater<int>> q3; 2. ì…ë ¥ì‹œ pq.push(-x); ì¶œë ¥ì‹œ -pq.top() // a<b ëŠ” -a > -b ì´ë¯€ë¡œ -ë¥¼ ë¶™ì—¬ ë°˜ëŒ€ìˆœì„œë¡œ ë„£ê³ / ì¶œë ¥ì‹œ -ë¶™ì—¬ ì›ìƒë³µê·€
 
 //3.13 bitset
 
-//vector<bool> ÇüÅÂ , 1bit¸¸ »ç¿ëÇÑ´Ù.
+//vector<bool> í˜•íƒœ , 1bitë§Œ ì‚¬ìš©í•œë‹¤.
 
-bitset<10> b2(88) //10ÀÚ¸® 2Áø¼ö¸¦ ¸¸µå´Âµ¥, ½ÊÁø¼ö 88À» ³ÖÀ»²¨ÀÓ
-bitset<10> b2("10010")//10ÀÚ¸® 2Áø¼ö¸¦ ¸¸µå´Âµ¥, 2Áø¼ö 10010À» ³ÖÀ»²¨ÀÓ
-bitset<n> b2 // ¾Ö·¯
+bitset<10> b2(88) //10ìë¦¬ 2ì§„ìˆ˜ë¥¼ ë§Œë“œëŠ”ë°, ì‹­ì§„ìˆ˜ 88ì„ ë„£ì„êº¼ì„
+bitset<10> b2("10010")//10ìë¦¬ 2ì§„ìˆ˜ë¥¼ ë§Œë“œëŠ”ë°, 2ì§„ìˆ˜ 10010ì„ ë„£ì„êº¼ì„
+bitset<n> b2 // ì• ëŸ¬
 
     bitset<100000>a;
     bitset<100000>b;
@@ -324,63 +324,63 @@ bitset<n> b2 // ¾Ö·¯
     cout << ~(a) << '\n';	//NOT
     cout << ~(b);		//NOT
 
-eg)ÂüÁ¶
+eg)ì°¸ì¡°
 
 b2[i]
 b2.test(i)
 
 b.flip() b.flip(1) // 0 => 1, 1 => 0
-b.set() b.set(1) // 0,1 => 1·Î
-b.reset() b.reset(1) //0,1 => 0À¸·Î
+b.set() b.set(1) // 0,1 => 1ë¡œ
+b.reset() b.reset(1) //0,1 => 0ìœ¼ë¡œ
 
-b.all() //¸ğµÎ 1?
-b.any() //Àû¾îµµ ÇÑ°³´Â 1?
-b.none() //¸ğµÎ 0?
-b.count()//1ÀÌ ¸î°³ÀÎ°¡?
+b.all() //ëª¨ë‘ 1?
+b.any() //ì ì–´ë„ í•œê°œëŠ” 1?
+b.none() //ëª¨ë‘ 0?
+b.count()//1ì´ ëª‡ê°œì¸ê°€?
 
-//»ğÀÔ »èÁ¦ ½Ã°£ --> ¹éÅÍ´Â N , setÀº lgN, ¸®½ºÆ®´Â 1
-//countÀÇ ÀÇ¹Ì set¿¡¼­´Â Á¸Àç¼º / multiset ¿¡¼­´Â °¹¼ö / STLÀÇ countµµ °¹¼ö, map,unordered_map¿¡¼­ Á¸Àç¼º
+//ì‚½ì… ì‚­ì œ ì‹œê°„ --> ë°±í„°ëŠ” N , setì€ lgN, ë¦¬ìŠ¤íŠ¸ëŠ” 1
+//countì˜ ì˜ë¯¸ setì—ì„œëŠ” ì¡´ì¬ì„± / multiset ì—ì„œëŠ” ê°¯ìˆ˜ / STLì˜ countë„ ê°¯ìˆ˜, map,unordered_mapì—ì„œ ì¡´ì¬ì„±
 
 Sec4. string
 
-//4.1 »ı¼ºÀÚ.
-string(char c[]);//¹®ÀÚ¿­ °¡´É
-string(const char\*); //¹®ÀÚ¿­(»ó¼ö) °¡´É
-string(string s); // ÃÊ±â°ª ÁöÁ¤
-string(); // "" ÃÊ±âÈ­
-string(int,char);//°¹¼ö¸¦ ¾î¶² ¹®ÀÚ¸¦
+//4.1 ìƒì„±ì.
+string(char c[]);//ë¬¸ìì—´ ê°€ëŠ¥
+string(const char\*); //ë¬¸ìì—´(ìƒìˆ˜) ê°€ëŠ¥
+string(string s); // ì´ˆê¸°ê°’ ì§€ì •
+string(); // "" ì´ˆê¸°í™”
+string(int,char);//ê°¯ìˆ˜ë¥¼ ì–´ë–¤ ë¬¸ìë¥¼
 
-//4.2 EOF ÀÔ·Â
+//4.2 EOF ì…ë ¥
 
-while(cin>>s){...} //EOF ±â´É ¸®ÅÏ°ª T or F
+while(cin>>s){...} //EOF ê¸°ëŠ¥ ë¦¬í„´ê°’ T or F
 while(scanf() == 2 ){...}
 while(scanf() != EOF){...}
 while(getline(cin,s))
-while(getline(cin,s,char delimeter))// ¹®ÀÚ¿­ ºĞ¸®, charÀ¸·Î ºĞ¸®ÇÒ ¹®ÀÚ ³ÖÁÖ±â
-->foreach ºĞ¼®ÇÏ±â~
+while(getline(cin,s,char delimeter))// ë¬¸ìì—´ ë¶„ë¦¬, charìœ¼ë¡œ ë¶„ë¦¬í•  ë¬¸ì ë„£ì£¼ê¸°
+->foreach ë¶„ì„í•˜ê¸°~
 
-//4.3 string sÀÇ ±â´É
-s.c_str(); //printf("%s") ÇüÀ¸·Î Ãâ·ÂÀÌ °¡´ÉÇÏ´Ù.
-s.size();// s.size() - 1 Àº unsigned long long ÀÇ MAX Çü
-s.length();//ÀÇ¹Ì»ó
+//4.3 string sì˜ ê¸°ëŠ¥
+s.c_str(); //printf("%s") í˜•ìœ¼ë¡œ ì¶œë ¥ì´ ê°€ëŠ¥í•˜ë‹¤.
+s.size();// s.size() - 1 ì€ unsigned long long ì˜ MAX í˜•
+s.length();//ì˜ë¯¸ìƒ
 s.empty();
-s1 == s1 , s1 != s2, s1<s2 //°°ÀºÁö,´Ù¸¥Áö,»çÀü¼ø¼­ÀÎÁö
+s1 == s1 , s1 != s2, s1<s2 //ê°™ì€ì§€,ë‹¤ë¥¸ì§€,ì‚¬ì „ìˆœì„œì¸ì§€
 s1+=s2;
 s.push_back(char);
-s.substr(); // s.substr(2,3)//hellow¸é llo
+s.substr(); // s.substr(2,3)//hellowë©´ llo
 
-s.append(int,char);//°¹¼ö,¹¹¸¦
+s.append(int,char);//ê°¯ìˆ˜,ë­ë¥¼
 s.append(string);
 s.append(const char\*);
-s.append // ¸®ÅÏÇüÀÌ stringÀÌ¹Ç·Î chainÀ¸·Î °¡´É
+s.append // ë¦¬í„´í˜•ì´ stringì´ë¯€ë¡œ chainìœ¼ë¡œ ê°€ëŠ¥
 
-s.insert(int,string);//À§Ä¡ ¹¹¸¦
-s.insert(int,int,char);//À§Ä¡,°¹¼ö,¹»
-s.insert(int,string,int,int);//³ÖÀ»À§Ä¡, string ÀÇ, À§Ä¡, ¸î°³
+s.insert(int,string);//ìœ„ì¹˜ ë­ë¥¼
+s.insert(int,int,char);//ìœ„ì¹˜,ê°¯ìˆ˜,ë­˜
+s.insert(int,string,int,int);//ë„£ì„ìœ„ì¹˜, string ì˜, ìœ„ì¹˜, ëª‡ê°œ
 
-//4.4 ¼ıÀÚ ¹®ÀÚ¿­ º¯È¯
+//4.4 ìˆ«ì ë¬¸ìì—´ ë³€í™˜
 stoi(string);
-stoi(string,int,int);//? int¹ø ¹®ÀÚºÎÅÍ intÁø¼ö·Î º¸°í 10Áø¼ö·Î ÀúÀå??
+stoi(string,int,int);//? intë²ˆ ë¬¸ìë¶€í„° intì§„ìˆ˜ë¡œ ë³´ê³  10ì§„ìˆ˜ë¡œ ì €ì¥??
 stll
 
 stoul
@@ -389,46 +389,46 @@ stof
 stod
 stld
 
-to_string(int ³ª double ¶Ç´Â float)
+to_string(int ë‚˜ double ë˜ëŠ” float)
 
 Sec5. STL - Algorithm
 
-#include<algorithm> : ¸í½É ¿Ø¸¸ÇØ¼­´Â ¹üÀ§´Â [begin,end) ÀÌ´Ù..
+#include<algorithm> : ëª…ì‹¬ ì™ ë§Œí•´ì„œëŠ” ë²”ìœ„ëŠ” [begin,end) ì´ë‹¤..
 
-//#5.1 Ä«¿îÆÃ - Á¶°Ç¿¡ ¸Â´Â, ¿ø¼Ò ¼ö ¹İÈ¯ O(N)
+//#5.1 ì¹´ìš´íŒ… - ì¡°ê±´ì— ë§ëŠ”, ì›ì†Œ ìˆ˜ ë°˜í™˜ O(N)
 count(begin,end,value);
 count_if(begin,end,p);
 
-//#5.2 À§Ä¡ Ã£±â - Á¶°Ç¿¡ ¸Â´Â ¿ø¼Ò À§Ä¡ ¹İÈ¯ O(N)
+//#5.2 ìœ„ì¹˜ ì°¾ê¸° - ì¡°ê±´ì— ë§ëŠ” ì›ì†Œ ìœ„ì¹˜ ë°˜í™˜ O(N)
 find(begin,end,value);
-find_if(begin,end,p); //¾øÀ¸¸é end() ¹İÈ¯
+find_if(begin,end,p); //ì—†ìœ¼ë©´ end() ë°˜í™˜
 
-//#5.3 ¿ø¼Òµé (Á¶°Ç¿¡ ¸ÂÀ¸¸é ) °ªÀ¸·Î Ã¤¿ì±â
+//#5.3 ì›ì†Œë“¤ (ì¡°ê±´ì— ë§ìœ¼ë©´ ) ê°’ìœ¼ë¡œ ì±„ìš°ê¸°
 fill(begin,end,value);
 
-//#5.4 µÚÁı±â
+//#5.4 ë’¤ì§‘ê¸°
 reverse(begin,end);
 
-//#5.5 È¸ÀüÇÏ±â
+//#5.5 íšŒì „í•˜ê¸°
 rotate(begin,mid,end);
-[mid,end)¸¦ ¾ÕÀ¸·Î, [begin,mid)¸¦ µÚ·Î À§Ä¡ ¹Ù²Ù±â.
-rotate(begin,begin+1,end); //¿À¸¥ÂÊÀ¸·Î ÇÑÄ­¾¿ ÀÌµ¿ÇÏ±â
-rotate(begin,end-1,end); //¿ŞÂÊÀ¸·Î ÇÑÄ­¾¿ ÀÌµ¿ÇÏ±â
+[mid,end)ë¥¼ ì•ìœ¼ë¡œ, [begin,mid)ë¥¼ ë’¤ë¡œ ìœ„ì¹˜ ë°”ê¾¸ê¸°.
+rotate(begin,begin+1,end); //ì˜¤ë¥¸ìª½ìœ¼ë¡œ í•œì¹¸ì”© ì´ë™í•˜ê¸°
+rotate(begin,end-1,end); //ì™¼ìª½ìœ¼ë¡œ í•œì¹¸ì”© ì´ë™í•˜ê¸°
 
 ---
 
 //#5.6 swap
 swap(a,b) // int,vector<int>
-swap(_(v.begin()), _(v.begin()+1) ); // ¹üÀ§°¡ ¾Æ´Ñ, ¼±ÅÃÀÌ´Ù.!!
+swap(_(v.begin()), _(v.begin()+1) ); // ë²”ìœ„ê°€ ì•„ë‹Œ, ì„ íƒì´ë‹¤.!!
 
-//#5.7 unique ±¸°£¿¡¼­ ¿¬¼ÓµÈ °ªÀ» Á¦°ÅÇÏ°í ÇÏ³ª¸¸ ¸¸µé°í ´Ù½Ã ³Ö´Â´Ù.
-Á¤·Ä -> À¯´ÏÅ© -> erase
+//#5.7 unique êµ¬ê°„ì—ì„œ ì—°ì†ëœ ê°’ì„ ì œê±°í•˜ê³  í•˜ë‚˜ë§Œ ë§Œë“¤ê³  ë‹¤ì‹œ ë„£ëŠ”ë‹¤.
+ì •ë ¬ -> ìœ ë‹ˆí¬ -> erase
 vector<int> v;
-v.sort(); // 1.Á¤·Ä
-auto it = v.unique(v.begin(),v.end()); //2. À¯´ÏÅ©
-erase(it,v.end()); // 3. ÀÜÁ¸ Áö¿ì±â
+v.sort(); // 1.ì •ë ¬
+auto it = v.unique(v.begin(),v.end()); //2. ìœ ë‹ˆí¬
+erase(it,v.end()); // 3. ì”ì¡´ ì§€ìš°ê¸°
 
-//#5.8 Á¤·Ä sort
+//#5.8 ì •ë ¬ sort
 
 sort(begin,end);
 sort(begin,end,cmp);
@@ -438,51 +438,51 @@ sort(begin,end,cmp);
 bool cmp(const int& u, const int& v){return u > v ;}
 sort(begin,end,[](const int& u,const int& v){return u > v; });
 
-eg)pair¸¦ ÀÌ¿ëÇÑ ¶÷´Ù Á¤·Ä, ¹®ÀÚ¿­ -> ¿ì¼± ±æÀÌ ³»¸²Â÷, ƒZ°í »çÀü ¿À¸§Â÷
+eg)pairë¥¼ ì´ìš©í•œ ëŒë‹¤ ì •ë ¬, ë¬¸ìì—´ -> ìš°ì„  ê¸¸ì´ ë‚´ë¦¼ì°¨, ê¸œê³  ì‚¬ì „ ì˜¤ë¦„ì°¨
 sort(s.begin,s.end,[](const string& u,const string& v){
 return make_pair(-u.size(),u) < make_pair(-v.size(),v) ;} );
 
-eg) ±¸Á¶Ã¼³ª Å¬·¡½º´Â sort½Ã ÇÔ¼ö¸¦ ÀÛ¼ºÇØ ÁÖ¾î¾ß ÇÔ. ³»ºÎ ÇÔ¼ö ¶Ç´Â cmp ¿ÜºÎ ÇÔ¼ö ÀÛ¼º.
+eg) êµ¬ì¡°ì²´ë‚˜ í´ë˜ìŠ¤ëŠ” sortì‹œ í•¨ìˆ˜ë¥¼ ì‘ì„±í•´ ì£¼ì–´ì•¼ í•¨. ë‚´ë¶€ í•¨ìˆ˜ ë˜ëŠ” cmp ì™¸ë¶€ í•¨ìˆ˜ ì‘ì„±.
 
-//#5.8.2 Á¤·Ä stable_sort °°À¸¸é Á¤·ÄÀü ¼ø¼­°¡ À¯ÁöµÊ.
+//#5.8.2 ì •ë ¬ stable_sort ê°™ìœ¼ë©´ ì •ë ¬ì „ ìˆœì„œê°€ ìœ ì§€ë¨.
 stable_sort(begin,end);
 stable_sort(begin,end,cmp);
 
-//#5.9 ÀÌÁø Å½»ö, º¸Åë Ä¿½ºÅÍ Á÷Á¢ ¸¸µå´Â °æ¿ì°¡ ÈçÇÑµ¥,
+//#5.9 ì´ì§„ íƒìƒ‰, ë³´í†µ ì»¤ìŠ¤í„° ì§ì ‘ ë§Œë“œëŠ” ê²½ìš°ê°€ í”í•œë°,
 binary_search(begin,end,value); //true or false
 binary_search(begin,end,value,cmp); // true or false
 
 ---
 
-//#5.10 ÃÖ´ë°ª ÃÖ¼Ú°ª Ã£±â
+//#5.10 ìµœëŒ€ê°’ ìµœì†Ÿê°’ ì°¾ê¸°
 
 min(2,3); max(2,3);
 min({1,2,3,4}); max({1,2,3,4});
 min(p1,p2,cmp); max(p1,p2,cmp);
 
-eg) °¡Àå ÀÛÀº ¹®ÀÚ¿­ Ãâ·Â
+eg) ê°€ì¥ ì‘ì€ ë¬¸ìì—´ ì¶œë ¥
 min(s1,s2,[](string u,string v){ return u.size() < v.size(); });
 
-minmax -> min°úmax¸¦ pairÇüÅÂ·Î ¹İÈ¯
+minmax -> minê³¼maxë¥¼ pairí˜•íƒœë¡œ ë°˜í™˜
 
 min_element(begin,end);
 min_element(begin,end,cmp);
-//ÃÖ´ë ¹× ÃÖ¼Ò°ªÀÇ ÀÌÅÍ·¹ÀÌÅÍ ¹İÈ¯.
+//ìµœëŒ€ ë° ìµœì†Œê°’ì˜ ì´í„°ë ˆì´í„° ë°˜í™˜.
 
-eg) Á¤·Ä -> min_element
+eg) ì •ë ¬ -> min_element
 
     vector<string> ss = { "a","ab","abc","abcd"};
     auto it = min_element(ss.begin(),ss.end(),[](string u, string v){return u.size() < v.size();});
     cout<<*it;
 
-//#5.11 °ª ºñ±³, ÈÄ Å©°Å³ª °°Àº Ã¹ iterator Ã£±â
+//#5.11 ê°’ ë¹„êµ, í›„ í¬ê±°ë‚˜ ê°™ì€ ì²« iterator ì°¾ê¸°
 
-lower_bound(begin,end,val); // val º¸´Ù Å©°Å³ª °°Àº Ã¹ iterator
+lower_bound(begin,end,val); // val ë³´ë‹¤ í¬ê±°ë‚˜ ê°™ì€ ì²« iterator
 lower_bound(begin,end,val,cmp);
-upper_bound(begin,end,val); //val º¸´Ù Å« Ã¹ iterator
+upper_bound(begin,end,val); //val ë³´ë‹¤ í° ì²« iterator
 upper_bound(begin,end,val,cmp);
 
-//#5.12 ¼ø¿­
+//#5.12 ìˆœì—´
 
-next_permutation(v.begin(),v.end()); //´ÙÀ½ ¼ø¿­
-prev_permutation(v.begin(),v.end()); //ÀÌÀü ¼ø¿­
+next_permutation(v.begin(),v.end()); //ë‹¤ìŒ ìˆœì—´
+prev_permutation(v.begin(),v.end()); //ì´ì „ ìˆœì—´

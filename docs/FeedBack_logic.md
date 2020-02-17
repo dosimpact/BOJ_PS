@@ -1,6 +1,6 @@
-# ·ÎÁ÷ÄÃ ÀûÀÎ ¿À·ù¸¦ Á¤Á¤ÇÕ´Ï´Ù.
+# ë¡œì§ì»¬ ì ì¸ ì˜¤ë¥˜ë¥¼ ì •ì •í•©ë‹ˆë‹¤.
 
-### Àç±ÍÇÔ¼ö + for¾È¿¡¼­ basecase¿¡¼­ reture°ú if+returnÀÇ Â÷ÀÌ
+### ìž¬ê·€í•¨ìˆ˜ + forì•ˆì—ì„œ basecaseì—ì„œ retureê³¼ if+returnì˜ ì°¨ì´
 
 ```cpp
 bool dfs(int x,int c){
@@ -8,9 +8,9 @@ bool dfs(int x,int c){
 	for(int i = 0 ; i < graph[x].size() ; i++){
 		int node = graph[x][i];
 		if(check[node] == 0){
-			//FB1.¾ê´Â for¹®À» Áß´Ü½ÃÅ°°í, dfs¸¦ ÀÛµ¿½ÃÅ°ÀÝ¾Æ
+			//FB1.ì–˜ëŠ” forë¬¸ì„ ì¤‘ë‹¨ì‹œí‚¤ê³ , dfsë¥¼ ìž‘ë™ì‹œí‚¤ìž–ì•„
 			//return dfs(node,3-c);.0
-			//ÀÌ³à¼®Àº ÇØ´ç Á¶°Ç¿¡ ¸ÂÀ¸¸é ÇÔ¼ö Áß´Ü false¹ÝÈ¯ / ¾Æ´Ï¸é keep
+			//ì´ë…€ì„ì€ í•´ë‹¹ ì¡°ê±´ì— ë§žìœ¼ë©´ í•¨ìˆ˜ ì¤‘ë‹¨ falseë°˜í™˜ / ì•„ë‹ˆë©´ keep
 			if(dfs(node,3-c) == false){return false;}
 		}
 		else if(check[node] == c){
@@ -21,7 +21,7 @@ bool dfs(int x,int c){
 }
 ```
 
-### ÀÎÁ¢ ¸®½ºÆ®¿¡¼­ ³ëµåÀÇ ÁÖº¯ ³ëµå´Â graph[x][j] ÀÌ´Ù.
+### ì¸ì ‘ ë¦¬ìŠ¤íŠ¸ì—ì„œ ë…¸ë“œì˜ ì£¼ë³€ ë…¸ë“œëŠ” graph[x][j] ì´ë‹¤.
 
 ```cpp
 		bool isBi = true;
@@ -39,7 +39,7 @@ bool dfs(int x,int c){
 		}
 ```
 
-### for + returnÀÇ ³í¸®
+### for + returnì˜ ë…¼ë¦¬
 
 ```cpp
 int length(int a, int p, int checknum)
@@ -51,29 +51,29 @@ int length(int a, int p, int checknum)
         return check[b] - 1;
     }
     else
-    { //FB.returnÀ» ¾ÈÀûÀ¸¸é, ÇÔ¼ö¸¸ ½ÇÇàµÇ°í °á°ú°¡ ¸®ÅÏÀÌ ¾ÈµÇÁö..
+    { //FB.returnì„ ì•ˆì ìœ¼ë©´, í•¨ìˆ˜ë§Œ ì‹¤í–‰ë˜ê³  ê²°ê³¼ê°€ ë¦¬í„´ì´ ì•ˆë˜ì§€..
         return length(b, p, checknum + 1);
     }
 }
 ```
 
-### bfs - ¹æ¹®½Ã - ¹«Á¶°Ç check´Â 0 ¿ÜÀÇ °ª
+### bfs - ë°©ë¬¸ì‹œ - ë¬´ì¡°ê±´ checkëŠ” 0 ì™¸ì˜ ê°’
 
 ```cpp
     queue<int> q;
     q.push(x);
-    //FB. ¹æ¹® ÇßÀ¸¸é 0 À» ³ÖÀ¸¸é ¾ÈµÇÁö.......n =5 k = 5 ¸é ¹Ù·Î Ã£´Â 0ÀÎ °æ¿ìÀÎµ¥, 2°¡ ³ª¿Í¹ö¸².
+    //FB. ë°©ë¬¸ í–ˆìœ¼ë©´ 0 ì„ ë„£ìœ¼ë©´ ì•ˆë˜ì§€.......n =5 k = 5 ë©´ ë°”ë¡œ ì°¾ëŠ” 0ì¸ ê²½ìš°ì¸ë°, 2ê°€ ë‚˜ì™€ë²„ë¦¼.
 	//check[x] = 0;
     check[x] = 1;
     while (!q.empty())
 ```
 
-### database ÇÊµå ¸¸µé¶§ ±ÔÄ¢ ¼³°èÇÏ±â.
+### database í•„ë“œ ë§Œë“¤ë•Œ ê·œì¹™ ì„¤ê³„í•˜ê¸°.
 
-- Å×Æ®·Î¹Ì³ë ºí·° ¼³°è
+- í…ŒíŠ¸ë¡œë¯¸ë…¸ ë¸”ëŸ­ ì„¤ê³„
 
 ```
- a[Å×Æ®·Î¹Ì³ëÀÇ 19°¡Áö ¸ð¾çÁß ¾î¶²°Å?][ 3°³ÀÇ ºí·°Áß ¾î´À°Å?][ x,y ÁÂÇ¥ ÇÏ³ª °ñ¶ó]
+ a[í…ŒíŠ¸ë¡œë¯¸ë…¸ì˜ 19ê°€ì§€ ëª¨ì–‘ì¤‘ ì–´ë–¤ê±°?][ 3ê°œì˜ ë¸”ëŸ­ì¤‘ ì–´ëŠê±°?][ x,y ì¢Œí‘œ í•˜ë‚˜ ê³¨ë¼]
 ```
 
 ```cpp
@@ -101,9 +101,9 @@ int a[19][3][2] = {
 };
 ```
 
-- ÇÃ·¯µå ÇÊ dx,dy ¼³°è µÎ°¡Áö ¹æ¹ý
+- í”ŒëŸ¬ë“œ í•„ dx,dy ì„¤ê³„ ë‘ê°€ì§€ ë°©ë²•
 
-- ±âÁ¸ÀÇ ¹æ¹ý
+- ê¸°ì¡´ì˜ ë°©ë²•
 
 ```cpp
 dx = { 0,0,-1,1};
@@ -111,54 +111,54 @@ dy = { 1,-1, 0,0};
 ```
 
 ```
-d[¾î´À ¹æ¸éÀ¸·Î °¥·¡?][x,yÁÂÇ¥ ¾î´À°Å?]
+d[ì–´ëŠ ë°©ë©´ìœ¼ë¡œ ê°ˆëž˜?][x,yì¢Œí‘œ ì–´ëŠê±°?]
 ```
 
 ```cpp
 d = { {0,1}, {0,-1},{1,0},{-1,0}};
 ```
 
-### Á¤·Ä¸¦ ÇÏ°í ´ÙÀ½¼ø¿­À»µ¹·Á¾ß, ¸ðµç ¼ø¿­¸¦ µ¹Áö ¾Ê´Â°¡!! | sort + next_permutation Àº °ÅÀÇ ÇÑ ¼¼Æ®
+### ì •ë ¬ë¥¼ í•˜ê³  ë‹¤ìŒìˆœì—´ì„ëŒë ¤ì•¼, ëª¨ë“  ìˆœì—´ë¥¼ ëŒì§€ ì•ŠëŠ”ê°€!! | sort + next_permutation ì€ ê±°ì˜ í•œ ì„¸íŠ¸
 
-### Àç±ÍÇÔ¼ö ¼³°èÇÒ¶§, baseCase°É·¯³»´Â°Å¿¡¼­, Á¤´äÀÌ ¾Æ´Ñ°æ¿ì°¡ ¸ÕÀú ³ª¿À´Ï±î Æ²¸®°Ô µÇ´Â case°¡ ÀÖ¾ú¾î.
+### ìž¬ê·€í•¨ìˆ˜ ì„¤ê³„í• ë•Œ, baseCaseê±¸ëŸ¬ë‚´ëŠ”ê±°ì—ì„œ, ì •ë‹µì´ ì•„ë‹Œê²½ìš°ê°€ ë¨¼ì € ë‚˜ì˜¤ë‹ˆê¹Œ í‹€ë¦¬ê²Œ ë˜ëŠ” caseê°€ ìžˆì—ˆì–´.
 
 ```cpp
-    //FB, ´Ù ¸¸µç°æ¿ì¸¦ ¸ÕÀú µûÁ®¾ßÇÑ´Ù.
-    //´Ù ¸¸µç°æ¿ì, ÇöÀç±îÁö ¸¸µç »çÀÌÁî°¡ 6ÀÌ¾ß, && next³Ñ¹ö°¡ ¾øÀ»Áö¾ðÁ¤ ´äÀÌ µÉ¼öÀÖ´Ù.
+    //FB, ë‹¤ ë§Œë“ ê²½ìš°ë¥¼ ë¨¼ì € ë”°ì ¸ì•¼í•œë‹¤.
+    //ë‹¤ ë§Œë“ ê²½ìš°, í˜„ìž¬ê¹Œì§€ ë§Œë“  ì‚¬ì´ì¦ˆê°€ 6ì´ì•¼, && nextë„˜ë²„ê°€ ì—†ì„ì§€ì–¸ì • ë‹µì´ ë ìˆ˜ìžˆë‹¤.
     if (current.size() == 6)
     {
         printNumber(current);
         return;
     }
-    //´Ù ¸ø¸¸µç°æ¿ì, ´õÀÌ»ó nextNumber°¡ ¾ø¾î.
+    //ë‹¤ ëª»ë§Œë“ ê²½ìš°, ë”ì´ìƒ nextNumberê°€ ì—†ì–´.
     if (number.size() == nextNumber)
     {
         return;
     }
 ```
 
-### ¹éÆ®·¹Å· ·ÎÁ÷ - ¹Ýµå½Ã ¹éÀ¸·Î ³ëµå¸¦ µ¹¾Æ¿Ã¶§´Â µ¥ÀÌÅÍ¸¦ ½Ï Áö¿ì°í ¿Í¾ßµÈ´Ù.
+### ë°±íŠ¸ë ˆí‚¹ ë¡œì§ - ë°˜ë“œì‹œ ë°±ìœ¼ë¡œ ë…¸ë“œë¥¼ ëŒì•„ì˜¬ë•ŒëŠ” ë°ì´í„°ë¥¼ ì‹¹ ì§€ìš°ê³  ì™€ì•¼ëœë‹¤.
 
-### + ¹«Á¶°Ç Á¶°ÇÀ» ¸¸Á·ÇÑ´Ù°í ÇØ¼­ go(z+1)·Î ´ÙÀ½ ³ëµå·Î °¡´Â°Ô ¾Æ´Ï¶ó, (ÇØ´ç µÎ ³ëµå¸¸ ÀüÀÌÁ¶°ÇÀ» ¸¸Á·ÇÒ¼ø ÀÖ¾î) ¾ðÁ¦µç ´Ù½Ã ¿ø·¡ ³ëµå·Î ¿Í¼­µµ °è¼Ó Å½»öÀ» ÇÒ ¼ö ÀÖ¾î¾ß ÇÑ´Ù.
+### + ë¬´ì¡°ê±´ ì¡°ê±´ì„ ë§Œì¡±í•œë‹¤ê³  í•´ì„œ go(z+1)ë¡œ ë‹¤ìŒ ë…¸ë“œë¡œ ê°€ëŠ”ê²Œ ì•„ë‹ˆë¼, (í•´ë‹¹ ë‘ ë…¸ë“œë§Œ ì „ì´ì¡°ê±´ì„ ë§Œì¡±í• ìˆœ ìžˆì–´) ì–¸ì œë“  ë‹¤ì‹œ ì›ëž˜ ë…¸ë“œë¡œ ì™€ì„œë„ ê³„ì† íƒìƒ‰ì„ í•  ìˆ˜ ìžˆì–´ì•¼ í•œë‹¤.
 
 ```cpp
-//fb)¹éÆ®·¡Å· ÀÌ±â¶§¹®¿¡, µ¥ÀÌÅÍ¸¦ ½Ï´Ù Áö¿ö¾ßµÇ°í + | ¸®ÅÏ°ªÀÌ falseÀÌ¸é °è¼ÓÇØ¼­ Å½»öÀ» ½ÃÀÛÇÑ´Ù.
+//fb)ë°±íŠ¸ëž˜í‚¹ ì´ê¸°ë•Œë¬¸ì—, ë°ì´í„°ë¥¼ ì‹¹ë‹¤ ì§€ì›Œì•¼ë˜ê³  + | ë¦¬í„´ê°’ì´ falseì´ë©´ ê³„ì†í•´ì„œ íƒìƒ‰ì„ ì‹œìž‘í•œë‹¤.
 
-if Á¶°ÇÀ» ¸¸Á·ÇÑ °æ¿ì
-for °è¼Ó Å½»öÀ» ÇÏ´Â °æ¿ì
-    if Á¶°ÇÀ» ¸¸Á·ÇØ¼­ go(z++)ÇÏ´Â °æ¿ì
-return ¾ÈµÇ´Â°æ¿ì
+if ì¡°ê±´ì„ ë§Œì¡±í•œ ê²½ìš°
+for ê³„ì† íƒìƒ‰ì„ í•˜ëŠ” ê²½ìš°
+    if ì¡°ê±´ì„ ë§Œì¡±í•´ì„œ go(z++)í•˜ëŠ” ê²½ìš°
+return ì•ˆë˜ëŠ”ê²½ìš°
 
 bool go(int z)
 {
     if (z == 81)
     {
-        //´Ù µÎ¾úÀ¸¸é,Ãâ·ÂÇÏ°í ¸®ÅÏÇÏ±â
+        //ë‹¤ ë‘ì—ˆìœ¼ë©´,ì¶œë ¥í•˜ê³  ë¦¬í„´í•˜ê¸°
         printGraph();
         return true;
     }
-    //´ÙÀ½ z¸¦ ³Ñ¾î°¡´Âµ¥,
-    //±×·¡ÇÁ¿¡ ÀÌ¹Ì 0¾Æ´Ñ ¼ýÀÚ¸é, ´ÙÀ½ ³ëµå·Î
+    //ë‹¤ìŒ zë¥¼ ë„˜ì–´ê°€ëŠ”ë°,
+    //ê·¸ëž˜í”„ì— ì´ë¯¸ 0ì•„ë‹Œ ìˆ«ìžë©´, ë‹¤ìŒ ë…¸ë“œë¡œ
     int x = z / 9;
     int y = z % 9;
     if (graph[x][y] != 0)
@@ -167,19 +167,19 @@ bool go(int z)
     }
     else
     {
-        //¾Æ´Ï¶ó¸é 1ºÎÅÍ 9±îÁö µº¸é¼­ check¸¦ ÅëÇØ ´Ù Çã¶ôÀ» ¹ÞÀ¸¸é, µÎ±â.
+        //ì•„ë‹ˆë¼ë©´ 1ë¶€í„° 9ê¹Œì§€ ëŽë©´ì„œ checkë¥¼ í†µí•´ ë‹¤ í—ˆë½ì„ ë°›ìœ¼ë©´, ë‘ê¸°.
         for (int i = 1; i <= 9; i++)
         {
             if ((c1[x][i] == 0) && (c2[y][i] == 0) && (c3[squre(x, y)][i] == 0))
             {
                 c1[x][i] = c2[y][i] = c3[squre(x, y)][i] = 1;
                 graph[x][y] = i;
-                //go¿¡¼­ ¹éÆ®·¡Å·À» Á¾·áÇÏ´Â ·ÎÁ÷.
+                //goì—ì„œ ë°±íŠ¸ëž˜í‚¹ì„ ì¢…ë£Œí•˜ëŠ” ë¡œì§.
                 if (go(z + 1))
                 {
                     return true;
                 }
-                //fb) ±×·¡ÇÁ¸¦ 0À¸·Î ¸¸µé¾îÁÖ¾î¾ßµÈ´Ù. ±×·¡¾ß. ¹éÆ®·¡Å· Çß´ø ÈçÀûÀ» Áö¿ö¾ßÁö. ¾È±×·¯¸é, graph¿¡ ¼ýÀÚ°¡ ³²¾Æ¼­ ±×³É ´ÙÀ½³ëµå·Î ³Ñ¾î°¡ÀÝ¾Æ..
+                //fb) ê·¸ëž˜í”„ë¥¼ 0ìœ¼ë¡œ ë§Œë“¤ì–´ì£¼ì–´ì•¼ëœë‹¤. ê·¸ëž˜ì•¼. ë°±íŠ¸ëž˜í‚¹ í–ˆë˜ í”ì ì„ ì§€ì›Œì•¼ì§€. ì•ˆê·¸ëŸ¬ë©´, graphì— ìˆ«ìžê°€ ë‚¨ì•„ì„œ ê·¸ëƒ¥ ë‹¤ìŒë…¸ë“œë¡œ ë„˜ì–´ê°€ìž–ì•„..
                 graph[x][y] = 0;
                 c1[x][i] = c2[y][i] = c3[squre(x, y)][i] = 0;
             }
@@ -189,22 +189,22 @@ bool go(int z)
 }
 ```
 
-### DFS checkÀÇ ¼ø¼­ ³í¸® = ¸¸¾à ´ÙÀ½ ³ëµå°¡ check°¡ ¾ÈµÇÀÖÀ¸¸é, checkÇÏ°í .. ÀÇ ³í¸®´Â =>Ã³À½ ½ÃÀÛÇÏ´Â ³ëµå°¡ Ã¼Å©°¡ ¾ÈµÊ
+### DFS checkì˜ ìˆœì„œ ë…¼ë¦¬ = ë§Œì•½ ë‹¤ìŒ ë…¸ë“œê°€ checkê°€ ì•ˆë˜ìžˆìœ¼ë©´, checkí•˜ê³  .. ì˜ ë…¼ë¦¬ëŠ” =>ì²˜ìŒ ì‹œìž‘í•˜ëŠ” ë…¸ë“œê°€ ì²´í¬ê°€ ì•ˆë¨
 
 ```cpp
 void dfs(int x)
 {
-    //Ãâ·Â
+    //ì¶œë ¥
     cout << x << " ";
 
-    //ÁÖº¯ ³ëµåµéÀ» µ¹¸é¼­, ¹æ¹®¾ÈÇß´Ù¸é ¹æ¹®ÇØÁÖ±â.
+    //ì£¼ë³€ ë…¸ë“œë“¤ì„ ëŒë©´ì„œ, ë°©ë¬¸ì•ˆí–ˆë‹¤ë©´ ë°©ë¬¸í•´ì£¼ê¸°.
     for (int i = 0; i < graph[x].size(); i++)
     {
         int next = graph[x][i];
         cout << "DEBUG" << x << " => " << next << "\n";
         if (check[next] == 0)
         {
-            //fb) ÀÌ ÄÚµå¿¡¼­´Â Ã³À½ 1ÀÌ µé¾î¿Ã¶§, check¸¦ ¾ÈÇÏ±â¶§¹®¿¡ ´Ù½Ã 1¸¦ ¹æ¹®ÇÏ°Ô µÉ²¨ÀÓ.
+            //fb) ì´ ì½”ë“œì—ì„œëŠ” ì²˜ìŒ 1ì´ ë“¤ì–´ì˜¬ë•Œ, checkë¥¼ ì•ˆí•˜ê¸°ë•Œë¬¸ì— ë‹¤ì‹œ 1ë¥¼ ë°©ë¬¸í•˜ê²Œ ë êº¼ìž„.
             //check[x] = 1;
             dfs(next);
         }
@@ -212,10 +212,10 @@ void dfs(int x)
 }
 ```
 
-### °£´ÜÇÏ°Ô ³ª´©±â, ³ª¸ÓÁö ±¸ÇÏ´Â ÇÔ¼ö, ¸Å°³º¯¼ö ÀÖ´Â°Å ±×´ë·Î »ç¿ëÇØ~
+### ê°„ë‹¨í•˜ê²Œ ë‚˜ëˆ„ê¸°, ë‚˜ë¨¸ì§€ êµ¬í•˜ëŠ” í•¨ìˆ˜, ë§¤ê°œë³€ìˆ˜ ìžˆëŠ”ê±° ê·¸ëŒ€ë¡œ ì‚¬ìš©í•´~
 
 ```
-//fb,¿Ö ¸Å°³º¯¼ö xÈ°¿ë ¾ÈÇÏ´Â°Å¾ß? - xÀÇ °¢ÀÚ¸®¼ö¸¶´Ù p¾¿ °öÇÑ °á°ú Ãâ·ÂÇÏ±â.
+//fb,ì™œ ë§¤ê°œë³€ìˆ˜ xí™œìš© ì•ˆí•˜ëŠ”ê±°ì•¼? - xì˜ ê°ìžë¦¬ìˆ˜ë§ˆë‹¤ pì”© ê³±í•œ ê²°ê³¼ ì¶œë ¥í•˜ê¸°.
 // int nextNode(int x)
 // {
 //     int sum = 0;
@@ -239,8 +239,14 @@ int nextNode(int x)
 }
 ```
 
-# 2Â÷¿ø ¹è¿­ ÃÊ±âÈ­ ÇÏ±â.
+# 2ì°¨ì› ë°°ì—´ ì´ˆê¸°í™” í•˜ê¸°.
 
 ```
-    fill(&d[0][0], &d[0][0] + SIZE * SIZE, -1); //fB). 2Â÷¿ø ¹è¿­ ÃÊ±âÈ­..
+    fill(&d[0][0], &d[0][0] + SIZE * SIZE, -1); //fB). 2ì°¨ì› ë°°ì—´ ì´ˆê¸°í™”..
+```
+
+# python - ë¦¬ìŠ¤íŠ¸ë¥¼ for i in range(len)ìœ¼ë¡œ ëŒë‹¤ê°€ popí•´ë²„ë¦¬ë©´ out of indexê°€ ë°œìƒí•œë‹¤.
+
+```
+ë‹¹ì—°í•˜ê²Œë„ -> forë¬¸ì„ ëŒë©´ì„œ ì¡°ê±´ì— ë§žì§€ ì•ŠëŠ” ìš”ì†Œë¥¼ ì œê±°í•˜ëŠ” ê²½ìš°ë¼ë©´ -> filterë¥¼ ì‚¬ìš© í•˜ìž
 ```

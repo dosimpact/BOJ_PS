@@ -1,8 +1,4 @@
-
-import sys
-
-
-def input(): return sys.stdin.readline().rstrip()
+# https://programmers.co.kr/learn/courses/30/lessons/42583
 
 
 def solution(blen, w, trucks):  # 다리 길이 / 총 무게 / 트럭들 무게
@@ -25,6 +21,3 @@ def solution(blen, w, trucks):  # 다리 길이 / 총 무게 / 트럭들 무게
                 now_trucks.append([trucks.pop(0), blen])
         sec += 1
     return sec + 1
-
-
-solution(2, 10, [7, 4, 5, 6])

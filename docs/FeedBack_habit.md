@@ -1,23 +1,25 @@
-# ¹®Á¦ Çª´Â ÅÂµµ¿Í ½À°üÀ» Á¤Á¤ÇÕ´Ï´Ù.
+# ë¬¸ì œ í‘¸ëŠ” íƒœë„ì™€ ìŠµê´€ì„ ì •ì •í•©ë‹ˆë‹¤.
 
-### ??? BFS ¾î·Á¿î ¹®Á¦¸¦ Ç®¸é¼­, ?? ´À³¤°ÍÀº ³» ¸Ó¸®¼ÓÀ¸·Î »ý°¢ÇÏ°í ÄÚµå¸¦ ¾²°í ÇÏ´Âµ¥´Â ÇÑ°è°¡ ÀÖ´Ù. ???
+### ðŸ’–ðŸ’–ðŸ’– ë°˜ë“œì‹œ í‹€ë ¸ë˜ ë¶€ë¶„ì´ë‚˜ ë¯¸ì§„í–ˆë˜ ë¶€ë¶„ì€ FB ë¥¼ ë‚¨ê²¨ì£¼ê³  + ë¦¬íŽ™í† ë§ê¹Œì§€ í• ê²ƒ!!
 
-- ÃÖ´ëÇÑ ¸¹ÀÌ ÁÖ¼®À¸·Î ³í¸®¸¦ Àû¾îµÎ°í, ÄÚµå·Î ÇÏ³ªÇÏ³ª ±¸ÇöÇÏ´Â ¹æ¹ýÀ» ¹«Á¶°Ç ¾²ÀÚ.
-- È¿°ú°¡ ³Ê¹« ÁÁ´Ù. ¸Ó¸®°¡ Àß ¾Èµ¹¾Æ °¡´Â »óÈ² | ½ÉÁö¾î ³»°¡ ÁÖ¼®´ë·Î Àû¾îµÐ°É ±×´ë·Î ±¸ÇöÇÏ´Â°Íµµ ¸øÇÏ´Â°É º»Àûµµ ÀÖÀ½.
+### ðŸ’–ðŸ’–ðŸ’– BFS ì–´ë ¤ìš´ ë¬¸ì œë¥¼ í’€ë©´ì„œ, ?? ëŠë‚€ê²ƒì€ ë‚´ ë¨¸ë¦¬ì†ìœ¼ë¡œ ìƒê°í•˜ê³  ì½”ë“œë¥¼ ì“°ê³  í•˜ëŠ”ë°ëŠ” í•œê³„ê°€ ìžˆë‹¤. âœ”âœ”âœ”ðŸ’–
 
-### ? °£¼±¸®½ºÆ® ÇÏ¸é¼­ ´À³¦, ³»°¡ Á¤ÀÇÇÑ DateÀÚ·áÇüÀº - ¹Ýµå½Ã ÁÖ¼®À¸·Î ÀçÁ¤ÀÇ ÇÒ°Í.!!
+- ìµœëŒ€í•œ ë§Žì´ ì£¼ì„ìœ¼ë¡œ ë…¼ë¦¬ë¥¼ ì ì–´ë‘ê³ , ì½”ë“œë¡œ í•˜ë‚˜í•˜ë‚˜ êµ¬í˜„í•˜ëŠ” ë°©ë²•ì„ ë¬´ì¡°ê±´ ì“°ìž.
+- íš¨ê³¼ê°€ ë„ˆë¬´ ì¢‹ë‹¤. ë¨¸ë¦¬ê°€ ìž˜ ì•ˆëŒì•„ ê°€ëŠ” ìƒí™© | ì‹¬ì§€ì–´ ë‚´ê°€ ì£¼ì„ëŒ€ë¡œ ì ì–´ë‘”ê±¸ ê·¸ëŒ€ë¡œ êµ¬í˜„í•˜ëŠ”ê²ƒë„ ëª»í•˜ëŠ”ê±¸ ë³¸ì ë„ ìžˆìŒ.
 
-- e¶ó´Â ³ëµå ¿¬°á Á¤º¸¶û, cnt¶ó´Â °£¼± ¸ÞÅ¸Á¤º¸°¡ ÀÖÀ»¶§,
-- Ex) ³ëµå i¹ø¿¡ ¿¬°áµÈ ³ëµå´Â cnt[i-1] <= ~ < cnt[i] - 1 ÀÌ´Ù.
+### ? ê°„ì„ ë¦¬ìŠ¤íŠ¸ í•˜ë©´ì„œ ëŠë‚Œ, ë‚´ê°€ ì •ì˜í•œ Dateìžë£Œí˜•ì€ - ë°˜ë“œì‹œ ì£¼ì„ìœ¼ë¡œ ìž¬ì •ì˜ í• ê²ƒ.!!
 
-### ? ¹éÆ®·¡Å· ÇÏ¸é¼­ ´À³¤°Çµ¥, 1¹®Á¦ Çª´Â°Å±â ‹š¹®¿¡, ±×³É Àü¿ªº¯¼ö ³²¹ßÇØµµ »ó°ü ¾ø´Ù.!!
+- eë¼ëŠ” ë…¸ë“œ ì—°ê²° ì •ë³´ëž‘, cntë¼ëŠ” ê°„ì„  ë©”íƒ€ì •ë³´ê°€ ìžˆì„ë•Œ,
+- Ex) ë…¸ë“œ ië²ˆì— ì—°ê²°ëœ ë…¸ë“œëŠ” cnt[i-1] <= ~ < cnt[i] - 1 ì´ë‹¤.
 
-- ±¸Áö Àç±ÍÇÔ¼ö¿¡ ÆÄ¸®¹ÌÅÍ ´Ã¸®Áö ¸»°í, Àü¿ªº¯¼ö·Î ¸¸µé¾î ¹ö·Á.
+### ? ë°±íŠ¸ëž˜í‚¹ í•˜ë©´ì„œ ëŠë‚€ê±´ë°, 1ë¬¸ì œ í‘¸ëŠ”ê±°ê¸° ë–„ë¬¸ì—, ê·¸ëƒ¥ ì „ì—­ë³€ìˆ˜ ë‚¨ë°œí•´ë„ ìƒê´€ ì—†ë‹¤.!!
+
+- êµ¬ì§€ ìž¬ê·€í•¨ìˆ˜ì— íŒŒë¦¬ë¯¸í„° ëŠ˜ë¦¬ì§€ ë§ê³ , ì „ì—­ë³€ìˆ˜ë¡œ ë§Œë“¤ì–´ ë²„ë ¤.
 
 ```cpp
 void go(int sum, int index)
 {
-    //ÀÎµ¦½º ³¡ÀÌ
+    //ì¸ë±ìŠ¤ ëì´
     if (index == n)
     {
         if (sum == s)
@@ -35,18 +37,18 @@ void go(int sum, int index)
 int go(vector<int> &number, vector<int> current, int nextNumber)
 {
     int row = 0;
-    //fb)°è¼Ó ´õÇÏ´Ù°¡ 0ÀÌ µÇ´Â °æ¿ìµµ ÀÖ¾î.
-    //ÇöÀçÀÇ ÇÕÀ» °è»êÇØº¸°í ¸ÂÀ¸¸é 1¸¦ ¹ÝÈ¯
+    //fb)ê³„ì† ë”í•˜ë‹¤ê°€ 0ì´ ë˜ëŠ” ê²½ìš°ë„ ìžˆì–´.
+    //í˜„ìž¬ì˜ í•©ì„ ê³„ì‚°í•´ë³´ê³  ë§žìœ¼ë©´ 1ë¥¼ ë°˜í™˜
     if (isSumS(current) && number.size() == nextNumber)
     {
         return 1;
     }
-    //´õ °í¸¦°Ô ¾øÀ¸¸é 0 ºóÈ¯
+    //ë” ê³ ë¥¼ê²Œ ì—†ìœ¼ë©´ 0 ë¹ˆí™˜
     if (!isSumS(current) && number.size() == nextNumber)
     {
         return 0;
     }
-    //°è¼Ó.
+    //ê³„ì†.
     current.push_back(number[nextNumber]);
     row += go(number, current, nextNumber + 1);
     current.pop_back();

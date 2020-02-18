@@ -9,3 +9,4 @@ def solution(x):
     else:
         answer = False
     return answer
+    sum()

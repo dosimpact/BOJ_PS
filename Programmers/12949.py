@@ -1,10 +1,3 @@
-
-import sys
-
-
-def input(): return sys.stdin.readline().rstrip()
-
-
 def solution(A, B):
     C = []
     # 새로운 C행의 i,j 인덱서

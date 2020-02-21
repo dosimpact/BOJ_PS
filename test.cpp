@@ -17,11 +17,6 @@ int dfs(int x, int cnt, int &step) //  누구인지 몇번째 시작점
         {
             return 0;
         }
-        printf("DEBUG: %d x:%d step:%d \n", cnt - d[x], x, step);
-        for (int i = 1; i <= n; i++)
-        {
-            printf(" %d ", s[i]);
-        }
         return cnt - d[x]; //
     }
     d[x] = cnt;

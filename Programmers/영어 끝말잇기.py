@@ -32,13 +32,10 @@ solution(3, ["tank", "kick", "know", "wheel",
              "land", "dream", "mother", "robot", "tank"])
 
 """
-FB) 첫 단어를 말할때도 체크를 해 주어야 한다.
+끝말잊기 ->
+n 침여자수는 2이상 10이하
 
-RF)  리팩토링 : 미쳤다....
-def solution(n, words):
-    for p in range(1, len(words)):
-        if words[p][0] != words[p-1][-1] or words[p] in words[:p]: return [(p%n)+1, (p//n)+1]
-    else:
-        return [0,0]
+ 탈라자의 회전수|참여자 넘버 리턴
+ 없다면 00 리턴
 
 """

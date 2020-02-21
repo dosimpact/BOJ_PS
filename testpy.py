@@ -1,46 +1,51 @@
-
 import sys
-import math
 
 
 def input(): return sys.stdin.readline().rstrip()
 
 
-def bfs(who, count, Number):  # 누구냐, 몇번째냐, 컴포넌트번호는
-    global stu, check, cnt
-    if check[who] != 0:
-        if Number == check[who]:
-            return count - cnt[who]
-        else:
-            return 0
+N, M = map(int, input().split())
+books = sorted(list(map(int, input().split())), reverse=True)
 
-    # 처음 방문이면 | 컴포넌트 넘버 | 카운트
-    check[who] = Number
-    cnt[who] = count
-    return bfs(stu[who], count+1, Number)
+didbs = list(filter(lambda x: x > 0, books))
+dmabs = sorted(
+    list(map(lambda x: abs(x), filter(lambda x: x < 0, books))), reverse=True)
 
 
-stu = []  # 학생정보
-check = []  # 컴포넌트 번호
-cnt = []  # n 방문
-# 입력처리
-T = int(input())
-for i in range(T):
-    N = int(input())
+ans = 0
 
-    stu = list(map(int, input().split()))
-    stu.insert(0, 0)
-    check = [0 for _ in range(N+1)]
-    cnt = [0 for _ in range(N+1)]
 
-    ans = N
-    for i in range(1, N+1):
-        if check[i] == 0:
-            ans -= bfs(i, 1, i)
-    print(ans)
-    # 각 원소를 순회 | 방문하지 x 라면 방문 |
+def popbook(book, w):
+    global ans
+    ans += max(book)*w
+    book.pop(0)
+    if len(book) != 0:
+        book.pop(0)
 
-"""
-단지 번호 붙이기 + 순회 찾기
 
-"""
+# 양북만 있는 경우 | 음북만 있는 경우 | 둘다 있는 경우
+if len(didbs) != 0 and len(dmabs) == 0:
+    popbook(didbs, 1)
+    while(len(didbs) != 0):
+        popbook(didbs, 2)
+
+elif len(didbs) == 0 and len(dmabs) != 0:
+    popbook(dmabs, 1)
+    while(len(dmabs) != 0):
+        popbook(dmabs, 2)
+
+elif len(didbs) != 0 and len(dmabs) != 0 and max(didbs) >= max(dmabs):
+    popbook(didbs, 1)
+    while(len(didbs) != 0):
+        popbook(didbs, 2)
+    while(len(dmabs) != 0):
+        popbook(dmabs, 2)
+
+elif len(didbs) != 0 and len(dmabs) != 0 and max(didbs) < max(dmabs):
+    popbook(dmabs, 1)
+    while(len(didbs) != 0):
+        popbook(didbs, 2)
+    while(len(dmabs) != 0):
+        popbook(dmabs, 2)
+
+print(ans)

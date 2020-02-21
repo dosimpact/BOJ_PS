@@ -1,66 +1,56 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <queue>
-#include <tuple>
-#define SIZE 101
-using namespace std;
 
-int x, y;
-int check[SIZE][SIZE];
 
-int bfs(int u, int v, vector<vector<int>> &graph)
+#include <cstdio>
+
+int a[100001]; // ì…ë ¥
+int d[100001]; // ì¹´ìš´íŠ¸ ì²´í¬
+int s[100001]; // ì‹œë°œì  ì²´í¬
+
+int n;
+
+int dfs(int x, int cnt, int &step) //  ëˆ„êµ¬ì¸ì§€ ëª‡ë²ˆì§¸ ì‹œì‘ì 
 {
-    int dx[4] = {0, 0, 1, -1};
-    int dy[4] = {1, -1, 0, 0};
 
-    int counter = 1;
-    check[u][v] = 1;
-    queue<pair<int, int>> q;
-    q.push({u, v});
-    while (!q.empty())
+    if (d[x] != 0) // ì²« ë°©ë¬¸ì´ ì•„ë‹ˆë‹¤.
     {
-        int nowx, nowy;
-        tie(nowx, nowy) = q.front();
-        q.pop();
-        for (int k = 0; k < 4; k++)
+        if (step != s[x]) // ì‹œì‘ì ê³¼ ëì 
         {
-            int nx = nowx + dx[k];
-            int ny = nowy + dy[k];
-            //´ÙÀ½ ±×·¡ÇÁÀÇ ¹üÀ§Ã¼Å© | °°Àº ¿µ¿ª | ¹æ¹® x ¶ó¸é | ¹æ¹®ÇØÁÖ±â
-            if ((nx >= 0 && ny >= 0 && nx < x && ny < y) && graph[nx][ny] == graph[nowx][nowy] && check[nx][ny] == -1)
-            {
-                check[nx][ny] = 1;
-                q.push({nx, ny});
-                counter++;
-            }
+            return 0;
         }
+        printf("DEBUG: %d x:%d step:%d \n", cnt - d[x], x, step);
+        for (int i = 1; i <= n; i++)
+        {
+            printf(" %d ", s[i]);
+        }
+        return cnt - d[x]; //
     }
-    return counter;
+    d[x] = cnt;
+    s[x] = step;
+    return dfs(a[x], cnt + 1, step);
 }
-// Àü¿ª º¯¼ö¸¦ Á¤ÀÇÇÒ °æ¿ì ÇÔ¼ö ³»¿¡ ÃÊ±âÈ­ ÄÚµå¸¦ ²À ÀÛ¼ºÇØÁÖ¼¼¿ä.
-vector<int> solution(int m, int n, vector<vector<int>> picture)
-{
-    int number_of_area = 0;
-    int max_size_of_one_area = -1;
 
-    graph = picture;
-    tie(x, y) = tie(m, n);
-    fill(&check[0][0], &check[0][0] + SIZE * SIZE, -1);
-    // ÀüÃ¼ ±×·¡ÇÁ µ¹¸é¼­ - picture°¡ ÀÖ°í,¹æ¹®ÇÏÁö ¾Ê¾Ò´Ù¸é -> ¹æ¹®
-    for (int i = 0; i < x; i++)
+int main()
+{
+    int t;
+    scanf("%d", &t);
+    while (t--)
     {
-        for (int j = 0; j < y; j++)
+        scanf("%d", &n);
+        for (int i = 1; i <= n; i++)
         {
-            if (picture[i][j] != 0 && check[i][j] == -1)
+            scanf("%d", &a[i]);
+            d[i] = 0;
+            s[i] = 0;
+        }
+        int ans = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            if (d[i] == 0)
             {
-                bfs(i, j, picture);
-                number_of_area++;
+                ans += dfs(i, 1, i);
             }
         }
+        printf("%d\n", n - ans); //ansëŠ” ë˜ëŠ” ë…€ì„ë“¤ë§Œ ë‚˜ì˜¨ë‹¤.
     }
-    vector<int> answer(2);
-    answer[0] = number_of_area;
-    answer[1] = max_size_of_one_area;
-    return answer;
+    return 0;
 }

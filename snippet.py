@@ -1,7 +1,7 @@
 
 
-print(chr(65), end='')
-print(chr(32), end='')
-print(chr(65), end='')
-print(chr(10), end='')
-print(chr(65), end='')
+data = []
+data.append({1: "hi", 2: "hello"})
+print(data)
+print(data[0])
+print(data[0][1])

@@ -1,7 +1,3 @@
+from itertools import permutations, combinations
 
-
-data = []
-data.append({1: "hi", 2: "hello"})
-print(data)
-print(data[0])
-print(data[0][1])
+pool = [1, 2, 3]

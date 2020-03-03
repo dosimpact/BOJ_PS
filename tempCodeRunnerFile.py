@@ -5,26 +5,25 @@ import sys
 def input(): return sys.stdin.readline().rstrip()
 
 
-n, k = map(int, input().split())
+sys.setrecursionlimit(10**6)
 
-# k를 계속해서 9*1  90*2를 뺼 수 있을떄까지 뺀다.
-jari = 1
-while(True):
-    dk = 9
-    for _ in range(1, jari):
-        dk = dk*10
-    dk = dk * jari
-    if k > dk:
-        k = k - dk
-        jari += 1
+# 남은 설탕 | 5
+
+
+def go(sugar, o, sam):
+    global slist
+    if sugar == 0:
+        slist.append(o+sam)
+        return
     else:
-        break
+        if sugar >= 5:
+            go(sugar-5, o+1, sam)
+        if sugar >= 3:
+            go(sugar-3, o, sam+1)
+        return -1
 
-k -= 1
-(nth, nthjari) = divmod(k, jari)
-ans = 1
-for _ in range(1, jari):
-    ans = ans*10
-ans += nth
-ans = str(ans)[nthjari]
-print(ans)
+
+slist = []
+s = int(input())
+go(s, 0, 0)
+print(-1 if len(slist) == 0 else min(slist))

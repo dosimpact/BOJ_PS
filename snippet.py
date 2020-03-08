@@ -1,13 +1,17 @@
-def solution(numbers):
-    answer = ''
-    res = list(map(str, numbers))
-    import functools
-    res = sorted(res, key=functools.cmp_to_key(
-        lambda x, y: int(x+y) - int(y+x)), reverse=True)
-    for r in res:
-        answer += r
-    # return answer
-    return str(int(answer))
+import copy
 
 
-print(solution([0, 0, 0, 00]))
+def move(arr):
+    tmp = copy.deepcopy(arr)
+    print(tmp, arr)
+    arr[0] = 1
+    print(tmp, arr)
+
+
+move([5, 2, 3, 4])
+"""
+
+[5, 2, 3, 4] [5, 2, 3, 4]
+[5, 2, 3, 4] [1, 2, 3, 4]
+
+"""

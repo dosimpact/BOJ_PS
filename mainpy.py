@@ -66,5 +66,5 @@ for cm in cmd:
         board[x][y] = 0
     # 0이 아니라면 보트판의 수가 주사위 바닥면 복사 및 보드판 0
     print(dice[3])
-   #print("-->", dice)
+    print("-->", dice)
     # 주사위 상단 출력

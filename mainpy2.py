@@ -1,47 +1,22 @@
-import sys
+def solution(number, k):
+    AnsList = []
+    # 일딴 넘버들을 정답 리스트에 넣는다. 첫자리수가 가장 크게끔 k번 앞에 수를 뺄 수 있다.
+
+    for i, num in enumerate(number):
+        fb) 다 만들었는데 계속 넣잖아!!!
+        if len(AnsList) == len(number) - k:
+            break
+        AnsList.append(num)
+        while(True):
+            if len(AnsList) > 1 and AnsList[-1] > AnsList[-2] and k > 0:
+                AnsList.pop(-2)
+                k -= 1
+            else:
+                break
+        # AnsList에 일딴 넣어.
+        print(AnsList, k)
+    return "".join(AnsList[:len(number) - k])
 
 
-def input(): return sys.stdin.readline()
-
-
-def rc(d: int):
-    d = d+1
-    return d if d <= 3 else 0
-
-
-dx = [0, -1, 0, 1]
-dy = [1, 0, -1, 0]
-board = [[0 for _ in range(101)] for _ in range(101)]  # 100 100 짜리 격자,
-
-N = int(input())
-
-for _ in range(N):
-    (y, x, d, g) = map(int, input().split())
-    #print(x, y, d, g)
-    dlist = []
-    dlist.append(d)
-    for i in range(g):  # 1세대면 1번 놀아나볼까
-        n = list(map(lambda x: rc(x), dlist))
-        n.reverse()
-        dlist.extend(n)
-    # print(dlist)
-    board[x][y] = 1
-    for dl in dlist:
-        x = x + dx[dl]
-        y = y + dy[dl]
-        if x >= 0 and x <= 100 and y >= 0 and y <= 100:
-            board[x][y] = 1
-
-# TMP = 10
-# for i in range(TMP):
-#     for j in range(TMP):
-#         print(board[i][j], end=" ")
-#     print()
-
-ANS = 0
-for i in range(101):
-    for j in range(101):
-        if(board[i][j] == 1 and i + 1 <= 100 and j + 1 <= 100):
-            if board[i][j+1] == 1 and board[i+1][j] == 1 and board[i+1][j+1] == 1:
-                ANS += 1
-print(ANS)
+print(solution("89", 1))
+print(solution("98", 1))

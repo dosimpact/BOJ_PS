@@ -1,22 +1,15 @@
-def solution(number, k):
-    AnsList = []
-    # 일딴 넘버들을 정답 리스트에 넣는다. 첫자리수가 가장 크게끔 k번 앞에 수를 뺄 수 있다.
-
-    for i, num in enumerate(number):
-        fb) 다 만들었는데 계속 넣잖아!!!
-        if len(AnsList) == len(number) - k:
-            break
-        AnsList.append(num)
-        while(True):
-            if len(AnsList) > 1 and AnsList[-1] > AnsList[-2] and k > 0:
-                AnsList.pop(-2)
-                k -= 1
-            else:
-                break
-        # AnsList에 일딴 넣어.
-        print(AnsList, k)
-    return "".join(AnsList[:len(number) - k])
-
-
-print(solution("89", 1))
-print(solution("98", 1))
+n, l = map(int, input().split())
+t = 0
+x = -1
+iter = 0
+for i in range(l, 101):
+    t = (i * i - i) / 2
+    if (n - t) % i == 0 and (n - t) // i >= 0:
+        x = (n - t) // i
+        iter = i
+        break
+if x == -1:
+    print(-1)
+else:
+    for i in range(iter):
+        print(int(x + i))

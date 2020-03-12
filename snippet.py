@@ -1,3 +1,1 @@
-
-stack = [[1, 6]]
-print(stack[-1][1])
+print(ord('Z') - ord('A') + 1)

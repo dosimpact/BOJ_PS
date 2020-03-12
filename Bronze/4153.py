@@ -1,6 +1,3 @@
-"""
-
-"""
 # https://www.acmicpc.net/problem/4153
 import sys
 

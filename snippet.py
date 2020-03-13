@@ -1,14 +1,15 @@
-import functools
-arr = [[3, 3], [3, 4], [3, 2], [2, 1], [4, 1]]
+
+def solution(m, n, board):
+    answer = 0
+    tboard = []
+    for i in range(n):
+        tmp_row = []
+        for j in range(m-1, -1, -1):
+            tmp_row.append(board[j][i])
+        tboard.append(tmp_row)
+    print(board)
+    print(tboard)
+    return answer
 
 
-def cmp(x, y):
-    if x[0] == y[0]:
-        return x[1] - y[1]  # 1 2 #두번째는 오름차
-    else:
-        return y[0] - x[0]  # 첫번째는 내림차
-
-
-print(arr)
-arr.sort(key=functools.cmp_to_key(cmp))
-print(arr)
+print(solution(4, 5, ["CCBDE", "AAADE", "AAABF", "CCBBF"]))

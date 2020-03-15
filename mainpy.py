@@ -15,15 +15,11 @@ import sys
 def input(): return sys.stdin.readline().rstrip()
 
 
-n = int(input())
-now = int(input())
-maxVal = -1
-for _ in range(n):
-    i, o = map(int, input().split())
-    now += i
-    now -= o
-    if now < 0:
-        print(0)
-        exit(0)
-    maxVal = max(now, maxVal)
-print(maxVal)
+N = int(input())
+counter = 0
+
+for i in range(N-1, 0, -1):
+    counter += 1
+    if N % i == 0:
+        break
+print(counter)

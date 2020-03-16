@@ -1,2 +1,6 @@
-print(max(1, 2, 3, 4, 5))
-print(max([1, 2, 3, 4]))
+test = [1, 2, 3]
+test2 = test
+
+print(test)
+test2.pop(0)
+print(test)

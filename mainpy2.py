@@ -1,62 +1,47 @@
 """
+순열릐 순서
 
-피보나치 단순 공식의 확장
+1~N 까지 
 
 """
 
 import sys
-import time
-
-DEBUG = False
-start = time.time()
-
-memo = {}
+from math import factorial
+from itertools import permutations
 
 
 def input(): return sys.stdin.readline().rstrip()
 
 
-diver = 10**9
-SIZE = 10**6
+def solve1(n: int, k: int):
+    # N은 4이고, K 는 3
+    elist = [i for i in range(1, n+1)]  # 1 2 3 4
+    ans = []
+    for i in range(n):  # 0번쨰부터 채워나갈래
+        cnt = 0
+        a = 0
+        b = factorial(n - (i+1))
+        while(True):
+            if a <= k and k < b:
+                break
+            else:
+                cnt += 1
+                a = b
+                b += factorial(n - (i+1))
+        k = k - a
+        ans.append(elist[cnt])
+        elist.pop(cnt)
+    print(ans)
 
-memo[-1] = 1
-memo[0] = 0
-memo[1] = 1
 
-for i in range(1, SIZE+1):  # 1 0 -1
-    memo[i] = (memo[i-1]+memo[i-2]) % diver
+def solve2(t: []):
+    pass
 
 
-n = int(input())
+N = int(input())
+num, *b = map(int, input().split())
 
-if n >= 0:
-    print(1) if n != 0 else print(0)
-    print(memo[n])
+if num == 1:
+    solve1(N, b[0])
 else:
-    n = abs(n)
-    if n % 2 == 0:
-        print(-1)
-        print(memo[n])
-    else:
-        print(1)
-        print(memo[n])
-
-if DEBUG:
-    print("time(s): ", time.time() - start)
-# print(memo[2])
-# print(memo[3])
-# print(memo[4])
-# print(memo[5])
-# print(memo[6])
-# print(memo[7])
-# print(memo[SIZE])
-
-# print(memo[-2])
-# print(memo[-3])
-# print(memo[-4])
-# print(memo[-5])
-# print(memo[-6])
-# print(memo[-7])
-# print(memo[-SIZE])
-
-# 짝수이면 -> -만 붙이면 된다.
+    solve2(b)

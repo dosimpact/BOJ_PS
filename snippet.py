@@ -1,7 +1,5 @@
 
-res = "hell"
 
-res = res.rjust(10, "0")
-print(res)
+res = 7/3
 
-print("22".rjust(5, '0'))
+print(round(res, 5))

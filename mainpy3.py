@@ -1,5 +1,23 @@
 
+"""
+https://www.acmicpc.net/problem/3053
+
+택시 기하학
+
+거리가 => 그냥 x + y 축 길이
+
+원점 > 길이가 1인 원은 > 거리가 x +y로 측정되니 
+45도 기울어진 사각형이 나온다.
+
+파이r제곱
+2r제곱
+
+"""
+
 import sys
+import math
+import functools
+import itertools
 
 DEBUG = False
 
@@ -7,28 +25,6 @@ DEBUG = False
 def input(): return sys.stdin.readline().rstrip()
 
 
-bd = []
-
-for _ in range(5):
-    l = input()
-    bd.append(l)
-
-maxlen = 0
-for b in bd:
-    maxlen = max(len(b), maxlen)
-
-if DEBUG:
-    print(maxlen)
-    print(bd)
-
-for i in range(len(bd)):
-    bd[i] = bd[i].ljust(maxlen, ' ')
-
-if DEBUG:
-    print(maxlen)
-    print(bd)
-
-for i in range(len(bd[0])):
-    for j in range(len(bd)):
-        if bd[j][i] != ' ':
-            print(bd[j][i], end="")
+r = int(input())
+print(round((math.pi)*(r**2), 6))
+print(round(float((2)*(r**2)), 6))

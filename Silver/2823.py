@@ -1,5 +1,4 @@
 """
-https://www.acmicpc.net/problem/2823
 유턴 싫어 -> 문제 변형하기
 """
 

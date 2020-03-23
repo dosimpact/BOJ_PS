@@ -1,5 +1,7 @@
+import itertools
 
 
-res = 7/3
+arr = [1, 2, 3]
 
-print(round(res, 5))
+routes = list(itertools.permutations(arr))
+print(routes)

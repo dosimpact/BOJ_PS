@@ -1,33 +1,12 @@
+"""
 
-import sys
-import math
-import functools
-import itertools
+. 자물쇠 영역을 벗어난 부분에 있는 열쇠의 홈과 돌기는 자물쇠를 여는 데 영향을 주지 않지만,
+
+key는 M x M(3 ≤ M ≤ 20, M은 자연수)크기 2차원 배열입니다.
+lock은 N x N(3 ≤ N ≤ 20, N은 자연수)크기 2차원 배열입니다.
+
+"""
+
+import copy
 
 DEBUG = True
-
-
-sys.setrecursionlimit(10**6)
-
-
-def input(): return sys.stdin.readline().rstrip()
-
-
-n = int(input())
-a = list(map(int, input().split()))
-
-MAX = 5000
-sumMAX = 400000
-
-visited = [False]*sumMAX
-
-res = 0
-for i in range(n):
-    for j in range(i):
-        if visited[a[i] - a[j] + 200000]:
-            res += 1
-            break
-    for j in range(i+1):
-        visited[a[i]+a[j] + 200000] = True
-
-print(res)

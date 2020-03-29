@@ -1,39 +1,49 @@
+"""
+https://programmers.co.kr/learn/courses/30/lessons/60061
+기둥은 바닥 위에 있거나 보의 한쪽 끝 부분 위에 있거나, 또는 다른 기둥 위에 있어야 합니다.
+보는 한쪽 끝 부분이 기둥 위에 있거나, 또는 양쪽 끝 부분이 다른 보와 동시에 연결되어 있어야 합니다.
+둥과 보를 삭제하는 기능도 있는데 기둥과 보를 삭제한 후에 남은 기둥과 보들 또한 위 규칙을 만족해야 합니다
+
+
+벽면의 크기 n, 기둥과 보를 설치하거나 삭제하는 작업이 순서대로 담긴 2차원 배열 build_frame이 매개변수로 주어질 때,
+
+
+
+"""
 
 import sys
-import math
-import functools
-import itertools
+import copy
 
 DEBUG = False
 
 
-sys.setrecursionlimit(10**6)
+def isVaild(how: (), gidongs: [], bows: []):
+    (x, y, a, b) = how  # a 기둥 , 보  | b 삭제 설치
+    # 설치 | 기둥 |   # -기둥은 바닥위 | 기둥은 보의 한쪽끝 | 기둥은 기둥위
+    if b == 1 and a == 0:
+
+        pass
+    elif b == 1 and a == 1:
+        pass
+    elif b == 0 and a == 0:
+        pass
+    elif b == 0 and a == 1:
+        pass
+    # 설치 | 보   # -보 조건 - 한쪽 끝 부분이 기둥위 | 양쪽끝이 보와 보 연결
+
+    return False
 
 
-#def input(): return sys.stdin.readline().rstrip()
-
-
-buf = sys.stdin.read()
-buf = list(map(int, buf.split()))
-k = 0
-nodes = []
-linecnt = 0
-while True:
-    u = buf.pop(0)
-    v = buf.pop(0)
-
-    if u == -1:
-        break
-    if u == 0 and v == 0:
-        k += 1
-        nodes = list(set(nodes))
-        if len(nodes) == 0 or len(nodes)-1 == linecnt:
-            print(f'Case {k} is a tree.')
+def solution(n, build_frame):
+    n = n+1
+    gidongs = []
+    bows = []
+    # 빌드 프레임을 돌면서 하나씩 해보기
+    for (x, y, a, b) in build_frame:  # 유효성 검사 후 -> 진행
+        # 유효성 검사
+        if isVaild((x, y, a, b), gidongs, bows):
+            pass
         else:
-            print(f'Case {k} is not a tree.')
-        nodes.clear()
-        linecnt = 0
-    else:
-        linecnt += 1
-        nodes.append(u)
-        nodes.append(v)
+            continue
+
+        # 실행하기

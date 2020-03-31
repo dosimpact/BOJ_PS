@@ -1,63 +1,137 @@
-from collections import deque
 
-# 1초동안 움직일 수 있는 모든 경우
+# https://www.acmicpc.net/problem/6416
+
+import sys
+import math
+import functools
+import itertools
+
+DEBUG = False
 
 
-def move(cor1, cor2, board):
-    move = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-    ret = []
-    # 이동
-    for m in move:
-        if board[cor1[0]+m[0]][cor1[1]+m[1]] == 0 and board[cor2[0]+m[0]][cor2[1]+m[1]] == 0:
-            ret.append({(cor1[0]+m[0], cor1[1]+m[1]),
-                        (cor2[0]+m[0], cor2[1]+m[1])})
+sys.setrecursionlimit(10**6)
 
-    rotate = [1, -1]
-    # 가로회전
-    if cor1[0] == cor2[0]:
-        for r in rotate:
-            if board[cor1[0]+r][cor1[1]] == 0 and board[cor2[0]+r][cor2[1]] == 0:
-                ret.append({(cor1[0]+r, cor1[1]), (cor1[0], cor1[1])})
-                ret.append({(cor2[0]+r, cor2[1]), (cor2[0], cor2[1])})
-    # 세로회전
+
+# def input(): return sys.stdin.readline().rstrip()
+
+
+buf = sys.stdin.read()
+buf = list(map(int, buf.split()))
+k = 0
+
+indegCnt = {}
+nodes = []
+linecnt = 0
+graph = {}
+while True:
+    u = buf.pop(0)
+    v = buf.pop(0)
+
+    if u == -1:
+        break
+    if u == 0 and v == 0:
+        k += 1
+        nodes = list(set(nodes))
+
+        # 루트 찾기
+        isposs = True
+        root = 0
+        for key in indegCnt:
+            if indegCnt[key] == 0:
+                if root == 0:
+                    root = key
+                else:
+                    isposs = False
+            elif indegCnt[key] == 1:
+                pass
+            else:
+                isposs = False
+        if root == 0:
+            isposs = False
+
+        if not isposs:
+            print(f'Case {k} is not a tree.')
+        else:
+            # 탐색
+            nodeNums = []
+            for num in graph:
+                nodeNums.extend(graph[num])
+                nodeNums.append(num)
+            nodeNums = list(set(nodeNums))
+            isCheck = {}
+            for num in nodeNums:
+                isCheck[num] = 0
+            # print(isCheck)
+            # print('root', root)
+            # print(graph)
+            isCheck[root] = 1
+            q = []
+            q.append(root)
+            while len(q) >= 1:
+                current = q.pop(0)
+
+                if current not in graph:
+                    continue
+                for next in graph[current]:
+                    if isCheck[next] == 0:
+                        isCheck[next] = 1
+                        q.append(next)
+                    else:
+                        isposs = False
+            for key in isCheck:
+                if isCheck[key] == 0:
+                    isposs = False
+            if isposs:
+                print(f'Case {k} is a tree.')
+            else:
+                print(f'Case {k} is not a tree.')
+
+        # if len(nodes) == 0 or len(nodes)-1 == linecnt:
+        #     print(f'Case {k} is a tree.')
+        # else:
+        #     print(f'Case {k} is not a tree.')
+        graph.clear()
+        nodes.clear()
+        linecnt = 0
+        indegCnt.clear()
     else:
-        for r in rotate:
-            if board[cor1[0]][cor1[1]+r] == 0 and board[cor2[0]][cor2[1]+r] == 0:
-                ret.append({(cor1[0], cor1[1]), (cor1[0], cor1[1]+r)})
-                ret.append({(cor2[0], cor2[1]), (cor2[0], cor2[1]+r)})
-    return ret
+        linecnt += 1
+        nodes.append(u)
+        nodes.append(v)
+        # u > v
+        if v not in indegCnt:
+            indegCnt[v] = 1
+        else:
+            indegCnt[v] += 1
+        if u not in indegCnt:
+            indegCnt[u] = 0
+        else:
+            pass
+        # u > v 인접리스트
+        if u not in graph:
+            graph[u] = [v]
+        else:
+            graph[u].append(v)
+"""
+6 8  5 3  5 2  6 4
+5 6  0 0
 
+8 1  7 3  6 2  8 9  7 5
+7 4  7 8  7 6  0 0
 
-def solution(board):
-    size = len(board)
-    # 경계 체크 쉽게하기 위해서 지도의 상하좌우에 1 추가
-    new_board = [[1 for i in range(len(board)+2)] for i in range(len(board)+2)]
-    for i in range(len(board)):
-        for j in range(len(board)):
-            new_board[i+1][j+1] = board[i][j]
+3 8  6 8  6 4
+5 3  5 6  5 2  0 0
 
-    que = deque()
-    visited = []
+1 2  1 3  0 0
 
-    # queue에 [로봇의 좌표정보, 지금까지 거리] 형태로 넣음
-    que.append([{(1, 1), (1, 2)}, 0])
-    visited.append({(1, 1), (1, 2)})
+2 1  3 1  0 0
 
-    while len(que) != 0:
-        temp = que.popleft()
-        cor = list(temp[0])  # {()()} set형태 > list 전환 왜 ?
-        dist = temp[1]+1
-        print(cor)
-        for m in move(cor[0], cor[1], new_board):  # [ {(),()}, ]
-            if (size, size) in m:  # 해당 set안에 원하는 좌표가 있는경우
-                return dist
+1 2  2 3  3 1  4 5  0 0
 
-            if not m in visited:  # [ {(),() } , ... ]
-                que.append([m, dist])
-                visited.append(m)
+4 5 0 0
 
-    return 0
+1 2 2 3 3 1 0 0
 
+-1 -1
 
-print(solution([[0, 0, 0, 1, 1], [0, 0, 0, 1, 0], [
-    0, 1, 0, 1, 1], [1, 1, 0, 0, 1], [0, 0, 0, 0, 0]]))
+"""

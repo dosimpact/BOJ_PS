@@ -1,49 +1,138 @@
 """
-https://programmers.co.kr/learn/courses/30/lessons/60061
-기둥은 바닥 위에 있거나 보의 한쪽 끝 부분 위에 있거나, 또는 다른 기둥 위에 있어야 합니다.
-보는 한쪽 끝 부분이 기둥 위에 있거나, 또는 양쪽 끝 부분이 다른 보와 동시에 연결되어 있어야 합니다.
-둥과 보를 삭제하는 기능도 있는데 기둥과 보를 삭제한 후에 남은 기둥과 보들 또한 위 규칙을 만족해야 합니다
+https://www.acmicpc.net/problem/3024
 
 
-벽면의 크기 n, 기둥과 보를 설치하거나 삭제하는 작업이 순서대로 담긴 2차원 배열 build_frame이 매개변수로 주어질 때,
-
-
+ 세 글자가 행, 열, 또는 대각선으로 연속할 때, 그 플레이어가 승리
 
 """
 
 import sys
-import copy
-
-DEBUG = False
 
 
-def isVaild(how: (), gidongs: [], bows: []):
-    (x, y, a, b) = how  # a 기둥 , 보  | b 삭제 설치
-    # 설치 | 기둥 |   # -기둥은 바닥위 | 기둥은 보의 한쪽끝 | 기둥은 기둥위
-    if b == 1 and a == 0:
+n = int(input())
 
-        pass
-    elif b == 1 and a == 1:
-        pass
-    elif b == 0 and a == 0:
-        pass
-    elif b == 0 and a == 1:
-        pass
-    # 설치 | 보   # -보 조건 - 한쪽 끝 부분이 기둥위 | 양쪽끝이 보와 보 연결
-
-    return False
+graph = [list(input()) for _ in range(n)]
 
 
-def solution(n, build_frame):
-    n = n+1
-    gidongs = []
-    bows = []
-    # 빌드 프레임을 돌면서 하나씩 해보기
-    for (x, y, a, b) in build_frame:  # 유효성 검사 후 -> 진행
-        # 유효성 검사
-        if isVaild((x, y, a, b), gidongs, bows):
-            pass
+def isvaild(s: []):
+    cnt = 0
+    now = '.'
+    for i in range(len(s)):
+        # 점인경우는 무조건 초기화
+        if s[i] == '.':
+            cnt = 0
+            now = s[i]
+        # 현재와 일치하는경우
+        if s[i] == now:
+            cnt += 1
+            if cnt == 3:
+                return now
+        # 현재와 다른 경우
         else:
-            continue
+            cnt = 1
+            now = s[i]
+    return ''
 
-        # 실행하기
+
+# 가로 검사
+
+
+if n < 3:
+    print('ongoin')
+    exit(0)
+
+for i in range(n):
+    # 해당 대각선에서
+    res = isvaild(graph[i])
+    if res != '':
+        print(res)
+        exit(0)
+    # 세로 검사
+for j in range(n):
+    # 해당 대각선에서
+    record = []
+
+    for i in range(0, n):
+        record.append(graph[i][j])
+    res = isvaild(record)
+    if res != '':
+        print(res)
+        exit(0)
+
+for i in range(0, n):
+    record = []
+    for j in range(0, n):
+        if i >= 1 and j >= 1:
+            continue
+        (x, y) = (i, j)
+        while (x >= 0 and y >= 0 and x < n and y < n):
+            record.append(graph[x][y])
+            x += 1
+            y += 1
+        res = isvaild(record)
+        if res != '':
+            print(res)
+            exit(0)
+
+for i in range(0, n):
+    record = []
+    for j in range(0, n):
+        if i >= 1 and j < n-1:
+            continue
+        (x, y) = (i, j)
+        while (x >= 0 and y >= 0 and x < n and y < n):
+            record.append(graph[x][y])
+            x += 1
+            y -= 1
+        res = isvaild(record)
+        if res != '':
+            print(res)
+            exit(0)
+
+print("ongoing")
+"""
+
+세 글자가
+
+1개인 경우
+다 .인경우
+
+
+1
+T
+
+1
+.
+"""
+
+
+"""
+5
+..A..
+.A...
+A....
+.....
+.....
+
+5
+.....
+.....
+.....
+.....
+.....
+
+5
+A.A..
+.A...
+A.A..
+...A.
+....B
+
+
+5
+A.AAA
+.....
+.....
+.....
+.....
+"""

@@ -1,29 +1,35 @@
 """
-결국 빨리 끝나는 것 중 빨리 시작하는 순서(시작과 끝이 같은 경우의 수를 걸러줌)대로 집어 넣으면,
+https://www.acmicpc.net/problem/1660
 
-더 빠르게 답을 구해낼 수 있다.
+
+ 세 글자가 행, 열, 또는 대각선으로 연속할 때, 그 플레이어가 승리
+
 """
 
 import sys
 
+sys.setrecursionlimit(10**6)
 
-def input(): return sys.stdin.readline().rstrip()
+n = int(input())
 
+SIZE = 300001
+dpSub = [0]*SIZE
+dp = [0]*SIZE
 
-N = int(input())
-inps = []
-for _ in range(N):
-    (a, b) = map(int, input().split())
-    inps.append((a, b))
+dpSub[1] = 1
+for i in range(2, SIZE):
+    dpSub[i] = dpSub[i-1]+i
 
-inps.sort(key=lambda x: (x[0]))
-inps.sort(key=lambda x: (x[1]))
+dp[1] = 1
+for i in range(2, SIZE):
+    dp[i] = dp[i-1] + dpSub[i]
 
-
-nowTime = 0
+# 사면체의 갯수다
 ans = 0
-for inp in inps:
-    if inp[0] >= nowTime:
-        nowTime = inp[1]
-        ans += 1
+while n > 0:
+    for i in range(1, SIZE-1):
+        if dp[i] <= n and n < dp[i+1]:
+            n -= dp[i]
+            ans += 1
+            break
 print(ans)

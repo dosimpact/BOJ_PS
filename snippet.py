@@ -1,5 +1,9 @@
+from itertools import combinations, permutations
 
 
-ar = "12345"
+ori = [1, 2, 3]
 
-ar.
+res = list(permutations(ori, 2))
+print(res)
+res = set(res)
+print(res)

@@ -1,34 +1,18 @@
-from itertools import combinations, permutations
 
 
-# a = 27
-
-# b = 83
-
-# print(a & b)
-# print(a | b)
-# print(a ^ b)
-
-# c = 1
-# print(c << 2)
-# print(c << 3)
-# print(c << 4)
+ar = {1, 2, 3}
+br = {2, 3, 4}
+print(ar)
+print(ar | br)
 
 
-# a = "0b000011011"
-# b = "0b001010011"
-# print(int(a, 2))
-# print(int(b, 2))
+d = {}
+print(d)
+d[0] = ar
+d[1] = br
+d[2] = {4, 5, 6}
+print(d)
+print(d[0] & d[1])
+print(len(d[0]))
 
-# print(bin(27))
-# print(bin(83))
-
-# S = { 1,3,4,5,9} = 570
-
-print(570 & (1 << 3))  # 8 응 있다.
-print(570 | (1 << 2))  # 574 2가 추가 되었다.
-
-# 단순히 - 를 붙여서 곤란하네....
-print(574 | ~(1 << 2))  # -1 다른 연산결과!!
-
-print(570 ^ (1 << 1))  # 568 1이 사라졌다.
+print(*[1, 2, 3, 4])  # 1 2 3 4

@@ -1,89 +1,108 @@
-"""
-https://programmers.co.kr/learn/courses/30/lessons/60058
-
- 괄호가 개수는 맞지만 짝이 맞지 않은 형태로
-
-
-'(' 의 개수와 ')' 의 개수가 같다면 이를 균형잡힌 괄호 문자열
-'('와 ')'의 괄호의 짝도 모두 맞을 경우에는 이를 올바른 괄호 문자열
-
-균형 -> 올바른 변환
-
-
-
-"""
-
-
-# 빈 입력이라면 빈문자열 반환
 
 import sys
 
-sys.setrecursionlimit(10**6)
-DEBUG = False
+# 쿼리에 대한 전체 결과다.
+memo = {}
+# 특정 단어와 쿼리에 대한 결과 메모
+memoWQ = {}
+# 단어의 길이들을 저장한다. 예 ) 단어 길이가 2인 것의 갯수는 5개 이다.
+memoWL = {}
 
 
-def isBlance(s: str):
-    return s.count("(") == s.count(")")
-
-
-def isCorrect(s: str):
-    cnt = 0
-    for se in s:
-        if se == "(":
-            cnt += 1
+def CheckHead(word: str, q: str):  # ? 가 앞대가리
+    i = len(word) - 1
+    isposs = True
+    while 0 < i:
+        if q[i] == '?':
+            break
         else:
-            cnt -= 1
-        if cnt < 0:
-            return False
-    if cnt == 0:
-        return True
-    else:
-        return False
+            if q[i] == word[i]:
+                pass
+            else:
+                isposs = False
+                break
+        i -= 1
+    return isposs
 
 
-def diver(s: str):
-    # for i in range(0, len(s)):
-    for i in range(0, len(s)+1):
-
-        if s[:i] != "" and isBlance(s[:i]) and isBlance(s[i:]):
-            if DEBUG:
-                print("-->u ", s[:i], "-->v ", s[i:])
-            return (s[:i], s[i:])
-    print("ERROR!")
-
-
-def go(s: str):
-    #
-    if DEBUG:
-        print("--> s ", s)
-        input()
-
-    if s == "":
-        return ""
-    elif isCorrect(s):
-        return s
-    else:
-        # 2. 문자열 w를 두 "균형잡힌 괄호 문자열" u, v로 분리합니다. 단, u는 "균형잡힌 괄호 문자열"로 더 이상 분리할 수 없어야 하며, v는 빈 문자열이 될 수 있습니다.
-        u, v = diver(s)
-        # 3. 문자열 u가 "올바른 괄호 문자열" 이라면 문자열 v에 대해 1단계부터 다시 수행합니다. 3-1. 수행한 결과 문자열을 u에 이어 붙인 후 반환합니다.
-        if isCorrect(u):
-            return u + go(v)
-        else:  # 4. 문자열 u가 "올바른 괄호 문자열"이 아니라면 아래 과정을 수행합니다.
-            res = u[1:-1]
-            tmp = list(res)
-            i = 0
-            j = len(tmp)-1
-            while i < j:
-                tmp[i], tmp[j] = tmp[j], tmp[i]
-                i += 1
-                j -= 1
-            res = "".join(tmp)
-            return '('+go(v)+')'+res
+def CheckTail(word: str, q: str):  # ? 가 뒤에
+    i = 0
+    isposs = True
+    while i < len(word):
+        if q[i] == '?':
+            break
+        else:
+            if q[i] == word[i]:
+                pass
+            else:
+                isposs = False
+                break
+        i += 1
+    return isposs
 
 
-def solution(p):
-    answer = go(p)
+def Result(words: [], q: str):
+
+    if q in memo:
+        return memo[q]
+
+    L = len(q)
+    # q가 다 ? 인경우
+    if len(q) == q.count('?'):
+        if L in memoWL:
+            return memoWL[L]
+        return 0
+        # res = 0
+        # for word in words:
+        #     if len(word) == L:
+        #         res += 1
+        # return res
+    # ? 접두
+    if q[0] == '?':
+        res = 0
+        for word in words:
+         # 우선 길이가 맞아야 한다.
+            if len(word) != L:
+                continue
+            else:  # 길이가 맞다면 q에서 뒤에서 검색을 하면서, ?가 나올때 까지, 일치하는지 검사.
+                if CheckHead(word, q):
+                    res += 1
+    # ? 접미
+    if q[-1] == '?':
+        res = 0
+        for word in words:
+         # 우선 길이가 맞아야 한다.
+            if len(word) != L:
+                continue
+            else:  # 길이가 맞다면 q에서 뒤에서 검색을 하면서, ?가 나올때 까지, 일치하는지 검사.
+                if CheckTail(word, q):
+                    res += 1
+    memo[q] = res
+    return res
+
+
+def solution(words, queries):
+    answer = []
+    for word in words:
+        tLen = len(word)
+        if tLen in memoWL:
+            memoWL[tLen] += 1
+        else:
+            memoWL[tLen] = 1
+
+    for q in queries:
+        answer.append(Result(words, q))
     return answer
 
 
-print("res:", solution("()))((()"))
+"""
+
+["frodo", "front", "frost", "frozen", "frame", "kakao"]	[
+    "fro??", "????o", "fr???", "fro???", "pro?"]	[3, 2, 4, 1, 0]
+
+
+문자열 검색시 사용하는 트라이 자료구조
+
+"""
+# print(CheckHead("kakoo", "??kao"))
+# print(CheckTail("kakao", "kaka?"))

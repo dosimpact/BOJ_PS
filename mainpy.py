@@ -1,68 +1,59 @@
-import math
-import sys
-from itertools import permutations, combinations
+from collections import deque
 
-sys.setrecursionlimit(10**6)
-Debug = True
+# 1초동안 움직일 수 있는 모든 경우
 
 
-def dprint(s: str):
-    if Debug:
-        print(f' DEBUG : {s} ')
+def move(cor1, cor2, board):
+    move = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+    ret = []
+    # 이동
+    for m in move:
+        if board[cor1[0]+m[0]][cor1[1]+m[1]] == 0 and board[cor2[0]+m[0]][cor2[1]+m[1]] == 0:
+            ret.append({(cor1[0]+m[0], cor1[1]+m[1]),
+                        (cor2[0]+m[0], cor2[1]+m[1])})
+
+    rotate = [1, -1]
+    # 가로회전
+    if cor1[0] == cor2[0]:
+        for r in rotate:
+            if board[cor1[0]+r][cor1[1]] == 0 and board[cor2[0]+r][cor2[1]] == 0:
+                ret.append({(cor1[0]+r, cor1[1]), (cor1[0], cor1[1])})
+                ret.append({(cor2[0]+r, cor2[1]), (cor2[0], cor2[1])})
+    # 세로회전
+    else:
+        for r in rotate:
+            if board[cor1[0]][cor1[1]+r] == 0 and board[cor2[0]][cor2[1]+r] == 0:
+                ret.append({(cor1[0], cor1[1]), (cor1[0], cor1[1]+r)})
+                ret.append({(cor2[0], cor2[1]), (cor2[0], cor2[1]+r)})
+    return ret
 
 
-def input(): return sys.stdin.readline().rstrip()
+def solution(board):
+    size = len(board)
+    # 경계 체크 쉽게하기 위해서 지도의 상하좌우에 1 추가
+    new_board = [[1 for i in range(len(board)+2)] for i in range(len(board)+2)]
+    for i in range(len(board)):
+        for j in range(len(board)):
+            new_board[i+1][j+1] = board[i][j]
 
+    que = deque()
+    visited = []
 
-"""
-신뢰하는 관계 = 그래프
+    # queue에 [로봇의 좌표정보, 지금까지 거리] 형태로 넣음
+    que.append([{(1, 1), (1, 2)}, 0])
+    visited.append({(1, 1), (1, 2)})
 
-BFS 각각 돌리니까, NN+NM 시간복잡도, 10초 나온다.
+    while len(que) != 0:
+        temp = que.popleft()
+        cor = list(temp[0])
+        dist = temp[1]+1
 
-BFS 에 메모지 도입하니, 순환하는 구조에서는 못 사용.
+        for m in move(cor[0], cor[1], new_board):
+            if (size, size) in m:
+                return dist
 
-fb) 비어있는 set인 경우는 set() 라고 파이썬이 출력한다.
+            if not m in visited:
+                que.append([m, dist])
+                visited.append(m)
 
-{1: set(), 3: set(), 4: {4}, 5: {5}}
-
-"""
-
-d = {}  # 1를 해킹하면, 1,2,3 을 해킹하는거나 마찬가지.
-
-
-def dp(n: int):
-
-    if n in d:  # 메모가 있는경우
-        return d[n]
-
-    # 내가 말단 노드인 경우
-    if len(graph[n]) == 0:  # [[], [3], [3], [4, 5], [], []]
-        d[n] = {n}
-        return d[n]
-    # 아닌 경우
-    d[n] = {n}
-    for e in graph[n]:
-        d[n] = (d[n]) | (dp(e))
-    return d[n]
-
-
-N, M = map(int, input().split())
-
-graph = [[] for _ in range(N+1)]
-
-for _ in range(M):
-    a, b = map(int, input().split())
-    graph[b].append(a)  # b를 해킹하면 a는 덤
-
-maxCnt = 0
-for i in range(1, N+1):  # dp로 다 돌려볼꺼임.
-    dp(i)
-    maxCnt = max(maxCnt, len(d[i]))
-
-ansTmp = []
-for i in range(1, N+1):
-    if len(d[i]) == maxCnt:
-        ansTmp.append(i)
-ansTmp.sort()
-for ans in ansTmp:
-    print(ans, end=" ")
+    return 0

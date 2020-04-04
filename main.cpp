@@ -1,41 +1,66 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
+
+#define SIZE 10000
+
+vector<int> graph[SIZE + 1];
+int N, M;
+bool check[SIZE + 1];
+
+int dfs(int x)
+{
+    check[x] = true;
+    int tmp = 1;
+    for (int i = 0; i < graph[x].size(); i++)
+    {
+        int nnode = graph[x][i];
+        if (!check[nnode])
+        {
+            tmp += dfs(nnode);
+        }
+    }
+    return tmp;
+}
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-
-    int n, tmp;
-    vector<int> sus;
-    cin >> n;
-    for (int i = 0; i < n; i++)
+    vector<int> ansList;
+    //입력받기 > M 10만개
+    cin >> N >> M;
+    for (int i = 1; i <= M; i++)
     {
-        cin >> tmp;
-        sus.push_back(tmp);
+        int u, v;
+        cin >> u >> v; // v를 해킹하면 u가 덤
+        graph[v].push_back(u);
     }
-    int maxVal = *max_element(sus.begin(), sus.end());
-    for (int i = 1; i <= maxVal; i++)
+
+    //DFS 돌리기
+    int Ans = 0;
+    for (int i = 1; i <= N; i++)
     {
-        bool isposs = true;
-        for (auto it = sus.begin(); it != sus.end(); it++)
+        //i번 컴퓨터를 해킹해 본다. -> DFS 를 돌려 덤으로 얻어지는 컴퓨터의 갯수를 알아낸다.
+        fill(&check[0], &check[0] + SIZE + 1, false);
+        int AnsTmp = 0;
+        AnsTmp = dfs(i);
+        if (AnsTmp == Ans)
         {
-            if (!isposs)
-            {
-                break;
-            }
-            if (*it % i != 0)
-            {
-                isposs = false;
-            }
+            ansList.push_back(i);
         }
-        if (isposs)
+        else if (AnsTmp > Ans)
         {
-            cout << i << "\n";
+            ansList.clear();
+            Ans = AnsTmp;
+            ansList.push_back(i);
         }
+    }
+    for (auto k : ansList)
+    {
+        cout << k << " ";
     }
 }

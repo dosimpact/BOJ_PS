@@ -38,3 +38,9 @@ def solution(n, build_frame):
                     ans.append([x, y, a])
     ans.sort()
     return ans
+
+
+"""
+
+
+"""

@@ -41,6 +41,7 @@ def solution(n, build_frame):
 
 
 """
-
+n 이 10**3 이므로 
+n**2 의 시간대로 충분히 돌아간다.
 
 """

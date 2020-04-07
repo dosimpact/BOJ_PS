@@ -2,7 +2,7 @@
 
 
 class Node(object):
-    def __init__(self, key=None, data=None):
+    def __init__(self, key, data=None):
         self.key: str = key
         self.data: str = data
         self.children: {} = {}
@@ -11,7 +11,7 @@ class Node(object):
 class Trie(object):
 
     def __init__(self):
-        self.head = Node()  # 첫노드의 key 값은 ? 사실상 없어도 되는데.
+        self.head = Node(None)  # 첫노드의 key 값은 ? 사실상 없어도 되는데.
 
     def insert(self, string: str):
         nnode = self.head
@@ -52,8 +52,7 @@ class Trie(object):
             now = q.pop()
             if now.data:
                 ans.append(now.data)
-            for key in now.children:
-                q.append(now.children[key])
+            q += list(now.children.values())
         return ans
 
 

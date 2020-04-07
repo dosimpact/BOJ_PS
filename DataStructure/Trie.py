@@ -47,6 +47,8 @@ class Trie(object):
         # curr_node 에 data 가 있다면 string이 트라이에 존재하는 것!
         if (curr_node.data != None):
             return True
+        else:
+            return False
 
     """
     주어진 prefix 로 시작하는 단어들을
@@ -56,24 +58,21 @@ class Trie(object):
     def starts_with(self, prefix):
         curr_node = self.head
         result = []
-        subtrie = None
         # 트라이에서 prefix 를 찾고,
         # prefix의 마지막 글자 노드를 subtrie로 설정
         for char in prefix:
             if char in curr_node.children:
                 curr_node = curr_node.children[char]
-                subtrie = curr_node
             else:
                 return None
         # bfs 로 prefix subtrie를 순회하며
         # data가 있는 노드들(=완전한 단어)를 찾는다.
         #queue = list(subtrie.children.values())
-        q = [subtrie]
+        queue = [curr_node]
         while queue:
             curr = queue.pop()
             if curr.data != None:
                 result.append(curr.data)
-
             queue += list(curr.children.values())
 
         return result

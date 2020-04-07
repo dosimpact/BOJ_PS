@@ -1,22 +1,26 @@
-class Node(object):
-    def __init__(self, key, data=None):
-        self.key = key
-        self.data = data
-        self.children = {}
+
+import sys
 
 
-class Trie(object):
-    def __init__(self):
-        self.head = Node(None)
-    """
-    기능 삽입, 존재성, prefixe 검색
-    """
+def input(): return sys.stdin.readline().rstrip()
 
-    def insert(self):
-        pass
 
-    def search(self, string):
-        pass
+sys.setrecursionlimit(10**6)
 
-    def starts_with(self, prefix):
-        pass
+
+def gcd(a, b):
+    if b == 0:
+        return a
+    else:
+        return gcd(b, a % b)
+
+
+def GL(a, b):
+    G = gcd(a, b)
+    return G, (a*b)//G
+
+
+(a, b) = map(int, input().split())
+
+(l, g) = GL(a, b)
+print(g)

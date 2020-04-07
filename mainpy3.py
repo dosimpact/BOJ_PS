@@ -1,4 +1,5 @@
 # 트라이 자료구조
+import sys
 
 
 class Node(object):
@@ -22,19 +23,6 @@ class Trie(object):
             nnode = nnode.children[s]
         nnode.data = string
 
-    def search(self, string: str):
-        # 존재성
-        nnode = self.head
-        for s in string:
-            if s in nnode.children:
-                nnode = nnode.children[s]
-            else:
-                return False
-        if nnode.data != None:
-            return True
-        else:
-            return False
-
     def starts_with(self, prefix: str):
         # 접두사 체크
         nnode = self.head
@@ -56,15 +44,40 @@ class Trie(object):
         return ans
 
 
-mainTrie = Trie()
-mainTrie.insert("cross")
-mainTrie.insert("crossxx")
-mainTrie.insert("crosx")
-mainTrie.insert("tross")
-print(mainTrie.search("cross"))
-print(mainTrie.search("xross"))
-print(mainTrie.search("crossx"))
-print(mainTrie.starts_with("cross"))
-print(mainTrie.starts_with("x"))
-print(mainTrie.starts_with("t"))
-print(mainTrie.starts_with("cro"))
+def solution(words, queries):
+    frontTrie = Trie()
+    backTrie = Trie()
+
+    for w in words:
+        frontTrie.insert(w)
+        backTrie.insert(w[::-1])
+
+    answer = []
+
+    for q in queries:
+        if word == "?"*len(q):
+            answer.append
+
+        if q[0] == "?":
+            res = backTrie.starts_with(q.replace("?", ""))
+            print(f"De > {res}")
+            if res:
+                answer.append(
+                    len(list(filter(lambda e: len(e) == len(q), res))))
+            else:
+                answer.append(0)
+        else:
+            res = frontTrie.starts_with(q[:q.index("?")])
+            print(f"De > {res}")
+            if res:
+                answer.append(
+                    len(list(filter(lambda e: len(e) == len(q), res))))
+            else:
+                answer.append(0)
+
+    return answer
+
+
+a = ["f", "fr", "fe", "frodo", "front", "frost", "frozen", "frame", "kakao"]
+b = ["?", "??", "?????", "??????", "fr???", "fr????", "pro?", "??odo", "fro??"]
+print(solution(a, b))

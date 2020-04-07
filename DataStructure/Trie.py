@@ -67,8 +67,8 @@ class Trie(object):
                 return None
         # bfs 로 prefix subtrie를 순회하며
         # data가 있는 노드들(=완전한 단어)를 찾는다.
-        queue = list(subtrie.children.values())
-
+        #queue = list(subtrie.children.values())
+        q = [subtrie]
         while queue:
             curr = queue.pop()
             if curr.data != None:

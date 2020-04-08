@@ -1,79 +1,97 @@
-class Node(object):
-    """
-    A node that consists of a trie.
-    """
+"""
+-트라이 자료구조 구현하기
+-행렬 회전하기 시계방향 90됴 ( 노말버전, 파이썬 버전 )
+-다음 순열 구현하기
+-gcd,LG 구현하기
+"""
+from collections import defaultdict
 
+
+class Node(object):
     def __init__(self, key, data=None):
         self.key = key
         self.data = data
         self.children = {}
+        self.lengths = defaultdict(int)
 
 
 class Trie(object):
     def __init__(self):
         self.head = Node(None)
 
-    """
-    트라이에 문자열을 삽입합니다.
-    """
-
     def insert(self, string):
-        curr_node = self.head
+        nnode = self.head
+        nnode.lengths[len(string)] += 1
 
-        for char in string:  # 해당 문자열을 돌면서
-            if char not in curr_node.children:  # 키값으로 해당 자식이 없다면
-                curr_node.children[char] = Node(char)  # key - value로 연결
+        for s in string:  # H > cross
+            if s not in nnode.children:
+                nnode.children[s] = Node(s)
+            nnode = nnode.children[s]
+            nnode.lengths[len(string)] += 1
+        nnode.data = string
 
-            curr_node = curr_node.children[char]
-
-            # string 의 마지막 글자 차례이면,
-            # 노드의 data 필드에 저장하려는 문자열 전체를 저장한다.
-        curr_node.data = string
-
-    """
-    주어진 단어 string이 트라이에 존재하는지 여부를 반환합니다.
-    """
-
-    def search(self, string):
-        curr_node = self.head
-
-        for char in string:
-            if char in curr_node.children:
-                curr_node = curr_node.children[char]
+    def exist(self, string):
+        nnode = self.head
+        for s in string:
+            if s in nnode.children:
+                nnode = nnode.children[s]
             else:
                 return False
-
-        # string의 마지막 글자에 다달았을 때,
-        # curr_node 에 data 가 있다면 string이 트라이에 존재하는 것!
-        if (curr_node.data != None):
+        if nnode.data != None:
             return True
-
-    """
-    주어진 prefix 로 시작하는 단어들을
-    트라이에서 찾아 리스트 형태로 반환합니다.
-    """
+        else:
+            return False
 
     def starts_with(self, prefix):
-        curr_node = self.head
-        result = []
-        subtrie = None
-        # 트라이에서 prefix 를 찾고,
-        # prefix의 마지막 글자 노드를 subtrie로 설정
-        for char in prefix:
-            if char in curr_node.children:
-                curr_node = curr_node.children[char]
-                subtrie = curr_node
+        nnode = self.head
+        res = []
+        for s in prefix:
+            if s in nnode.children:
+                nnode = nnode.children[s]
             else:
-                return None
-        # bfs 로 prefix subtrie를 순회하며
-        # data가 있는 노드들(=완전한 단어)를 찾는다.
-        queue = list(subtrie.children.values())
+                return res
+        q = [nnode]
+        while q:
+            now = q.pop()
+            if now.data != None:
+                res.append(now.data)
+            q += list(now.children.values())
+        return res
 
-        while queue:
-            curr = queue.pop()
-            if curr.data != None:
-                result.append(curr.data)
+    def starts_withLen(self, prefix, L: int):
+        nnode = self.head
+        for s in prefix:
+            if s in nnode.children:
+                nnode = nnode.children[s]
+            else:
+                return 0
+        return nnode.lengths[L]
 
-            queue += list(curr.children.values())
 
-        return result
+# mainTrie = Trie()
+# a = ["a", "b", "c", "ab", "ac", "ad", "abcd"]
+# b = ["", "a", "ab", "ae", "e"]
+# for e in a:
+#     mainTrie.insert(e)
+# for e in b:
+#     print(mainTrie.starts_with(e))
+# for e in b:
+#     print(mainTrie.starts_withLen(e, 2))
+
+
+def solution(words, queries):
+    answer = []
+    FTree = Trie()
+    BTree = Trie()
+    for w in words:
+        FTree.insert(w)
+        BTree.insert(w[::-1])
+    for w in queries:
+        if w[0] == "?" and w[-1] == "?":
+            answer.append(FTree.head.lengths[len(w)])
+        elif w[-1] == "?":
+            answer.append(FTree.starts_withLen(w.replace("?", ""), len(w)))
+        elif w[0] == "?":
+            tmpW = w.replace("?", "")[::-1]
+            answer.append(BTree.starts_withLen(tmpW, len(w)))
+    return answer

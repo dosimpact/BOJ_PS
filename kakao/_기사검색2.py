@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-
-R = 1
-r = 2
-print(r, R)
-=======
 # from itertools import chain
 from collections import defaultdict
 
@@ -67,4 +61,3 @@ def solution(words, queries):
             answer.append(front.start_with(prefix, len(word)))
 
     return answer
->>>>>>> 6c9bce59587d3102dfdb55c0cf825cfb0ecfc81c

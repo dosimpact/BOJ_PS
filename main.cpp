@@ -1,66 +1,72 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
-
+#include <queue>
 using namespace std;
 
-#define SIZE 10000
-
-vector<int> graph[SIZE + 1];
-int N, M;
-bool check[SIZE + 1];
-
-int dfs(int x)
-{
-    check[x] = true;
-    int tmp = 1;
-    for (int i = 0; i < graph[x].size(); i++)
-    {
-        int nnode = graph[x][i];
-        if (!check[nnode])
-        {
-            tmp += dfs(nnode);
-        }
-    }
-    return tmp;
-}
+//8개의 방향
+int dy[8] = {-1, -2, -2, -1, 1, 2, 1, 2};
+int dx[8] = {-2, -1, 1, 2, -2, -1, 2, 1};
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    vector<int> ansList;
-    //입력받기 > M 10만개
-    cin >> N >> M;
-    for (int i = 1; i <= M; i++)
+    int T, l, sx, sy, ex, ey; //l: 길이 sx,sy:시작 위치  ex,ey:목표 위치
+    cin >> T;
+
+    for (int testCase = 0; testCase < T; testCase++)
     {
-        int u, v;
-        cin >> u >> v; // v를 해킹하면 u가 덤
-        graph[v].push_back(u);
+
+        scanf("%d %d %d %d %d", &l, &sx, &sy, &ex, &ey);
+
+        int visited[300][300] = {0};
+
+        queue<pair<int, pair<int, int>>> q;
+        q.push(make_pair(0, make_pair(sy, sx))); //시간, y좌표, x좌표
+        visited[sy][sx]++;
+
+        while (!q.empty())
+        {
+            int y = q.front().second.first;
+            int x = q.front().second.second;
+            int cnt = q.front().first;
+            q.pop();
+
+            if (y == ey && x == ex)
+            {
+                cout << cnt << endl;
+                break;
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                int ny = y + dy[i];
+                int nx = x + dx[i];
+
+                if (ny < 0 || ny >= l || nx < 0 || nx >= l)
+                    continue;
+
+                if (visited[ny][nx])
+                    continue;
+
+                visited[ny][nx] = visited[x][y] + 1;
+                q.push(make_pair(cnt + 1, make_pair(ny, nx)));
+            }
+        }
+        for (int i = 0; i < l; i++)
+        {
+            for (int j = 0; j < l; j++)
+            {
+                cout << visited[i][j] << " ";
+            }
+            cout << "\n";
+        }
     }
 
-    //DFS 돌리기
-    int Ans = 0;
-    for (int i = 1; i <= N; i++)
-    {
-        //i번 컴퓨터를 해킹해 본다. -> DFS 를 돌려 덤으로 얻어지는 컴퓨터의 갯수를 알아낸다.
-        fill(&check[0], &check[0] + SIZE + 1, false);
-        int AnsTmp = 0;
-        AnsTmp = dfs(i);
-        if (AnsTmp == Ans)
-        {
-            ansList.push_back(i);
-        }
-        else if (AnsTmp > Ans)
-        {
-            ansList.clear();
-            Ans = AnsTmp;
-            ansList.push_back(i);
-        }
-    }
-    for (auto k : ansList)
-    {
-        cout << k << " ";
-    }
+    return 0;
 }
+
+/*
+1
+8
+0 0
+7 0
+
+*/

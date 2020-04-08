@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import sys
 
 
@@ -58,10 +57,3 @@ X.....X
 .#####.
 #######
 """
-=======
-
-
-wds = "awef???"
-wds.replace("?", "")
-print(wds)
->>>>>>> 6c9bce59587d3102dfdb55c0cf825cfb0ecfc81c

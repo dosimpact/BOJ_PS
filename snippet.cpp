@@ -1,31 +1,18 @@
-
 #include <iostream>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
+
+int mdata[10];
+
 int main()
 {
-    int t;
-    cin >> t;
-    while (t--)
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    for (int i = 0; i < 10; i++)
     {
-        int m, n, x, y;
-        cin >> m >> n >> x >> y;
-        x -= 1;
-        y -= 1;
-        bool ok = false;
-        for (int k = x; k < (n * m); k += m)
-        {
-            cout << "possible k " << k << " > " << k % n << " \n";
-            if (k % n == y)
-            {
-                cout << k + 1 << '\n';
-                ok = true;
-                break;
-            }
-        }
-        if (!ok)
-        {
-            cout << -1 << '\n';
-        }
+        cin >> mdata[i];
     }
-    return 0;
 }

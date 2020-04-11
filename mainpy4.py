@@ -12,12 +12,6 @@
 
 from collections import defaultdict
 
-<<<<<<< HEAD
-=======
-import sys
-from itertools import permutations
-from collections import defaultdict
->>>>>>> b1ad246343f6e6a0af4fcb71f282689de28227d7
 
 class Node(object):
     def __init__(self, key):
@@ -31,8 +25,9 @@ class Trie(object):
     def __init__(self):
         self.head = Node(None)
 
-<<<<<<< HEAD
-    def insert(self, string):
+
+<< << << < HEAD
+   def insert(self, string):
         # string 를 한바퀴 돌면서, node를 계속 연결해 준다.
         nnode = self.head
         nnode.lengths[len(string)] += 1
@@ -100,9 +95,10 @@ for e in b:
     print(mainTrie.starts_with(e))
 for e in b:
     print(mainTrie.starts_withL(e, 2))
-=======
-def input(): return sys.stdin.readline().rstrip()
+== =====
 
+
+def input(): return sys.stdin.readline().rstrip()
 
 """
 L R 
@@ -156,4 +152,4 @@ else:
     # go(0)
 
 print(AnsMin)
->>>>>>> b1ad246343f6e6a0af4fcb71f282689de28227d7
+>>>>>> > b1ad246343f6e6a0af4fcb71f282689de28227d7

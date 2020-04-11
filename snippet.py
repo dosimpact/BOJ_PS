@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 wordNum = input()
 word = []
 for i in range(int(wordNum)):
@@ -28,5 +27,3 @@ for i in keyList:
     result += number.pop(0) * charDic[i]
 
 print(result)
-=======
->>>>>>> b1ad246343f6e6a0af4fcb71f282689de28227d7

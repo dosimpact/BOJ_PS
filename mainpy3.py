@@ -1,67 +1,26 @@
-<<<<<<< HEAD
+
 import sys
+from collections import deque
 
 
 def input(): return sys.stdin.readline().rstrip()
 
 
-R, C = map(int, input().split())
-graph = [list(input()) for _ in range(R)]
-
-canDown = []
-for Col in zip(*graph):
-    gidx = Col.index("#")
-    try:
-        midx = Col[::-1].index('X')
-    except:
-        midx = -1
-    # print(f"{gidx},{midx}")
-    if midx == -1:
-        pass
-    else:
-        canDown.append(abs(gidx - (R-1 - midx))-1)
-Down = min(canDown)
-# 각 열을 돌면서, 각자. 공기가 몇개인지 센다. ( 반드시 땅은 존재, 운석은 없을수도)
-
-# 최소 값만큼 운석을 떨군다.
-if Down == 0:
-    pass
-else:
-    for r in range(R-1, -1, -1):
-        for c in range(C):
-            if graph[r][c] == "X":
-                graph[r][c] = "."
-                graph[r+Down][c] = "X"
-
-for g in graph:
-    for e in g:
-        print(e, end="")
-    print()
-
 """
 
-5 6
-.XXXX.
-...X..
-......
-#..###
-######
 
-9 7
-XXX.XXX
-X.XXX.X
-X..X..X
-X.....X
-.......
-.#...#.
-.##.##.
-.#####.
-#######
 """
-=======
+AList = []
+BList = []
 
+for _ in range(10):
+    tmp = int(input())
+    AList.append(tmp)
+for _ in range(10):
+    tmp = int(input())
+    BList.append(tmp)
 
-wds = "awef???"
-wds.replace("?", "")
-print(wds)
->>>>>>> 6c9bce59587d3102dfdb55c0cf825cfb0ecfc81c
+AList.sort(reverse=True)
+BList.sort(reverse=True)
+
+print(sum(AList[:3]), sum(BList[:3]))

@@ -1,19 +1,43 @@
+"""
+-R-A-M-
 
-import sys
-from collections import deque
+# 자주쓰는 알고리즘
+
+-트라이 자료구조 구현하기 ✔
+-행렬 회전하기 시계방향 90됴 ( 노말버전, 파이썬 버전 ) ✔
+-다음 순열 구현하기 ✔
+-gcd,LG 구현하기 ✔
+-비트마스크로 모든 집합 순회하기 (1182 BOJ) ✔
+"""
+
+from collections import defaultdict
 
 
-<<<<<<< HEAD
+class Node(object):
+    def __init__(self, key):
+        self.key = key
+        self.data = None
+        self.children = {}
+        self.lengths = defaultdict(int)
+
+
+class Trie(object):
+    def __init__(self):
+        self.head = Node(None)
+
     def insert(self, string):
+        # string 를 한바퀴 돌면서, node를 계속 연결해 준다.
         nnode = self.head
-        # 해당 string을 돌면서, 해당 문자열이 나올때까지, 계속 추가하기
+        nnode.lengths[len(string)] += 1
         for s in string:
             if s not in nnode.children:
                 nnode.children[s] = Node(s)
             nnode = nnode.children[s]
+            nnode.lengths[len(string)] += 1
         nnode.data = string
 
-    def search(self, string):
+    def exsit(self, string):
+        # string 끝까지 노드를 탐색하면서, 끝에 도달했을때, data가 있으면 True 반환
         nnode = self.head
         for s in string:
             if s in nnode.children:
@@ -22,114 +46,50 @@ from collections import deque
                 return False
         if nnode.data != None:
             return True
+        else:
+            return False
 
     def starts_with(self, prefix):
+        # 해당 prefix까지 노드를 이동 -> BFS 탐색시도
+        res = []
         nnode = self.head
-        result = []
-        subtrie = None
         for s in prefix:
             if s in nnode.children:
                 nnode = nnode.children[s]
-                subtrie = nnode
             else:
-                return result
-        q = list(subtrie.children.values())
-
+                return res
+        q = [nnode]
         while q:
-            now = q.pop()
+            now = q.pop(0)
             if now.data != None:
-                result.append(now.data)
+                res.append(now.data)
             q += list(now.children.values())
-        return result
+        return res
 
-
-Ma = Trie()
-Ma.insert("cross")
-Ma.insert("crocus")
-Ma.insert("crossHex")
-print(Ma.search("corss"))  # False
-print(Ma.search("cross"))  # True
-print(Ma.starts_with("cro"))  # ['crocus', 'cross', 'crossHex']
-print(Ma.starts_with("cross"))  # ['crossHex']
-print(Ma.starts_with("t")) #[]
-=======
-def input(): return sys.stdin.readline().rstrip()
+    def starts_withL(self, string, L):
+        # 해당 prefixe 까지 노드를 이동한다.
+        nnode = self.head
+        for s in string:
+            if s in nnode.children:
+                nnode = nnode.children[s]
+            else:
+                return 0
+        return nnode.lengths[L]
 
 
 """
-나이트의 이동
-
-8 한변의 길이
-00 나이트의 현재칸
-70 목표 칸
+이 트라이 자료구조의 한계 >중복된 입력에 대해서 lengths가 업데이트되지만 > 트리는 그대로 이다.
 """
+mainTrie = Trie()
+a = ['', 'a', 'b', 'c', 'ab', 'ac', 'ad', 'ta', 'abc', 'abcd']
+b = ['', 'a', 't', 'ab']
 
-# bfs 탐색
+for e in a:
+    mainTrie.insert(e)
 
-
-t = int(input())
-dx = [-2, -2, -1, -1, 1, 1, 2, 2]
-dy = [-1, 1, -2, 2, -2, 2, -1, 1]
-
-for _ in range(t):
-    L = int(input())
-    sx, sy = map(int, input().split())
-    gx, gy = map(int, input().split())
-    check = [[-1 for _ in range(L)] for _ in range(L)]
-    dq = deque()
-    dq.append((sx, sy))
-    check[sx][sy] = 0
-    isEnd = False
-
-    if sx == gx and sy == gy:
-        print(0)
-        continue
-
-    while len(dq) > 0:
-        x, y = dq.popleft()
-
-        for k in range(len(dx)):
-            nx, ny = x+dx[k], y+dy[k]
-            if (nx >= 0 and ny >= 0 and nx < L and ny < L) and (check[nx][ny] == -1):
-                check[nx][ny] = check[x][y] + 1
-                dq.append((nx, ny))
-                if nx == gx and ny == gy:
-                    print(check[nx][ny])
-                    isEnd = True
-                    break
-        if isEnd:
-            break
-
-"""
-1
-8
-0 0
-7 0
-"""
-
-arr = []
-# 앞에서 넣고 뺴고
-arr.pop(0)
-arr.insert(0, 1)
-
-# 뒤에서 넣고 빼고
-arr.pop()
-arr.append(1)
-
-dq = deque()
-
-# 앞에서 넣고 뺴고
-dq.appendleft(1)
-dq.popleft()
-
-# 뒤에서 넣고 빼고
-dq.append(1)
-dq.pop()
-
-
-"""
-fb)
-
-
-"""
->>>>>>> 6c9bce59587d3102dfdb55c0cf825cfb0ecfc81c
+for e in b:
+    print(mainTrie.exsit(e))
+for e in b:
+    print(mainTrie.starts_with(e))
+for e in b:
+    print(mainTrie.starts_withL(e, 2))

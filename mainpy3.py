@@ -1,52 +1,97 @@
-from math import factorial
-import sys
-from collections import deque
-import math
 
-sys.setrecursionlimit(10**6)
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
 
+using namespace std;
 
-def input(): return sys.stdin.readline().rstrip()
+int n;
+int sign[10][10];
+int ans[10];
 
+void printVector(vector<int> &v)
+{
+    for (auto k : v)
+    {
+        cout << k << " ";
+    }
+    cout << "\n";
+}
 
-def isgood(a: int, b: str, c: int):
-    if b == '<':
-        return a < c
-    else:
-        return a > c
-
-# 현재까지 데이터 상테에서, good검사를 해서, 넣어본다.
-
-
-def go(ndata: []):
-    global AnsList
-    # print(ndata)
-    # ndata를 다 모은경우는 K+1 길이가 됨
-    if len(ndata) == K+1:
-        tmp = "".join(map(lambda e: str(e), ndata))
-        AnsList.append(tmp)
-        return
-    # ndata길이가 0 이면 그냥 무조건 처음 넣어
-    for i in range(10):
-        L = len(ndata)
-        if L == 0 or isgood(ndata[-1], Blist[L-1], i):
-            if check[i]:
-                continue
-            ndata.append(i)
-            check[i] = True
-            go(ndata)
-            ndata.pop()
-            check[i] = False
-    # ndata 길이가 1이상이면 이제 비교를 하면서 넣어
-
-
-check = [False]*(10)
-AnsList = []
-K = int(input())
-Blist = input().split()
-
-data = []
-go(data)
-AnsList.sort()
-print(AnsList[-1])
-print(AnsList[0])
+bool check(int index)
+{
+    int sum = 0;
+    for (int i = index; i >= 0; i--)
+    {
+        sum += ans[i];
+        if (sign[i][index] == 0)
+        {
+            if (sum != 0)
+                return false;
+        }
+        else if (sign[i][index] < 0)
+        {
+            if (sum >= 0)
+                return false;
+        }
+        else if (sign[i][index] > 0)
+        {
+            if (sum <= 0)
+                return false;
+        }
+    }
+    return true;
+}
+bool go(int index)
+{
+    if (index == n)
+    {
+        return true;
+    }
+    if (sign[index][index] == 0)
+    {
+        ans[index] = 0;
+        return check(index) && go(index + 1);
+    }
+    for (int i = 1; i <= 10; i++)
+    {
+        ans[index] = sign[index][index] * i;
+        if (check(index) && go(index + 1))
+            return true;
+    }
+    return false;
+}
+int main()
+{
+    cin >> n;
+    string s;
+    cin >> s;
+    int cnt = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i; j < n; j++)
+        {
+            if (s[cnt] == '0')
+            {
+                sign[i][j] = 0;
+            }
+            else if (s[cnt] == '+')
+            {
+                sign[i][j] = 1;
+            }
+            else
+            {
+                sign[i][j] = -1;
+            }
+            cnt += 1;
+        }
+    }
+    go(0);
+    for (int i = 0; i < n; i++)
+    {
+        cout << ans[i] << ' ';
+    }
+    cout << '\n';
+    return 0;
+}

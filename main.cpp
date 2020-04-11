@@ -1,72 +1,97 @@
+
 #include <iostream>
-#include <queue>
+#include <vector>
+#include <algorithm>
+#include <string>
+
 using namespace std;
 
-//8개의 방향
-int dy[8] = {-1, -2, -2, -1, 1, 2, 1, 2};
-int dx[8] = {-2, -1, 1, 2, -2, -1, 2, 1};
+int n;
+int sign[10][10];
+int ans[10];
 
-int main()
+void printVector(vector<int> &v)
 {
-    int T, l, sx, sy, ex, ey; //l: 길이 sx,sy:시작 위치  ex,ey:목표 위치
-    cin >> T;
-
-    for (int testCase = 0; testCase < T; testCase++)
+    for (auto k : v)
     {
-
-        scanf("%d %d %d %d %d", &l, &sx, &sy, &ex, &ey);
-
-        int visited[300][300] = {0};
-
-        queue<pair<int, pair<int, int>>> q;
-        q.push(make_pair(0, make_pair(sy, sx))); //시간, y좌표, x좌표
-        visited[sy][sx]++;
-
-        while (!q.empty())
-        {
-            int y = q.front().second.first;
-            int x = q.front().second.second;
-            int cnt = q.front().first;
-            q.pop();
-
-            if (y == ey && x == ex)
-            {
-                cout << cnt << endl;
-                break;
-            }
-
-            for (int i = 0; i < 8; i++)
-            {
-                int ny = y + dy[i];
-                int nx = x + dx[i];
-
-                if (ny < 0 || ny >= l || nx < 0 || nx >= l)
-                    continue;
-
-                if (visited[ny][nx])
-                    continue;
-
-                visited[ny][nx] = visited[x][y] + 1;
-                q.push(make_pair(cnt + 1, make_pair(ny, nx)));
-            }
-        }
-        for (int i = 0; i < l; i++)
-        {
-            for (int j = 0; j < l; j++)
-            {
-                cout << visited[i][j] << " ";
-            }
-            cout << "\n";
-        }
+        cout << k << " ";
     }
-
-    return 0;
+    cout << "\n";
 }
 
-/*
-1
-8
-0 0
-7 0
-
-*/
+bool check(int index)
+{
+    int sum = 0;
+    for (int i = index; i >= 0; i--)
+    {
+        sum += ans[i];
+        if (sign[i][index] == 0)
+        {
+            if (sum != 0)
+                return false;
+        }
+        else if (sign[i][index] < 0)
+        {
+            if (sum >= 0)
+                return false;
+        }
+        else if (sign[i][index] > 0)
+        {
+            if (sum <= 0)
+                return false;
+        }
+    }
+    return true;
+}
+bool go(int index)
+{
+    if (index == n)
+    {
+        return true;
+    }
+    if (sign[index][index] == 0)
+    {
+        ans[index] = 0;
+        return check(index) && go(index + 1);
+    }
+    for (int i = 1; i <= 10; i++)
+    {
+        ans[index] = sign[index][index] * i;
+        if (check(index) && go(index + 1))
+            return true;
+    }
+    return false;
+}
+int main()
+{
+    cin >> n;
+    string s;
+    cin >> s;
+    int cnt = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i; j < n; j++)
+        {
+            if (s[cnt] == '0')
+            {
+                sign[i][j] = 0;
+            }
+            else if (s[cnt] == '+')
+            {
+                sign[i][j] = 1;
+            }
+            else
+            {
+                sign[i][j] = -1;
+            }
+            cnt += 1;
+        }
+    }
+    go(0);
+    for (int i = 0; i < n; i++)
+    {
+        cout << ans[i] << ' ';
+    }
+    cout << '\n';
+    return 0;
+}

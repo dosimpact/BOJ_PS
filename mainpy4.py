@@ -1,12 +1,4 @@
-"""
-# 자주쓰는 알고리즘
 
--트라이 자료구조 구현하기✅
--행렬 회전하기 시계방향 90됴 ( 노말버전, 파이썬 버전 )✅
--다음 순열 구현하기 ✅
--비트마스크로 모든 집합 순회하기 (1182 BOJ) ✅
-
-"""
 
 import sys
 
@@ -16,12 +8,45 @@ Debug = False
 def input(): return sys.stdin.readline().rstrip()
 
 
-N = int(input())
-data = list(map(int, input().split()))
+N, L = map(int, input().split())
 
-res = []
+Lants = []
+Rants = []
 
-for i in range(1, len(data)+1):
-    tmp = data[i-1]*i - sum(res[:i-1])
-    res.append(tmp)
-print(*res)
+for i in range(1, N+1):
+    ant = int(input())
+    if ant < 0:
+        Lants.append((abs(ant), i))
+    else:
+        Rants.append((ant, i))
+
+Lants.sort(key=(lambda e: e[0]))
+Rants.sort(key=(lambda e: e[0]))
+
+print(Lants)
+print(Rants)
+
+ansT = max(Lants[-1][0], L-Rants[0][0])
+
+ansI = None
+if Lants[-1][0] < L-Rants[0][0]:
+    ansI = Rants[0][1]
+else:
+    ansI = Lants[-1][1]
+print(ansI, ansT)
+
+"""
+
+4 10
+1
+2
+3
+-4
+
+4 10
+2
+3
+-4
+1
+
+"""

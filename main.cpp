@@ -1,24 +1,132 @@
-#include <cstdio>
-#include <algorithm>
-using namespace std;
-int n, l, a, b, c, pcnt;
-pair<int, int> p[100000];
-int main()
+#include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <string.h>
+
+extern char **environ;
+
+int functionENV(int argc, char *argv[])
 {
-    scanf("%d %d", &n, &l);
-    for (int i = 1, x; i <= n; i++)
-    {
-        scanf("%d", &x);
-        if (x < 0)
-            c++, a = -x > a ? -x : a;
-        else
-            b = l - x > b ? l - x : b;
-        p[pcnt++] = {abs(x), i};
-    }
-    sort(p, p + pcnt);
-    if (a > b)
-        printf("%d %d", p[c - 1].second, a);
-    else
-        printf("%d %d", p[c].second, b);
-    return 0;
+	int i, j = 0;
+	char *env, *str;
+	char *tok[100], *saveptr;
+	if (argc == 1)
+	{
+		//printf("usage: getenv env_vars ... \n");
+		return -1;
+	}
+	else
+	{
+		for (i = 0; i < argc - 1; i++)
+		{
+			env = getenv(argv[i + 1]);
+			if (env == NULL)
+				return -1;
+			printf("%s=%s\n", argv[i + 1], env);
+			for (j = 0, str = env;; str = NULL, j++)
+			{
+				tok[j] = strtok_r(str, ":", &saveptr);
+				if (tok[j] == NULL)
+					break;
+				printf("\t%s\n", tok[j]);
+			}
+		}
+	}
+	return 0;
 }
+
+int functionPATH(int argc, char **argv)
+{
+	int i, j = 0;
+	char *env, *str;
+	char *tok[100], *saveptr;
+
+	if (argc == 1)
+	{
+		//printf("usage: getenv env_vars ... \n");
+		return -1;
+	}
+	else
+	{
+
+		//절대경로라면 그대로 실행
+		if (argv[1][0] == '/')
+		{
+			if (execv(argv[1], argv + 1) == 0)
+			{
+				return 0;
+			}
+		}
+		char *path = (char *)malloc(sizeof(char) * 1000);
+		//그냥 파일만 있다라면 > 현재 디렉터리에서 실행해봄
+		char *pwd = getenv("PWD");
+		//printf("pwd : %s \n",pwd);
+		strcpy(path, pwd);
+		strcat(path, "/");
+		strcat(path, argv[1]);
+		if (execv(path, argv + 1) == 0)
+		{
+			free(path);
+			return 0;
+		}
+
+		//그대도 실패하면 모든 환경변수에 등록된 PATH 탐색
+		env = getenv("PATH");
+		if (env == NULL)
+			return -1;
+		//printf("%s=%s\n","PATH", env);
+
+		for (j = 0, str = env;; str = NULL, j++)
+		{
+			tok[j] = strtok_r(str, ":", &saveptr);
+			if (tok[j] == NULL)
+				break;
+			//printf("PATH : \t%s\n", tok[j]);
+			strcpy(path, tok[j]);
+			strcat(path, "/");
+			strcat(path, argv[1]);
+			//printf("final route %s\n",path);
+			if (execv(path, argv + 1) == 0)
+			{
+				free(path);
+				return 0;
+			}
+		}
+		free(path);
+	}
+	return -1;
+}
+
+int main(int argc, char **argv)
+{
+
+	if (functionENV(argc, argv) == 0)
+	{
+		return 0;
+	}
+
+	if (functionPATH(argc, argv) == 0)
+	{
+		return 0;
+	}
+	printf("myshell %s command not found😢\n", argv[1]);
+
+	return -1;
+}
+
+//TODO LIST
+
+//1. 화이팅 ✅
+
+//2. 우선 env을 가져와서 null이라면  ✅
+
+//3. bin의 명령어를 실행시켜보자. ✅
+
+//4. 환경변수 전달 하기 ㅜㅜ
+
+// export PATH=$PATH:/workspace/OSLecture/hw1master
+
+//   /workspace/OSLecture/hw1master/argv

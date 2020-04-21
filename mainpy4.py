@@ -2,51 +2,64 @@
 
 import sys
 
-Debug = False
-
 
 def input(): return sys.stdin.readline().rstrip()
 
 
-N, L = map(int, input().split())
+HTML = sys.stdin.read()
 
-Lants = []
-Rants = []
+parsedHTML = ""
+prevBlank = False
+pointer = 0
 
-for i in range(1, N+1):
-    ant = int(input())
-    if ant < 0:
-        Lants.append((abs(ant), i))
+
+def moveEndBlank(p: int):
+    res = ' '
+    while True:
+        t = HTML[p+1]
+        if t == '\n' or t == ' ':
+            p += 1
+        else:
+            return (p, res)
+    return -1
+
+
+def processTag(p: int):
+    res = ""
+    HTMLType = HTML[p+1:p+3]
+    if HTMLType == "br":
+        res = "\n"
+        return (p+3, res)
+    elif HTMLType == "hr":
+        res = "\n--------------------------------------------------------------------------------\n"
+        return (p+3, res)
+    return (-1, "ERROR")
+
+
+while pointer < len(HTML)-1:
+    t = ascii(HTML[pointer])
+    #print(f"Debug: {t}")
+    if t == ascii('\n') or t == ascii(' '):
+        pointer, res = moveEndBlank(pointer)
+        #print(f"Debug:moveEndBlank {pointer}")
+        parsedHTML += res
+    elif t == ascii('<'):
+        tmpP, res = processTag(pointer)
+        pointer = tmpP
+        parsedHTML += res
     else:
-        Rants.append((ant, i))
-
-Lants.sort(key=(lambda e: e[0]))
-Rants.sort(key=(lambda e: e[0]))
-
-print(Lants)
-print(Rants)
-
-ansT = max(Lants[-1][0], L-Rants[0][0])
-
-ansI = None
-if Lants[-1][0] < L-Rants[0][0]:
-    ansI = Rants[0][1]
-else:
-    ansI = Lants[-1][1]
-print(ansI, ansT)
+        parsedHTML += HTML[pointer]
+    pointer += 1
+print(parsedHTML)
 
 """
+a<br><br>c
 
-4 10
-1
-2
-3
--4
+1. <br> 다음의 공백도 처리
 
-4 10
-2
-3
--4
-1
+2. <hr> 앞뒤 공백 처리
+
+2. 80글자 단위 출력
+
 
 """

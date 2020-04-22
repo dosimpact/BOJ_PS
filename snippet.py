@@ -5,4 +5,15 @@
 -비트마스크로 모든 집합 순회하기 (1182 BOJ) 
 
 """
-print(round(5132.01, -2))
+
+from collections import deque
+import sys
+
+dq = deque(['.', 'c', '.', 'c'])
+print(dq)  # deque(['.', 'c', '.', 'c'])
+
+dq.rotate(1)
+print(dq)  # deque(['c', '.', 'c', '.'])
+
+dq.rotate(-1)
+print(dq)  # deque(['.', 'c', '.', 'c'])

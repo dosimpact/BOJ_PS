@@ -1,4 +1,4 @@
 
-data = 123.127
-
-print(round(data, 2))
+data = [4, 5, 1]
+print(data.pop(1))
+print(data)

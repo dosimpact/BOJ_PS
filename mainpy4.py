@@ -2,8 +2,6 @@
 
 import sys
 
-Debug = False
-
 
 def input(): return sys.stdin.readline().rstrip()
 

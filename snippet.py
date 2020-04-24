@@ -1,69 +1,24 @@
-"""
 
 """
+힙 자료 구조 
 
+"""
+import heapq
 
-from collections import defaultdict
+arr = [4, 1, 5, 3, 8, 6, 3, 9953, 12, 43, 555]
 
+print(arr)  # [4, 1, 5, 3, 8, 6, 3, 9953, 12, 43, 555]
+heapq.heapify(arr)
+print(arr)  # [1, 3, 3, 4, 8, 6, 5, 9953, 12, 43, 555]
+print(arr[0])  # 가장 작은 원소 보장, 그외는 아니다.
 
-class Node:
-    def __init__(self, key):
-        self.key = key
-        self.data = None
-        self.children = {}
-        self.lens = defaultdict(int)
+heapq.heappush(arr, 2)
 
-
-class Trie:
-    def __init__(self):
-        self.head = Node(None)
-
-    # 삽입
-    def insert(self, string):
-        nnode = self.head
-        for s in string:  # abc
-            if s not in nnode.children:
-                nnode.children[s] = Node(s)
-            nnode = nnode.children[s]
-        nnode.data = string
-
-    def exists(self, string):
-        nnode = self.head
-        for s in string:
-            if s in nnode.children:
-                nnode = nnode.children[s]
-            else:
-                return False
-        if nnode.data == string:
-            return True
-        else:
-            return False
-
-    def search(self, prefix):
-        res = []
-        nnode = self.head
-        for s in prefix:
-            if s in nnode.children:
-                nnode = nnode.children[s]
-            else:
-                return res
-
-        q = [nnode]
-        while q:
-            now = q.pop(0)
-            if now.data != None:
-                res.append(now.data)
-            q += list(now.children.values())
-        return res
-
-
-mainTrie = Trie()
-a = ['', 'a', 'ab', 'abc', 't', 'ta']
-for e in a:
-    mainTrie.insert(e)
-b = ['', 'a', 't', 'kk']
-
-for e in b:
-    print(mainTrie.exists(e))
-for e in b:
-    print(mainTrie.search(e))
+print(heapq.heappop(arr))  # 1
+print(heapq.heappop(arr))  # 2
+print(heapq.heappop(arr))  # 3
+print(heapq.heappop(arr))  # 3
+print(heapq.heappop(arr))  # 4
+print(heapq.heappop(arr))  # 5
+print(heapq.heappop(arr))  # 6
+print(arr)  # [8, 12, 555, 9953, 43]

@@ -1,50 +1,71 @@
 
 
 import sys
-import heapq
 
 
-def input(): return sys.stdin.readline().rstrip()
+Debug = False
+
+userList = {}
+blackList = {}
+products = None
+parsedData = {}
+User_id = None
 
 
-Debug = True
+def match(black: str, user: str):
+    for i in range(len(black)):
+        if black[i] == '*':
+            continue
+        if black[i] != user[i]:
+            return False
+    return True
 
 
-def solution(jobs):
-    jobsu = len(jobs)
-    clock = 0
-    diskQ = []
-    heapq.heapify(diskQ)
-    jobs.sort()
-    res = 0
-    # --------------------------
-    while jobs or diskQ:
-        # 현재 시간 안에 들어온 요청 큐에 넣기
-        while jobs and clock >= jobs[0][0]:
-            if Debug:
-                print(f" enqu {jobs} | time {clock} | res {res}")
-            t, a = jobs.pop(0)
-            heapq.heappush(diskQ, (a, t))
-        # 큐에서 하나 꺼내 실행
-        if diskQ:
-            a, t = heapq.heappop(diskQ)  # 3,0
-            if Debug:
-                print(f"process ..  amount { a} time {t}")
-            res += (a) + (clock - t)
-            clock += a
+def addparsedData(blackname: str, name: str):
+    NL = len(blackname)
+    if NL not in parsedData:
+        parsedData[NL] = {}
+
+
+def solution(user_id, banned_id):
+    global userList, blackList, products, user_id
+    User_id = user_id
+
+    # ----
+    for user in user_id:
+        L = len(user)
+        if L not in userList:
+            userList[L] = [user]
         else:
-            clock += 1
-        # 그렇지 않다면 시간 하나 흘려보내기
-    return res // jobsu
+            userList[L].append(user)
+
+    for user in banned_id:
+        L = len(user)
+        if L not in blackList:
+            blackList[L] = [user]
+        else:
+            blackList[L].append(user)
+    products = [0] * len(userList.keys())
+    if Debug:
+        print(userList)
+        print(blackList)
+        print(products)
+
+    for idx, nameLen in enumerate(blackList.keys()):
+        blist = blackList[nameLen]
+        ulist = userList[nameLen]
+        for usera in blist:
+            for userb in ulist:
+                if match(usera, userb):
+                    # products[idx] += 1
+                    addparsedData(usera, userb)
+    # if Debug:
+    #     print(products)
+    # res = 1
+    # for p in products:
+    #     res = res * p
+    return res
 
 
-print(solution(	[[0, 3], [1, 9], [2, 6]]))
-
-"""
-fb) 오잉 로직을 찍었는데 맞추었음....
-
-그냥 직감적으로 >
-특정 시간에 두개의 작업이들어왔어 > 가장 적은 시간내에 끝내는 작업먼저 처리하는게 개이득 
-왜 어차피 
-
-"""
+print(solution(	["frodo", "fradi", "crodo", "abc123", "frodoc"], [
+      "fr*d*", "*rodo", "******", "******"]))

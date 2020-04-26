@@ -1,16 +1,15 @@
-def solution(n, works: []):  # 무조건 최고의 workㄹ르 줄여라
-    answer = 0
-
-    for _ in range(n):
-        idx = works.index(max(works))
-        if(works[idx] > 0):
-            works[idx] -= 1
-        else:
-            break
-    print(works)
-    for work in works:
-        answer += work**2
-    return answer
 
 
-print(solution(3, [1, 1]))
+import sys
+sys.setrecursionlimit(10**6)
+
+
+def input(): return sys.stdin.readline().rstrip()
+
+
+L, P = map(int, input().split())
+data = list(map(int, input().split()))
+
+su = L*P
+for d in data:
+    print(d-su, end=" ")

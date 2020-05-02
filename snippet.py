@@ -1,16 +1,9 @@
-from collections import deque
+import heapq
 
 
-dq = deque([1, 2, 3, 4])
-dq.append(10)
-dq.popleft()
-print(dq)
-dq.rotate(1)
-print(dq)
-dq.rotate(-1)
-print(dq)
+ts = [(4, 5), (6, -7), (6, -252), (6, -100), (1, 1), (2, 1), (3, 1)]  # t, w
+heapq.heapify(ts)
 
-dq.rotate(2)
-print(dq)
-dq.rotate(-2)
-print(dq)
+print(ts)
+while ts:
+    print(heapq.heappop(ts))

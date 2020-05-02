@@ -8,87 +8,75 @@ Debug = False
 
 def input(): return sys.stdin.readline().rstrip()
 
+"""
+1) 그리디 하게 접근
+해당 사람을 움직이고 , 그때 최대한 많은충전소를 get한다.
+
+사용자 2명 > 0,0, 9,9 출발
+BC의 갯수는 1~8 
+
+2) Graph 값은 비트마스크로 진행한다.
+
+"""
+Graph = [[0 for _ in range(10)] for _ in range(10)]
+charger = [0 for _ in range(8)]
+
+
+# 그래프 x,y 에 charger 0번을 추가한다.
+def AddGraph(x: int, y: int, cnum: int):
+    pass
+
+# bitset list 를 > charger sum 으로 반환한다.
+
+
+def bitlist2ChargerSum():
+    pass
+
 # 입력처리
 
 
-def getTeamValue(s: []):
-    xlist = []
-    ylist = []
-    for e in s:
-        xlist.append(personXY[e][0])
-        ylist.append(personXY[e][1])
-    if Debug:
-        print(f"team {s} is {xlist} {ylist}")
-    return ((max(xlist) - min(xlist))+(max(ylist) - min(ylist)))*2
-
-
-N, M = map(int, input().split())
-personXY = []
-
-for _ in range(N):
-    u, v = map(int, input().split())
-    personXY.append((u, v))
-
-graph = [[] for _ in range(N)]
-for _ in range(M):
-    u, v = map(int, input().split())
-    if u == v:
-        continue
-    u -= 1
-    v -= 1
-    graph[u].append(v)
-    graph[v].append(u)
-
-if Debug:
-    print(graph)
-    print(personXY)
-# 묶기 컴포넌트를 돌꺼야, 근데 cnt가 아니라, check했던 녀석을을 구해
-check = [0]*N
-
-team = []
-for s in range(0, N):
-    teamTmp = []
-    if check[s] == 0:
-        check[s] = 1
-        teamTmp.append(s)
-        q = [s]
-        while q:
-            now = q.pop(0)
-            for nxt in graph[now]:
-                if check[nxt] == 0:
-                    check[nxt] = 1
-                    teamTmp.append(nxt)
-                    q.append(nxt)
-    if teamTmp:
-        team.append(teamTmp)
-if Debug:
-    print(team)
-# minmax
-
-teamValue = []
-for t in team:
-    res = getTeamValue(t)
-    teamValue.append(res)
-if Debug:
-    print(teamValue)
-
-print(max(teamValue))
 """
-8 7
-17 1
-1 3
-8 14
-18 19
-19 19
-2 15
-17 8
-11 3
-1 1
-4 3
-4 5
-3 5
-1 7
-1 2
-3 3
+
+5
+20 3
+2 2 3 2 2 2 2 3 3 4 4 3 2 2 3 3 3 2 2 3
+4 4 1 4 4 1 4 4 1 1 1 4 1 4 3 3 3 3 3 3
+4 4 1 100
+7 10 3 40
+6 3 2 70
+40 2
+0 3 0 3 3 2 2 1 0 4 1 3 3 3 0 3 4 1 1 3 2 2 2 2 2 0 2 3 2 2 3 4 4 3 3 3 2 0 4 4 
+0 1 0 3 4 0 4 0 0 1 1 1 0 1 4 4 4 4 4 3 3 3 0 1 0 4 3 2 1 4 4 3 2 3 2 2 0 4 2 1 
+5 2 4 140
+8 3 3 490
+60 4
+0 3 3 3 0 1 2 2 2 1 2 2 3 3 4 4 0 3 0 1 1 2 2 3 2 2 3 2 2 0 3 0 1 1 1 4 1 2 3 3 3 3 3 1 1 4 3 2 0 4 4 4 3 4 0 3 3 0 3 4 
+1 1 4 1 1 1 1 1 1 4 4 1 2 2 3 2 4 0 0 0 4 3 3 4 3 3 0 1 0 4 3 0 4 3 2 3 2 1 2 2 3 4 0 2 2 1 0 0 1 3 3 1 4 4 3 0 1 1 1 1 
+6 9 1 180
+9 3 4 260
+1 4 1 500
+1 3 1 230
+80 7
+2 2 2 2 2 2 0 2 2 0 4 0 2 3 3 2 3 3 0 3 3 3 4 3 3 2 1 1 1 0 4 4 4 1 0 2 2 2 1 1 4 1 2 3 4 4 3 0 1 1 0 3 4 0 1 2 2 2 1 1 3 4 4 4 4 4 4 3 2 1 4 4 4 4 3 3 3 0 3 3 
+4 4 1 1 2 1 2 3 3 3 4 4 4 4 4 1 1 1 1 1 1 1 1 0 3 3 2 0 4 0 1 3 3 3 2 2 1 0 3 2 3 4 1 0 1 2 2 3 2 0 4 0 3 4 1 1 0 0 3 2 0 0 4 3 3 4 0 4 4 4 4 0 3 0 1 1 4 4 3 0 
+4 3 1 170
+10 1 3 240
+10 5 3 360
+10 9 3 350
+9 6 2 10
+5 1 4 350
+1 8 2 450
+100 8
+2 2 3 2 0 2 0 3 3 1 2 2 2 2 3 3 0 4 4 3 2 3 4 3 3 2 3 4 4 4 2 2 2 0 2 2 4 4 4 4 1 1 1 2 2 2 4 3 0 2 3 3 4 0 0 1 1 4 1 1 1 1 2 2 1 1 3 3 3 0 3 2 3 3 0 1 3 3 0 1 1 3 3 4 0 4 1 1 2 2 4 0 4 1 1 2 2 1 1 1 
+4 4 4 0 4 1 1 4 1 1 1 1 3 2 1 2 1 1 4 4 1 0 2 3 4 4 4 4 4 0 1 0 2 2 2 0 2 2 2 2 2 2 3 0 0 1 4 3 3 2 0 0 4 4 4 0 2 0 4 1 1 2 2 0 4 4 0 0 2 0 2 3 3 0 2 3 0 3 4 0 4 3 4 4 3 4 1 1 2 2 2 0 0 1 0 4 1 1 1 4 
+3 4 2 340
+10 1 1 430
+3 10 4 10
+6 3 4 400
+7 4 1 80
+4 5 1 420
+4 1 2 350
+8 4 4 300
+
 
 """

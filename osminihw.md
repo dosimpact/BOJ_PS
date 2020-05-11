@@ -1,3 +1,6 @@
+# osminihw
+
+```python
 import sys
 from copy import deepcopy
 
@@ -8,10 +11,10 @@ def input(): return sys.stdin.readline().rstrip()
 sys.setrecursionlimit(10**6)
 
 q = []  # 작업 큐
-plist = [[30000, 0, 0, 1, 30000], [15000, 0, 0, 2, 15000], [10000, 0, 0, 3, 10000], [
-    8000, 0, 0, 4, 8000], [5000, 0, 0, 5, 5000]]  # 실행 되어야 할 프로세스 시간 (ms) 대기시간, 종료된 시간
+plist = [[10000, 0, 0, 1, 10000], [15000, 0, 0, 2, 15000], [10000, 0, 0, 3, 10000], [
+    8000, 0, 0, 4, 8000], [7000, 0, 0, 5, 7000]]  # 실행 되어야 할 프로세스 시간 (ms) 대기시간, 종료된 시간
 reslist = []
-quantum = 10  # CASE1. 퀀텀이 5s인 경우
+quantum = 9000  # CASE1. 퀀텀이 5s인 경우
 
 clk = 0  # 전체 시간
 qtimer = 0  # 퀀텀 타이머
@@ -34,6 +37,7 @@ while q:  # 작업큐가 없을때 까지.
         tmp = q.pop(0)
         reslist.append(tmp)
         qtimer = 0
+
         continue
     # 퀀텀이 종료되면 | 다시 스케쥴링
     if qtimer >= quantum:
@@ -50,37 +54,74 @@ for i in range(len(reslist)):
 
 print(f"total waiting time |\t {sum(map(lambda e: e[1],reslist))}ms")
 print(f"total switch count |\t {switchCnt}")
-"""
-quantum = 15000 
+
+```
+
+# 결론
+
+- 15000
+
+```c
 ps1 |    processTime : 10000ms|  responseTime : 10000ms|         waitingTime : 0ms
 ps2 |    processTime : 15000ms|  responseTime : 25000ms|         waitingTime : 10000ms
 ps3 |    processTime : 10000ms|  responseTime : 35000ms|         waitingTime : 25000ms
 ps4 |    processTime : 8000ms|   responseTime : 43000ms|         waitingTime : 35000ms
 ps5 |    processTime : 7000ms|   responseTime : 50000ms|         waitingTime : 43000ms
 total waiting time |     113000ms
+total switch count |     0
+```
 
+- 5000
 
-quantum = 5000 
+```c
 ps1 |    processTime : 10000ms|  responseTime : 30000ms|         waitingTime : 20000ms
 ps3 |    processTime : 10000ms|  responseTime : 40000ms|         waitingTime : 30000ms
 ps4 |    processTime : 8000ms|   responseTime : 43000ms|         waitingTime : 35000ms
 ps5 |    processTime : 7000ms|   responseTime : 45000ms|         waitingTime : 38000ms
 ps2 |    processTime : 15000ms|  responseTime : 50000ms|         waitingTime : 35000ms
 total waiting time |     158000ms
+total switch count |     6
+```
 
-quantum = 1000 
+- 1000
+
+```c
 ps5 |    processTime : 7000ms|   responseTime : 35000ms|         waitingTime : 28000ms
 ps4 |    processTime : 8000ms|   responseTime : 39000ms|         waitingTime : 31000ms
 ps1 |    processTime : 10000ms|  responseTime : 43000ms|         waitingTime : 33000ms
 ps3 |    processTime : 10000ms|  responseTime : 45000ms|         waitingTime : 35000ms
 ps2 |    processTime : 15000ms|  responseTime : 50000ms|         waitingTime : 35000ms
 total waiting time |     162000ms
+total switch count |     45
+```
 
-quantum = 10 
+- 10
+
+```c
 ps5 |    processTime : 7000ms|   responseTime : 35000ms|         waitingTime : 28000ms
 ps4 |    processTime : 8000ms|   responseTime : 39000ms|         waitingTime : 31000ms
 ps1 |    processTime : 10000ms|  responseTime : 44980ms|         waitingTime : 34980ms
 ps3 |    processTime : 10000ms|  responseTime : 45000ms|         waitingTime : 35000ms
 ps2 |    processTime : 15000ms|  responseTime : 50000ms|         waitingTime : 35000ms
 total waiting time |     163980ms
-"""
+total switch count |     4995
+```
+
+```
+ps3 |    processTime : 10000ms|  responseTime : 30000ms|         waitingTime : 20000ms
+ps4 |    processTime : 8000ms|   responseTime : 38000ms|         waitingTime : 30000ms
+ps5 |    processTime : 5000ms|   responseTime : 43000ms|         waitingTime : 38000ms
+ps2 |    processTime : 15000ms|  responseTime : 58000ms|         waitingTime : 43000ms
+ps1 |    processTime : 30000ms|  responseTime : 68000ms|         waitingTime : 38000ms
+total waiting time |     169000ms
+total switch count |     3
+
+
+ps5 |    processTime : 5000ms|   responseTime : 25000ms|         waitingTime : 20000ms
+ps4 |    processTime : 8000ms|   responseTime : 37000ms|         waitingTime : 29000ms
+ps3 |    processTime : 10000ms|  responseTime : 43000ms|         waitingTime : 33000ms
+ps2 |    processTime : 15000ms|  responseTime : 53000ms|         waitingTime : 38000ms
+ps1 |    processTime : 30000ms|  responseTime : 68000ms|         waitingTime : 38000ms
+total waiting time |     158000ms
+total switch count |     6795
+```

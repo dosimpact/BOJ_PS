@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import sys
 from copy import deepcopy
 
@@ -47,3 +48,14 @@ while True:
 
 fres = Area(xpos, ypos)
 print(fres)
+=======
+import heapq
+
+
+ts = [(4, 5), (6, -7), (6, -252), (6, -100), (1, 1), (2, 1), (3, 1)]  # t, w
+heapq.heapify(ts)
+
+print(ts)
+while ts:
+    print(heapq.heappop(ts))
+>>>>>>> e5a1f31122671d69a4f30619dab57dd29da27a28

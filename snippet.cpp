@@ -1,54 +1,21 @@
-#include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-//함수를 작성해 보자
-
-void function(char *command, char **sArr)
+int main()
 {
-    int j;
-    char *str, *next_ptr;
-    for (int i = 0; i < 10; i++)
+    int count;
+    printf("몇 개의 점수 입력\n");
+    scanf_s("%d", &count);
+    int *score = (int *)malloc(sizeof(int) * count);
+
+    for (int i = 0; i < count; i++)
     {
-        sArr[i] = NULL;
+        printf("점수입력:");
+        scanf_s("%d", &score[i]);
     }
-
-    for (j = 0, str = command;; str = NULL, j++)
+    for (int i = 0; i < count; i++)
     {
-        sArr[j] = strtok_r(str, " ", &next_ptr);
-        if (sArr[j] == NULL)
-            break;
+        printf("%d", *score);
+        score++;
     }
-    for (int i = 0; i < 10; i++)
-    {
-        if (sArr[i] != NULL)
-            printf("%s\n", sArr[i]);
-    }
-    return;
-}
-
-int main(int argc, char **argv)
-{
-
-    char command[] = "ls -al a*";
-    // char *next_ptr;
-    char *sArr[100] = {
-        NULL,
-    };
-    function(command, sArr);
-
-    // char *str;
-    // int j = 0;
-    // command 의 갯수와 , 그를 담는 문자열 배열
-
-    // for (j = 0, str = command;; str = NULL, j++)
-    // {
-    //     sArr[j] = strtok_r(str, " ", &next_ptr);
-    //     if (sArr[j] == NULL)
-    //         break;
-    // }
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     if (sArr[i] != NULL)
-    //         printf("%s\n", sArr[i]);
-    // }
 }

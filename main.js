@@ -1,3 +1,3 @@
-const data = new Array(5);
-
-data.push(10);
+const fs = require("fs");
+let [a, b] = fs.readFileSync("/dev/stdin").toString().split(" ");
+console.log(+a + +b);

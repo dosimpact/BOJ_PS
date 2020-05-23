@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import sys
 from copy import deepcopy
 
@@ -49,54 +48,35 @@ while True:
 
 fres = Area(xpos, ypos)
 print(fres)
-=======
-import heapq
-=======
-import sys
->>>>>>> 1bb721091776b05cc993b770dfd9853db391c39a
 
 
 def input(): return sys.stdin.readline().rstrip()
 
-<<<<<<< HEAD
+
+<< << << < HEAD
 print(ts)
 while ts:
     print(heapq.heappop(ts))
->>>>>>> e5a1f31122671d69a4f30619dab57dd29da27a28
-=======
+>>>>>> > e5a1f31122671d69a4f30619dab57dd29da27a28
+== == == =
 
-def mergeSort(ori: []):
-    # BC
-    if len(ori) <= 1:
-        return
-    # 분할 | merge recursion
-    head = ori[:len(ori)//2]
-    tail = ori[len(ori)//2:]
-    mergeSort(head)
-    mergeSort(tail)
-    # 정복 | logic
-    i, j, k = 0, 0, 0  # head, tail, ori 에 대한 포인터(사실 인덱스)
-    while i < len(head) and j < len(tail):
-        if head[i] < tail[j]:
-            ori[k] = head[i]
-            i += 1
-        else:
-            ori[k] = tail[j]
-            j += 1
-        k += 1
-    while i < len(head):
-        ori[k] = head[i]
-        k += 1
-        i += 1
-    while j < len(tail):
-        ori[k] = tail[j]
-        k += 1
-        j += 1
+an, am = map(int, input().split())
+A = [list(map(int, input().split())) for _ in range(an)]
 
+bn, bm = map(int, input().split())
+B = [list(map(int, input().split())) for _ in range(bn)]
 
-arr = [6, 15, 4, 1, 5, 5, 5, 29, 2, 3, 0]
+#print(A, B)
 
-print(arr)
-mergeSort(arr)
-print(arr)
->>>>>>> 1bb721091776b05cc993b770dfd9853db391c39a
+C = [[0 for j in range(bm)] for i in range(an)]
+
+for i in range(an):
+    for j in range(bm):
+        res, it = 0, am
+        for k in range(it):
+            res += A[i][k]*B[k][j]
+        C[i][j] = res
+
+for e in C:
+    print(*e)
+>>>>>> > 84197e1f135d9cd9c9a067fe85dec0a791191f11

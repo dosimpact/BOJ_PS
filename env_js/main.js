@@ -26,3 +26,10 @@ const main = () => {
   downloader();
 };
 main();
+
+const ins = `
+var i = 0;\n
+while(i < 10){\n
+  console.log(i)\n
+  i++ \n
+`;

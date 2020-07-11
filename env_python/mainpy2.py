@@ -1,39 +1,85 @@
+"""
+1:40~
+- BFS/DFS quick 복습
+[ 인접 행렬 | 인접 리스트 ver]
+- 숨바꼭질
+- 알고스팟
+- 벽부스고 이동
+- 이모티콘
+"""
+
+
 import sys
 
 
-MAX_VAL = 9
-# d의
-d = [set() for _ in range(MAX_VAL)]
+def input(): return sys.stdin.readline().rstrip()
 
 
-def interEval(a: set, b: set):
-    res = set()
-    for k in range(4):
-        for ae in a:
-            for be in b:
-                if k == 0:
-                    res.add(ae+be)
-                if k == 1:
-                    res.add(ae-be)
-                if k == 2:
-                    res.add(ae*be)
-                if k == 3 and be != 0:
-                    res.add(ae//be)
-    return res
+n, m, v = map(int, input().split())
+
+check = [0 for _ in range(n+1)]
+graph = [[] for _ in range(n+1)]  # 0번 인덳 사용 X
 
 
-def solution(N, number):
-    # init d
-    for i in range(1, MAX_VAL):
-        d[i] = d[i] | {int(f"{N}"*i)}
+"""
+깊이 우선 탐색:
+x방문 | 주변 노드 탐색 > 갈수 있으면 바로 간다.
+너비 우선 탐색:
+x방문 | q에 넣고, 주변노드들을 q에 저장해둔다. q를 꺼내서 방문하고, q를 또 넣어둔다
 
-    for i in range(2, MAX_VAL):  # 3
-        for j in range(1, i):
-            d[i] = d[i] | (interEval(d[j], d[i-j]))
-    for i in range(1, MAX_VAL):
-        if number in d[i]:
-            return i
-    return -1
+FB)
+ - 문제의 변수와 커스텀 변수가 충돌이 일어남
+.- global 선언했어야 한다.
+"""
 
 
-print(solution(5, 12))
+def dfs(x: int):
+    global check
+    check[x] = 1
+    print(x, end=" ")
+    for nxt in graph[x]:
+        if check[nxt] == 0:
+            check[nxt] = 1
+            # print(nxt, end=" ")
+            dfs(nxt)
+
+
+def bfs(x: int):
+    global check
+    check[x] = 1
+    q = []
+    q.append(x)
+    print(x, end=" ")
+    while q:
+        now = q.pop(0)
+        for nxt in graph[now]:
+            if check[nxt] == 0:
+                check[nxt] = 1
+                print(nxt, end=" ")
+                q.append(nxt)
+# DS 채워두기 + sorting
+
+
+for _ in range(m):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+
+for i in range(n):
+    graph[i].sort()
+# print(graph)
+# BFS 탐색
+dfs(v)
+check = [0 for _ in range(n+1)]
+print()
+bfs(v)
+
+
+"""
+4 5 1
+1 2
+1 3
+1 4
+2 4
+3 4
+"""

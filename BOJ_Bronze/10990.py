@@ -18,11 +18,3 @@ def draw(N: int, cnt: int):
 
 for i in range(1, N + 1):
     draw(N, i)
-
-
-"""
-   *
-  * *
- *   *
-*     *
-"""

@@ -1,5 +1,13 @@
 # BOJ !
 
+```
+git add --all .
+git commit -m "update docs"
+git push origin master
+
+
+```
+
 ## 풀었던 로그
 
 ```python

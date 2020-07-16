@@ -1,42 +1,45 @@
-
-
 import sys
-from collections import deque
-import heapq
-sys.setrecursionlimit(10**6)
+from collections import Counter
 
-Debug = False
+# main
+t = int(sys.stdin.readline())
 
-res = 0
-
-people = []
-
-memoW = []
-memoB = []
-heapq.heapify(memoW)
-heapq.heapify(memoB)
+numbers = []
+for _ in range(t):
+    numbers.append(int(sys.stdin.readline()))
 
 
-def tryonBlack():
-    pass
+def mean(nums):
+    return round(sum(nums) / len(nums))
 
 
-def tryonWhite():
-    pass
+def median(nums):
+    nums.sort()
+    mid = nums[len(nums) // 2]  # nums의 개수는 홀수
+
+    return mid
 
 
-for data in sys.stdin:
-    people.append(map(int, data.split()))
+def mode(nums):
+    mode_dict = Counter(nums)
+    modes = mode_dict.most_common()
 
-for person in data:
-    if person[0] >= person[1]:
-        tryonWhite(person[0])
-        tryonBlack(person[1])
+    if len(nums) > 1:
+        if modes[0][1] == modes[1][1]:
+            mod = modes[1][0]
+        else:
+            mod = modes[0][0]
     else:
-        try
-"""
-di 처리 :
- 1. di-1 의 상태를 저장 , 두개의 최소힙큐로, 뺀앞의 사람이 곧 짤릴사람임
- 2. pi의 취직시도, > 구조 조정
+        mod = modes[0][0]
 
-"""
+    return mod
+
+
+def scope(nums):
+    return max(nums) - min(nums)
+
+
+print(mean(numbers))
+print(median(numbers))
+print(mode(numbers))
+print(scope(numbers))

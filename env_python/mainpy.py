@@ -1,55 +1,52 @@
+
 import sys
-from collections import defaultdict
-from collections import Counter
 
 
-def input():
-    return sys.stdin.readline().rstrip()
+input = sys.stdin.readline
 
+goalState = "123456780"
+state = ""
+check = dict()
+for _ in range(3):
+    state += "".join(input().split())
+# state = state.replace("0", "9")
+# print(state)
 
-d_dict = {}
-N = int(input())
-datas = []
-for _ in range(N):
-    d = int(input())
-    datas.append(d)
-    if d in d_dict:
-        d_dict[d] += 1
-    else:
-        d_dict[d] = 1
+dx = [0, 0, 1, -1]
+dy = [1, -1, 0, 0]
 
+q = [state]
+check[state] = 0
+while q:
+    now = q.pop(0)  # 103425786
+    zeroIdx = now.find('0')
+    x, y = zeroIdx // 3, zeroIdx % 3
+    for k in range(4):
+        nx, ny = x + dx[k], y + dy[k]
+        if nx < 0 or ny < 0 or nx >= 3 or ny >= 3:
+            continue
 
-datas.sort()
-# print(datas)
-print(round(sum(datas) / len(datas)))
-print(datas[len(datas) // 2])
+        next = list(now)
+        tmp = next[zeroIdx]
+        next[zeroIdx] = next[nx*3+ny]
+        next[nx*3+ny] = tmp
+        next = "".join(next)
 
+        if next in check:
+            continue
+        check[next] = check[now] + 1
+        if next == goalState:
+            break
+        q.append(next)
 
-maxCnt = max(d_dict.values())
-result = []
-for key in d_dict:
-    if d_dict[key] == maxCnt:
-        result.append(key)
-result.sort()
-if len(result) == 1:
-    print(result[0])
+if goalState in check:
+    print(check[goalState])
 else:
-    print(result[1])
-
-
-print(max(datas) - min(datas))
+    print(-1)
+"""
+103
+425
+786
 
 
 """
-FB) 1.  문제를 제대로 안읽는 습관 
-- N이 홀수라는 가정을 안보고, 엄청난 손해를 봤다.
-
-FB) 끝점 TDD 안하려는 ㅅㅂ관
-
-
-FB) 2. 문제를 제대로 안읽는 습관
-- 최빈값에서 ,여러개일경우  2번째출력을 안봤다.
-- 산술평균 출력할때, 소수첫째자리에서 반올림을 하면, round(su,1) 이 아니라, round(su) 이다.
-
-"""
-

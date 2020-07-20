@@ -1,45 +1,41 @@
+from collections import deque
 import sys
-from collections import Counter
 
-# main
-t = int(sys.stdin.readline())
+input = sys.stdin.readline
 
-numbers = []
-for _ in range(t):
-    numbers.append(int(sys.stdin.readline()))
+def bfs(x):
+    q.append([x, ""])
+    c[x] = 1
+    while q:
+        x, d = q.popleft()
+        if x == y:
+            return d
+        if 2*x <= 9999 and c[2*x] == 0:
+            c[2*x] = 1
+            q.append([2*x, d+'D'])
+        if 2*x > 9999 and c[(2*x) % 10000] == 0:
+            c[(2*x) % 10000] = 1
+            q.append([(2*x) % 10000, d+'D'])
+        if x-1 >= 0 and c[x-1] == 0:
+            c[x-1] = 1
+            q.append([x-1, d+'S'])
+        if x-1 < 0 and c[9999] == 0:
+            c[9999] = 1
+            q.append([9999, d+'S'])
+        nx = int((x % 1000) * 10 + x / 1000)
+        if c[nx] == 0:
+            c[nx] = 1
+            q.append([nx, d+'L'])
+        nx = int((x % 10) * 1000 + x / 10)
+        if c[nx] == 0:
+            c[nx] = 1
+            q.append([nx, d+'R'])
 
-
-def mean(nums):
-    return round(sum(nums) / len(nums))
-
-
-def median(nums):
-    nums.sort()
-    mid = nums[len(nums) // 2]  # nums의 개수는 홀수
-
-    return mid
-
-
-def mode(nums):
-    mode_dict = Counter(nums)
-    modes = mode_dict.most_common()
-
-    if len(nums) > 1:
-        if modes[0][1] == modes[1][1]:
-            mod = modes[1][0]
-        else:
-            mod = modes[0][0]
-    else:
-        mod = modes[0][0]
-
-    return mod
-
-
-def scope(nums):
-    return max(nums) - min(nums)
-
-
-print(mean(numbers))
-print(median(numbers))
-print(mode(numbers))
-print(scope(numbers))
+tc = int(input())
+while tc:
+    c = [0 for _ in range(10000)]
+    q = deque()
+    x, y = map(int, input().split())
+    ans = bfs(x)
+    print(ans)
+    tc -= 1

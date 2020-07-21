@@ -1,48 +1,47 @@
-
 import sys
 
-
-def input(): return sys.stdin.readline().rstrip()
-
-
-LIMIT_N = 100001
-N, K = map(int, input().split())
-
-fromidx = [-1 for _ in range(LIMIT_N)]
-check = [-1 for _ in range(LIMIT_N)]
-check[N] = 0
-q = [N]
+input = sys.stdin.readline
 
 
-def inRange(x):
-    return x >= 0 and x < LIMIT_N
-
-
-while q:
-    now = q.pop(0)
-    if now == K:
-        break
-    for nxt in [now*2, now+1, now-1]:
-        if not inRange(nxt) or check[nxt] != -1:
-            continue
-        check[nxt] = check[now] + 1
-        fromidx[nxt] = now  # 야 nxt(10)노드 너는 누구로부터 왔니?
-        q.append(nxt)
-print(check[K])
-
-p = K
-trace = []
-while True:
-    # print(p, end=" ")
-    trace.append(p)
-    if p == N:
-        break
-    p = fromidx[p]
-    # print(trace)
-print(*trace[::-1])
 """
-5 17
+빈 공간은 '.'
+지나갈 수 없는 벽은 '*'
+문은 '#'
+죄수의 위치는 '$'
+
+죄수 = 2명,
+항상 밖으로 가는 경로 있다, .또는 #으로
+두 죄수를 탈옥 시키기 위한 최소 문 열기 횟수
+
+- 이동은 자유로움 cost = 0
+- 문열기는 cost = 1
+- 하지만 두 죄수의 union
+
+- fromIdx => 죄수 1의 경로
+- fromIdx => 죄수 2의 경로 
+두 경로에서 문의 좌표를 set으로 만들어서 ,set1, set2 를 union 한다.
+
+----------------------------------
+
+*#**#**#*
+*#**#**#*
+*#**#**#*
+*#**.**#*
+*#*#.#*#*
+*$##*##$*
+*#*****#*
+*.#.#.#.*
+*********
+
+*5**6**A*
+*4**5**#*
+*3**4**#*
+*2**3**#*
+*1*334*#*
+*012*566*
+*1*****5*
+*1223344*
+*********
 
 
-5 -> 10
 """

@@ -1,62 +1,38 @@
-"""
-D 두배,9999보다크면 나머지
-S -1, 0이라면 9999저장
-L 왼편회전
-E 오른편 회전
-
-A->B의 최소 명령.
-
-문자열로
-1000 > 0001
-
-* check를 "" > "D" > "DL" > "DLS" > "DLSS" ... 힘들어
-=> fromNode 배열로 물어보자. 너 어디서 왔니?
-"""
-
 import sys
 
 
-def input(): return sys.stdin.readline().rstrip()
+input = sys.stdin.readline
+
+N, K = map(int, input().split())
 
 
-def sol():
-    LIMIT_N = 10001
-    A, B = map(int, input().split())
-    
-    check[A] = 0
+LIMIT_N = 100001
 
-    q = [[A, ""]]
-    while q:
-        now, trace = q.pop(0)
-        if now == B:
-            return trace
-        tmp = (now*2) % 10000
-        if check[tmp] == -1:
-            check[tmp] = check[now] + 1
-            q.append([tmp, trace+"D"])
+check = [-1 for _ in range(LIMIT_N)]
+cnt = [-1 for _ in range(LIMIT_N)]
 
-        tmp = 9999 if now == 0 else now-1
-        if check[tmp] == -1:
-            check[tmp] = check[now] + 1
-            q.append([tmp, trace+"S"])
-
-        tmp = (now % 1000)*10 + now//1000
-        if check[tmp] == -1:
-            check[tmp] = check[now] + 1
-            q.append([tmp, trace+"L"])
-
-        tmp = (now % 10)*1000 + now // 10
-        if check[tmp] == -1:
-            check[tmp] = check[now] + 1
-            q.append([tmp, trace+"R"])
+check[N] = 0
+cnt[N] = 1
+q = [N]
+# BFS 알고리즘을 통해, x -> x-1,x+1,x*2 을 탐색한다.
 
 
-case = int(input())
-for _ in range(case):
-    print(sol())
+def inRange(x):
+    return x >= 0 and x < LIMIT_N
 
-"""
 
-0 9999
-0 1
-"""
+while q:
+    now = q.pop(0)
+    for next in [now-1, now+1, now*2]:
+        if not inRange(next):
+            continue
+        if check[next] == -1:
+            check[next] = check[now] + 1
+            cnt[next] = cnt[now]
+            q.append(next)
+        else:
+            if check[next] == check[now] + 1:
+                cnt[next] += cnt[now]
+
+print(check[K])
+print(cnt[K])

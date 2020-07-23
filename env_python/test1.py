@@ -1,6 +1,5 @@
 
 
-arr = [1, 2, 3]
+data = ["x"] + list(input()) + ["x"]
 
-
-def func(s: []):
+print(data)

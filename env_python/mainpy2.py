@@ -1,73 +1,22 @@
-
-
 import sys
 
-
-def input(): return sys.stdin.readline().rstrip()
-
-
-N, M = map(int, input().split())
-graph = [list(map(int, list(input()))) for _ in range(N)]
-check = [[[-1 for _ in range(2)] for _ in range(M)] for _ in range(N)]
-dx = [0, 0, -1, 1]
-dy = [1, -1, 0, 0]
+sys.setrecursionlimit(10 ** 8)
+input = sys.stdin.readline
 
 
-def inRange(x: int, y: int):
-    return x >= 0 and y >= 0 and x < N and y < M
+T = int(input())
 
+for _ in range(T):
+    N = int(input())
+    P = [list(map(int, input().split())) for _ in range(2)]  # [위,아래][i번째]
+    d = [[0 for _ in range(0, 3)] for _ in range(N + 1)]
 
-def BFS(x: int, y: int):
-    global check
-    check[x][y][0] = 0
-    q = [(x, y, 0)]
-    while q:
-        x, y, z = q.pop(0)
-        for k in range(4):
-            nx, ny = x + dx[k], y + dy[k]
-            if not inRange(nx, ny) or check[nx][ny][z] != -1:
-                continue
-            if(z == 0):  # CASE 1 현재 벽을 안부순 경우 탐색
-                # CASE 1-1벽을 안부수고 계속탐색
-                if graph[nx][ny] == 0:
-                    check[nx][ny][0] = check[x][y][0]+1
-                    q.append((nx, ny, 0,))
-                # CASE 1-2 벽을 부수고 계속 탐색
-                if graph[nx][ny] == 1:
-                    check[nx][ny][1] = check[x][y][0]+1
-                    q.append((nx, ny, 1,))
-            else:  # CASE 2 현재 벽을 부순 경우 탐색
-                # CASE 2 벽을 안부수고 계속 탐색
-                if graph[nx][ny] == 0:
-                    check[nx][ny][z] = check[x][y][z]+1
-                    q.append((nx, ny, z,))
+    d[1][0] = 0  # 안ㄸ드
+    d[1][1] = P[0][0]  # 위뜯
+    d[1][2] = P[1][0]  # 아래 뜯
 
-
-BFS(0, 0)
-
-u, v = check[N-1][M-1][0], check[N-1][M-1][1]
-if u == v == -1:
-    print(-1)
-else:
-    if u == -1:
-        print(v+1)
-    elif v == -1:
-        print(u+1)
-    else:
-        print(min(u+1, v+1))
-"""
-1 1
-0
-
-2 2
-01
-10
-
-6 4
-0100
-1110
-1000
-0000
-0111
-0000
-"""
+    for i in range(2, N + 1):
+        d[i][0] = max(d[i - 1][0], d[i - 1][1], d[i - 1][2])  # 스티커를 안뜯는 경우
+        d[i][1] = max(d[i - 1][0], d[i - 1][2]) + P[0][i-1]  # 위에를 뜯는경우
+        d[i][2] = max(d[i - 1][0], d[i - 1][1]) + P[1][i-1]  # 아랠르 뜯는 경우
+    print(max(d[N]))

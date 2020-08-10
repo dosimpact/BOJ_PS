@@ -1,45 +1,21 @@
 import sys
-from collections import Counter
 
-# main
-t = int(sys.stdin.readline())
-
-numbers = []
-for _ in range(t):
-    numbers.append(int(sys.stdin.readline()))
+sys.setrecursionlimit(10 ** 8)
+input = sys.stdin.readline
 
 
-def mean(nums):
-    return round(sum(nums) / len(nums))
+T = int(input())  # 6
+P = [0 for _ in range(T+1)]  # [i번째 포도주]
+for _ in range(1, T + 1):
+    P[_] = int(input())
 
-
-def median(nums):
-    nums.sort()
-    mid = nums[len(nums) // 2]  # nums의 개수는 홀수
-
-    return mid
-
-
-def mode(nums):
-    mode_dict = Counter(nums)
-    modes = mode_dict.most_common()
-
-    if len(nums) > 1:
-        if modes[0][1] == modes[1][1]:
-            mod = modes[1][0]
-        else:
-            mod = modes[0][0]
-    else:
-        mod = modes[0][0]
-
-    return mod
-
-
-def scope(nums):
-    return max(nums) - min(nums)
-
-
-print(mean(numbers))
-print(median(numbers))
-print(mode(numbers))
-print(scope(numbers))
+# [i번째 포도주 까지][j번 연속 먹은경우] 최대로 마신양
+D = [[0 for _ in range(3)] for _ in range(T + 1)]
+D[1][0] = 0
+D[1][1] = P[1]
+D[1][2] = 0
+for i in range(2, T+1):
+    D[i][0] = max(D[i-1][0], D[i-1][1], D[i-1][2])
+    D[i][1] = D[i-1][0] + P[i]
+    D[i][2] = D[i - 1][1] + P[i]
+print(max(D[T]))

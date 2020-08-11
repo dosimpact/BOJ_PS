@@ -1,17 +1,31 @@
+import sys
+sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
+
+
 N = int(input())
-array = [0 for i in range(N+1)]  # 만약 N이 10이면 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+P = list(map(int, input().split()))
+PR = P[::-1]
 
-for i in range(2, N+1):
-    if (i % 3 == 0 and i % 2 == 0):
-        array[i] = min(array[i//3], array[i//2], array[i-1]) + 1
-        continue
-    elif (i % 3 == 0 and i % 2 != 0):
-        array[i] = min(array[i//3], array[i-1]) + 1
-        continue
-    elif (i % 3 != 0 and i % 2 == 0):
-        array[i] = min(array[i//2], array[i-1]) + 1
-        continue
-    else:
-        array[i] = array[i-1] + 1
+d = [0 for _ in range(N)]
+d[0] = 1
 
-print(array[N])
+dR = [0 for _ in range(N)]
+dR[0] = 1
+
+
+for i in range(1, N):
+    d[i] = 1
+    dR[i] = 1
+    # 탐색  0 ~ i-1 까지
+    for j in range(0, i):
+        if P[j] < P[i]:
+            d[i] = max(d[i], d[j] + 1)
+        if PR[j] < PR[i]:
+            dR[i] = max(dR[i], dR[j] + 1)
+dR = dR[::-1]
+# print(d)
+# print(dR)
+for i in range(len(d)):
+    d[i] += dR[i]
+print(max(d)-1)

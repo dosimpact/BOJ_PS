@@ -4,17 +4,16 @@ input = sys.stdin.readline
 
 
 N = int(input())
-memo = [-1]*(12)
+P = list(map(int, input().split()))
+P = P[::-1]
 
-memo[1] = 1
-memo[2] = 2
-memo[3] = 4
+d = [0 for _ in range(N)]
+d[0] = P[0]
 
-# dp [i] =  dp[i-1] + dp[i-2] + dp[i-3]
-
-for i in range(4, 11):
-    memo[i] = memo[i-1] + memo[i-2] + memo[i-3]
-
-for _ in range(N):
-    a = int(input())
-    print(memo[a])
+for i in range(1, N):
+    d[i] = P[i]
+    # 탐색  0 ~ i-1 까지
+    for j in range(0, i):
+        if P[j] < P[i]:
+            d[i] = max(d[i], d[j] + P[i])
+print(max(d))

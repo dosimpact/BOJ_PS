@@ -1,28 +1,33 @@
 #include <iostream>
-
+#include <algorithm>
+#include <vector>
+#define SIZE 201
+#define DIVIDER 1000000000ll;
 using namespace std;
-int memo[1000000];
-
-int dp(int n)
-{
-    if (n <= 1)
-        return 0;
-    if (memo[n] != 0)
-        return memo[n];
-    int tmp = 0;
-    memo[n] = dp(n - 1) + 1;
-    if (n % 2 == 0 && memo[n] > dp(n / 2) + 1)
-        memo[n] = dp(n / 2) + 1;
-    if (n % 3 == 0 && memo[n] > dp(n / 3) + 1)
-        memo[n] = dp(n / 3) + 1;
-    return memo[n];
-}
-
+long long d[SIZE][SIZE];
 int main()
 {
-    int N;
-    cin >> N;
-    int ans = dp(N);
-    cout << ans << "\n";
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int N, K;
+    cin >> N >> K;
+    for (int i = 0; i <= N; i++)
+    {
+        d[1][i] = 1ll;
+    }
+
+    for (int i = 2; i <= K; i++)
+    {
+        for (int j = 0; j <= N; j++)
+        {
+            for (int l = 0; l <= j; l++)
+            {
+                d[i][j] += d[i - 1][l];
+                d[i][j] = d[i][j] % DIVIDER; //FB1. &뭔제
+            }
+        }
+    }
+    cout << d[K][N] << "\n";
     return 0;
 }

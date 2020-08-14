@@ -1,41 +1,32 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#define SIZE 1000
+#define SIZE 201
+#define DIVIDER 1000000000ll;
 using namespace std;
-int d[SIZE];
+long long d[SIZE][SIZE];
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    int N;
-    cin >> N;
-    vector<int> P(1, 0);
-    for (int i = 0; i < N; i++)
+    int N, K;
+    cin >> N >> K;
+    for (int i = 0; i < SIZE; i++)
     {
-        int tmp;
-        cin >> tmp;
-        P.push_back(tmp);
+        d[1][i] = 1ll;
     }
-    d[1] = 1;
-
-    for (int i = 2; i <= N; i++)
+    for (int i = 2; i <= K; i++)
     {
-        d[i] = 1;
-        for (int j = 1; j < i; j++)
+        for (int j = 0; j <= N; j++)
         {
-            if (P[j] < P[i])
+            for (int l = 0; l <= j; l++)
             {
-                d[i] = max(d[i], d[j] + 1);
+                d[i][j] += d[i - 1][l];
+                d[i][j] = d[i][j] % DIVIDER; //FB1. &뭔제
             }
         }
     }
-    int ans = 0;
-    for (int i = 1; i <= N; i++)
-    {
-        ans = max(d[i], ans);
-    }
-    cout << ans << "\n";
+    cout << d[K][N] << "\n";
     return 0;
 }

@@ -1,21 +1,33 @@
-
 import sys
-sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
-Diver = 1000000000
+
 N = int(input())
+d = [N]*(N+1)
 
+d[0], d[1] = 0, 1
 
-d = [[0 for _ in range(10)] for _ in range(N+1)]
-
-for i in range(1, 10):
-    d[1][i] = 1
-
+for i in range(2, N + 1):  # 9
+    end = int(i ** 1 // 2) + 1
+    d[i] = min(d[i-j*j]+1 for j in range(1, end))  # 1 2 3
+print(d[N])
+"""
+-
+d[1] = 1
 for i in range(2, N+1):
-    for j in range(0, 10):
-        if j + 1 <= 9:
-            d[i][j] += d[i-1][j+1]
-        if j - 1 >= 0:
-            d[i][j] += d[i-1][j-1]
-        d[i][j] = d[i][j] % Diver
-print(sum(d[N]) % Diver)
+    if int(i**0.5) ** 2 == i:
+        print(i)
+-
+10승
+"""
+
+"""
+n=int(input())
+dp=[n]*(n+1)
+dp[0], dp[1]=0,1
+
+for i in range(1,n+1):
+    end=int(i**0.5)+1
+    
+    dp[i]=min((dp[i-j*j]+1) for j in range(1, end))  
+print(dp[n])
+"""

@@ -1,20 +1,20 @@
+
 import sys
-
-
-sys.setrecursionlimit(10 ** 8)
 input = sys.stdin.readline
 
+
 N = int(input())
-P = list(map(int, input().split()))
-P = P[::-1]
-
-d = [0 for _ in range(N)]
-d[0] = P[0]
-
-for i in range(1, N):
-    d[i] = P[i]
-    # 탐색  0 ~ i-1 까지
-    for j in range(0, i):
-        if P[j] < P[i]:
-            d[i] = max(d[i], d[j] + P[i])
-print(max(d))
+d = [0] * (31)
+d[0] = 1
+d[1] = 0
+d[2] = d[0]*3
+d[3] = 0
+d[4] = d[2]*3 + d[0]*2
+for i in range(5, N + 1):
+    if (i % 2 == 1):
+        d[i] = 0
+        continue
+    d[i] = d[i-2]*3
+    for j in range(i - 4, -1, -2):
+        d[i] += (d[j] * 2)
+print(d[N])

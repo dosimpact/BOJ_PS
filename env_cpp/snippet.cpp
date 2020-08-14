@@ -1,30 +1,23 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-void print2D(int arr[][10])
-{
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            printf("%d ", arr[i][j]);
-        }
-        printf("\n");
-    }
-}
-
+#include <iostream>
+#include <tuple>
+#include <queue>
+#include <algorithm>
+#include <deque>
+#include <vector>
+#include <string>
+#include <stack>
+#define SIZE 10001
+using namespace std;
+int d[SIZE]; //
+int p[SIZE];
 int main()
 {
-    int arr[3][10];
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            arr[i][j] = i + j;
-        }
-    }
-    print2D(arr);
-    memset(arr, -1, sizeof(arr));
-    print2D(arr);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int n;
+    cin >> n;
+
+    return 0;
 }

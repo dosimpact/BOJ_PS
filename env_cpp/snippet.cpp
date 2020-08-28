@@ -1,23 +1,31 @@
-
 #include <iostream>
-#include <tuple>
-#include <queue>
-#include <algorithm>
-#include <deque>
-#include <vector>
 #include <string>
-#include <stack>
-#define SIZE 10001
+#include <iomanip>
+#include <vector>
+
+#define endl "\n";
+
 using namespace std;
-int d[SIZE]; //
-int p[SIZE];
-int main()
+
+int main(int argc, char *argv[])
 {
-    ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    int n;
-    cin >> n;
+    ios_base::sync_with_stdio(false);
+
+    vector<int> d;
+    d.push_back(10);
+    d.push_back(20);
+    d.push_back(30);
+    for (auto &k : d)
+    {
+        cout << k << "\n";
+    }
+    cout << d.size() << "\n";
+
+    // const char cstr[] = "string";
+    string str = "string";
+    cout << str << endl;
 
     return 0;
 }

@@ -1,23 +1,67 @@
+import sys
+import math
+from typing import *
+
+sys.setrecursionlimit(10**6)
+# input = sys.stdin.readline
 
 
-def solution(n: int):
-    # 토스 체
-    check = [-1 for i in range(0, n+1)]
-    pc = 0  # 소수의 갯수
-    pn = []  # 소수의 배열
-    # -1 소수인것 체크.
-    for i in range(2, n+1):  # 2...n 까지 검사
-        if check[i] == -1:  # 소수임
-            pc += 1
-            pn.append(i)
-            # 3*3 = 9 , 12 , 15 ... n까지 제거
-            for j in range(i*i, n+1, i):  # 2*2 =4 ,6 8, ...,n 까지 제거
-                check[j] = 1
-    return pc
+input = sys.stdin.readline
 
 
-print(solution(1))
-print(solution(2))
-print(solution(5))  # 2 3  5
-print(solution(10))
-print(solution(1000))
+N, E, S_N = map(int, input().split())
+graph: List[List[int]] = [[] for _ in range(N+1)]
+
+for i in range(E):
+    u, v = map(int, input().split())
+    graph[u] += [v]
+    graph[v] += [u]
+
+for row in graph:
+    row.sort()
+
+
+check = [0 for _ in range(N+1)]
+
+
+def DFS(x: int):
+    # x 방문,체크,출력
+    check[x] = 1
+    print(x, end=" ")
+    # 다음 탐색
+    for next_node in graph[x]:
+        if check[next_node] == 0:
+            DFS(next_node)
+
+
+DFS(S_N)
+check = [0 for _ in range(N+1)]
+print()
+
+
+def BFS(x: int):
+    # x 방문 체크
+    # 큐 생성 및 넣기 (방문 체크하고 넣는다.)
+    check[x] = 1
+    print(x, end=" ")
+    q = [x]
+    # 다음 노트 탐색
+    while q:
+        now_node = q.pop(0)
+        for next_node in graph[now_node]:
+            if check[next_node] == 0:
+                check[next_node] = 1
+                print(next_node, end=" ")
+                q += [next_node]
+
+
+BFS(S_N)
+
+"""
+4 5 1
+1 4
+1 3
+1 2
+2 4
+3 4
+"""

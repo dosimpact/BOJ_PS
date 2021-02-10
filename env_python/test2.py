@@ -1,1 +1,4 @@
-print(ord('a')-ord('b'))
+print(83)
+print(bin(83))
+print(bin(~83))
+print(bin(-83))

@@ -6,38 +6,18 @@ import itertools
 input = sys.stdin.readline
 sys.setrecursionlimit(10**6)
 
-
-L, C = map(int, input().split())
-data = list(input().split())
-data.sort()
-
-# n를 만들었다, p를 고를차례
-
-
-def isVaild(s: str):
-    # 자 2개 이상, 모 1개 이상
-    mo = 0
-    ja = 0
-    for ch in s:
-        if ch in list("aeiou"):
-            mo += 1
-        else:
-            ja += 1
-    return mo >= 1 and ja >= 2
-
-
-def go(n: str, p: int):  # L까지 만들어봐
-    # 더이상 고를것이 없다, or  완성해봄
-    if len(n) == L:
-        # print("tmp", n)
-        if isVaild(n):
-            print(n)
-        return
-    if p >= C:
-        return
-    go(n+data[p], p+1)
-    go(n, p+1)
-    return
-
-
-go("", 0)
+N, S = map(int, input().split())
+Arr = list(map(int, input().split()))
+# 크기가 양수인 부분수열 , 공집합 제거
+# 수열의 원소를 다 더한 값이 S
+# 비트 마스크 풀이, 수열의 원소들은 이진수로 매핑된다.
+ans = 0
+for i in range(1, (1 << N), 1):  # 00000 (X),00001 , ... 11111
+    # print(bin(i))
+    sumT = 0
+    for j in range(0, N):  # 1,2,...5
+        if i & (1 << j):  # 존재성 > AND
+            sumT += Arr[j]
+    if sumT == S:
+        ans += 1
+print(ans)

@@ -6,17 +6,16 @@ import itertools
 input = sys.stdin.readline
 sys.setrecursionlimit(10**6)
 
+n, m = map(int, input().split())
+arr = []
+for _ in range(m):
+    arr.append(list(map(int, input().split())))
 
-T = int(input())
-
-for _ in range(T):
-    N = int(input())
-    P = [list(map(int, input().split())) for _ in range(2)]  # 스티커 [위,아래][열r]
-    d: List[List[int]] = [[0 for _ in range(3)] for _ in range(N)]  # N-1 까지 구함
-    d[0][1] = P[0][0]
-    d[0][2] = P[1][0]
-    for r in range(1, N):
-        d[r][0] = max(d[r-1][0], d[r-1][1], d[r-1][2])
-        d[r][1] = max(d[r-1][0], d[r-1][2]) + P[0][r]
-        d[r][2] = max(d[r-1][0], d[r-1][1]) + P[1][r]
-    print(max(d[N-1]))
+first_arr = sorted(arr, key=lambda k: k[0])
+second_arr = sorted(arr, key=lambda k: k[1])
+answer = min(
+    ((n//6) + 1) * first_arr[0][0],
+    (n//6) * first_arr[0][0] + (n % 6) * second_arr[0][1],
+    n * second_arr[0][1]
+)
+print(answer)

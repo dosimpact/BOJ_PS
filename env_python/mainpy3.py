@@ -7,17 +7,41 @@ input = sys.stdin.readline
 sys.setrecursionlimit(10**6)
 
 
-N = int(input())
-An = []
-for _ in range(N):
-    An.append(int(input()))
+T = int(input())
+for i in range(T):
+    isEndWith_1 = False
+    isPtn = True
+    ss: str = input().strip()
+    ss = ss+"E"
+    while not ss.startswith("E"):
+        # print("ss:", ss, " ", len(ss))
+        # 01
+        if ss.startswith("01"):  # 01 제거
+            ss = ss[2:]
+            isEndWith_1 = False
+        # 100+1+
+        elif ss.startswith("100") or (ss.startswith("00") and isEndWith_1):  # 100 제거
 
+            if isEndWith_1:
+                ss = ss[2:]
+            else:
+                ss = ss[3:]
+            isEndWith_1 = False
 
-d = [[0 for _ in range(3)] for i in range(N+1)]  # [n 번째 포도주를][k번 연속 마셨다.]
-d[0][1] = An[0]
-for i in range(1, N):  # 0...N-1 번째 포도주 처리
-    d[i][0] = max(d[i-1][0], d[i-1][1], d[i-1][2])
-    d[i][1] = d[i-1][0] + An[i]
-    d[i][2] = d[i-1][1] + An[i]
-
-print(max(d[N-1]))
+            while ss[0] == "0":  # 0+제거
+                ss = ss[1:]
+            if (not ss) or ss[0] != "1":
+                isPtn = False
+                break
+            if ss[0] == "1":
+                ss = ss[1:]
+            while ss[0] == "1":
+                ss = ss[1:]
+                isEndWith_1 = True
+        else:
+            isPtn = False
+            break
+    if isPtn:
+        print("YES")
+    else:
+        print("NO")

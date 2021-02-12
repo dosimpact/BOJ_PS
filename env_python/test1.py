@@ -1,19 +1,14 @@
-import sys
-
-sys.setrecursionlimit(10**6)
-
-memo = [0 for _ in range(101)]
+import heapq
 
 
-def fibo(n: int):
-    if memo[n]:
-        return memo[n]
-    if n <= 1:
-        return n
-    memo[n] = fibo(n-1)+fibo(n-2)
-    return memo[n]
+arr = [-4, -1, -5, -3, -8, -6, -3]
+print(arr)
+heapq.heapify(arr)
+print(arr)
+print(arr[0])
 
 
-print(fibo(0))
-print(fibo(10))
-print(fibo(50))
+heapq.heappush(arr, 2)
+print(arr)
+while arr:
+    print(heapq.heappop(arr))

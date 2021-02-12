@@ -61,6 +61,11 @@ unionGrpah(4, 5)
 print(f"graph : {graph}")
 print(f" 4,5 은 하나의 집합 ? {findGraph(4,5)}")
 print(f" 1,8 은 하나의 집합 ? {findGraph(1,8)}")
+print(f"graph : {graph}")
+print(f"간선 정보 업데이트")
+for _ in range(0, 10):
+    getParent(_)
+print(f"graph : {graph}")
 
 """
 graph : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -77,4 +82,7 @@ graph : [0, 1, 1, 1, 1, 5, 5, 5, 5, 9]
 graph : [0, 1, 1, 1, 1, 1, 5, 5, 5, 9]
  4,5 은 하나의 집합 ? True
  1,8 은 하나의 집합 ? True
+graph : [0, 1, 1, 1, 1, 1, 5, 5, 1, 9]
+간선 정보 업데이트
+graph : [0, 1, 1, 1, 1, 1, 1, 1, 1, 9]
  """

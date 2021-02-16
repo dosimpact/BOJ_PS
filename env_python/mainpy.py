@@ -7,16 +7,19 @@ input = sys.stdin.readline
 
 sys.setrecursionlimit(10**6)
 
+s = input().rstrip()
+if len(s) % 2 == 0:  # 10
+    f = s[:len(s)//2]  # 5
+    b = s[len(s)//2:]  # 5
+else:
+    # 11
+    f = s[:len(s)//2]  # 5
+    b = s[(len(s)//2)+1:]  # 5
 
-N = int(input())
-d = [False for _ in range(N+10)]
+b = b[::-1]
+for k in range(len(f)):
+    if f[k] != b[k]:
+        print(0)
+        sys.exit(0)
 
-d[1], d[2], d[3], d[4] = True, False, True, True
-
-for i in range(5, N+1):
-    if d[i-1] and d[i-3] and d[i-4]:
-        d[i] = False
-    else:
-        d[i] = True
-
-print("SK") if d[N] else print("CY")
+print(1)

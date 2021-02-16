@@ -7,19 +7,15 @@ input = sys.stdin.readline
 
 sys.setrecursionlimit(10**6)
 
-s = input().rstrip()
-if len(s) % 2 == 0:  # 10
-    f = s[:len(s)//2]  # 5
-    b = s[len(s)//2:]  # 5
-else:
-    # 11
-    f = s[:len(s)//2]  # 5
-    b = s[(len(s)//2)+1:]  # 5
+N = int(input())
+data = list(map(int, input().split()))
 
-b = b[::-1]
-for k in range(len(f)):
-    if f[k] != b[k]:
-        print(0)
-        sys.exit(0)
+d = [0 for _ in range(N)]
 
-print(1)
+for i in range(len(data)):
+    d[i] = data[i]
+    for j in range(0, i):
+        if data[j] < data[i]:
+            d[i] = max(d[j]+data[i], d[i])
+
+print(max(d))

@@ -10,7 +10,9 @@ while K != 0 and dPtn >= 0:
     if data[dPtn] > K:
         dPtn -= 1
     if data[dPtn] <= K:
-        K -= data[dPtn]
-        ans += 1
+        # K 가 4000 이고 1000원으로 깎을 수 있다면
+        d, m = divmod(K, data[dPtn])
+        K = m
+        ans += d
 
 print(ans)

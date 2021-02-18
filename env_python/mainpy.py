@@ -1,31 +1,21 @@
 import sys
 import math
+import re
 from typing import *
 
 input = sys.stdin.readline
+
 sys.setrecursionlimit(10 ** 6)
 
+N = int(input())
+data = list(map(int, input().split()))
 
-s = input().rstrip()
-s = s + "E"
-ans = 1
-while not s.startswith("E"):
-    if s[0] == "d":
-        tmp = 10
-        cnt = 0
-        while s[0] == "d":  # 10,9,9,
-            cnt += 1
-            s = s[1:]
-        if cnt > 1:
-            tmp *= 9 ** (cnt - 1)
-        ans *= tmp
-    if s[0] == "c":
-        tmp = 26
-        cnt = 0
-        while s[0] == "c":  # 10,9,9,
-            cnt += 1
-            s = s[1:]
-        if cnt > 1:
-            tmp *= 25 ** (cnt - 1)
-        ans *= tmp
-print(ans)
+d = [0 for _ in range(N)]
+
+for i in range(len(data)):
+    d[i] = data[i]
+    for j in range(0, i):
+        if data[j] < data[i]:
+            d[i] = max(d[j] + data[i], d[i])
+
+print(max(d))

@@ -1,54 +1,41 @@
-import sys
-
-input = sys.stdin.readline
-sys.setrecursionlimit(10**6)
+import unittest
+import os
 
 
-# 그래프 BFS /DFS 탐색 문제
-# 작은 정점부터 방문
-N, M, START = map(int, input().split())
-graph = [[] for _ in range(N+1)]
-# 그래프 입력 > 인접 리스트
-for _ in range(M):
-    U, V = map(int, input().split())
-    graph[U].append(V)
-    graph[V].append(U)
-
-for i in range(N):
-    graph[i].sort()
-
-check = [0]*(N+1)
-
-# DFS 를 먼저 돌자.
+def custom_function(file_name):
+    with open(file_name, "rt") as f:
+        return sum(1 for _ in f)
 
 
-def DFS(now: int):
-    check[now] = 1
-    print(now, end=" ")
-    # 주변 탐색
-    for next in graph[now]:
-        if check[next] == 0:
-            DFS(next)
+# TestCase를 작성
+class CustomTests(unittest.TestCase):
+    def setUp(self):
+        """테스트 시작되기 전 파일 작성"""
+        self.file_name = "test_file.txt"
+        with open(self.file_name, "wt") as f:
+            f.write(
+                """
+            파이썬에는 정말 단위테스트 모듈이 기본으로 포함되어 있나요? 진짜?
+            멋지군요!
+            단위테스트를 잘 수행해보고 싶습니다!
+            """.strip()
+            )
+
+    def tearDown(self):
+        """테스트 종료 후 파일 삭제 """
+        try:
+            os.remove(self.file_name)
+        except:
+            pass
+
+    def test_runs(self):
+        """단순 실행여부 판별하는 테스트 메소드"""
+        custom_function(self.file_name)
+
+    def test_line_count(self):
+        self.assertEqual(custom_function(self.file_name), 3)
 
 
-DFS(START)
-check = [0]*(N+1)
-# BFS 를 돌자
-
-print()
-
-
-def BFS(s: int):
-    check[s] = 1
-    q = [s]
-    print(s, end=" ")
-    while q:
-        now = q.pop(0)
-        for nxt in graph[now]:
-            if check[nxt] == 0:
-                print(nxt, end=" ")
-                check[nxt] = 1
-                q += [nxt]
-
-
-BFS(START)
+# unittest를 실행
+if __name__ == "__main__":
+    unittest.main()

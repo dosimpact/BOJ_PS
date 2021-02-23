@@ -1,42 +1,39 @@
 import sys
-import math
-import re
 from typing import *
 
-input = sys.stdin.readline
 
-sys.setrecursionlimit(10 ** 6)
+def solution(board: List[List[int]], moves: List[int]):
+    # moves 대로, 보드에서 원소를 하나씩 꺼낸다.
+    # 바구니에 넣을때 그전의 원소랑 같으면 둘다 지운다.
+    boardH = len(board)
+    stack = []
+    ans = 0
+    for m in moves:
+        c = m - 1
+        r = 0
+        while r < boardH:
+            if board[r][c] != 0:
+                tmp = board[r][c]
+                board[r][c] = 0
+                if stack and stack[-1] == tmp:
+                    ans += 2
+                    stack.pop(-1)
+                else:
+                    stack.append(tmp)
+                break
+            r += 1
+    return ans
 
-A = input().strip()
-A = " " + A
-B = input().strip()
-B = " " + B
-D = [[0 for _ in range(len(B))] for _ in range(len(A))]  # A > B
 
-for i in range(1, len(A)):
-    for j in range(1, len(B)):
-        if A[i] == B[j]:
-            D[i][j] = D[i - 1][j - 1] + 1
-        else:
-            D[i][j] = max(D[i - 1][j], D[i][j - 1])
-h, w = len(A) - 1, len(B) - 1
-ans = ""
-val = D[h][w]
-while True:
-    if h <= 0 or w <= 0 or D[h][w] == 0:  # 완전히 아무것도 안겹칠때 ( 0일때는 더이상공통인거 없으니 종료 )
-        break
-    while D[h][w] != 0 and D[h - 1][w] == val:
-        h -= 1
-    while D[h][w] != 0 and D[h][w - 1] == val:
-        w -= 1
-    if D[h][w] == D[h - 1][w - 1] + 1:
-        ans += str(A[h])
-        h -= 1
-        w -= 1
-        val = D[h][w]
-print(D[len(A) - 1][len(B) - 1])
-print(ans[::-1])
-"""
-ACAYKP
-CAPCAK
-"""
+print(
+    solution(
+        [
+            [0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 3],
+            [0, 2, 5, 0, 1],
+            [4, 2, 4, 4, 2],
+            [3, 5, 1, 3, 1],
+        ],
+        [1, 5, 3, 5, 1, 2, 1, 4],
+    )
+)

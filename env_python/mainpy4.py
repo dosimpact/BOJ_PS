@@ -34,10 +34,6 @@ for i in range(P):  # i 번째 사람
                 check[i][nx][ny] = check[i][x][y] + 1
                 q.append((nx, ny))
 
-for i in range(P):  # i 번째 사람
-    for crow in check[i]:
-        print(crow)
-    print()
 # 현재위치에서 가장 가까운 승객 태움, 행번호 우선,열번호 그다음
 # 연료 리차지는 운송거리의 두배 , 운송중 바닥은 실패, 도착하자마자 바닥은 성공
 # 남은 연료양 , 불가능하면 - 1
@@ -47,22 +43,45 @@ for i in range(P):  # i 번째 사람
 while remainClients > 0:
     # 1번고객,가는거리 3,도착거리 7, 도착위치 2,3
     who = -1
-    go_dist_min = math.inf
+    go_dist_min, go_x, go_y = math.inf, 0, 0
     end_dist, end_x, end_y = 0, 0, 0
     for i in range(P):
-        if completed[i]:
+        if completed[i]:  # 이미 태운 경우
             continue
-        go_dist_tmp = check[i][taxi_x][taxi_y]
-        end_x_tmp, end_y_tmp = clients[i][2], clients[i][3]
-        if go_dist_min > go_dist_tmp:
-            go_dist_min = go_dist_tmp
-            who = i
-            end_dist = check[i][end_x_tmp][end_y_tmp]
-            end_x, end_y = end_x_tmp, end_y_tmp
+        go_dist_tmp, go_x_tmp, go_y_tmp = (
+            check[i][taxi_x][taxi_y],
+            clients[i][0],
+            clients[i][1],
+        )
+        end_dist_tmp, end_x_tmp, end_y_tmp = 0, clients[i][2], clients[i][3]
 
+        if go_dist_tmp < 0:  # 벽때문에 못가는 경우
+            print(-1)
+            sys.exit(0)
+        # 거리가 가깝거나, 우선순위 고객인 경우
+        if go_dist_min > go_dist_tmp:
+            go_x, go_y = go_x_tmp, go_y_tmp
+            go_dist_min, who = go_dist_tmp, i
+            end_dist, end_x, end_y = (
+                check[i][end_x_tmp][end_y_tmp],
+                end_x_tmp,
+                end_y_tmp,
+            )
+
+        if (
+            (go_dist_min == go_dist_tmp)
+            and (go_x > go_x_tmp)
+            or (go_x == go_x_tmp and go_y > go_y_tmp)
+        ):
+            go_x, go_y = go_x_tmp, go_y_tmp
+            go_dist_min, who = go_dist_tmp, i
+            end_dist, end_x, end_y = (
+                check[i][end_x_tmp][end_y_tmp],
+                end_x_tmp,
+                end_y_tmp,
+            )
     completed[who] = True
     remainClients -= 1
-    print(f"who : {who}")
     if Fuel < go_dist_min + end_dist:
         print(-1)
         sys.exit(0)

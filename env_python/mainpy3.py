@@ -1,11 +1,8 @@
 import sys
-import math
-import re
 from typing import *
 import heapq
 
 input = sys.stdin.readline
-
 sys.setrecursionlimit(10 ** 6)
 # 전화번호부 일관성
 # 911
@@ -62,6 +59,7 @@ class Trie(object):
                 ans.append(now_node.data)
             q += list(now_node.children.values())
         return ans
+
 
 T = int(input())
 for _ in range(T):

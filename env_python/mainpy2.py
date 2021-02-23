@@ -1,3 +1,4 @@
+from math import ceil
 import sys
 import math
 import re
@@ -5,47 +6,30 @@ from typing import *
 
 input = sys.stdin.readline
 
-sys.setrecursionlimit(10**6)
+sys.setrecursionlimit(10 ** 6)
 
-ss = input().strip()
-data = []
-pos = []
+# 이때 뒤에 있는 기능은 앞에 있는 기능이 배포될 때 함께 배포됩니다.
+# 배포는 하루에 한 번만 할 수 있으며, 하루의 끝에 이루어진다고 가정합니다. 예를 들어 진도율이 95%인 작업의 개발 속도가 하루에 4%라면 배포는 2일 뒤에 이루어집니다.
+# 어렵게 생각 X , 진행만 100이상이면 여러번 베포 가능
 
-while ss:
-    if ss[0] == '+':
-        pos.append(True)
-        ss = ss[1:]
-        tmp = ""
-        while ss and ss[0].isnumeric():
-            tmp += ss[0]
-            ss = ss[1:]
-        data.append(tmp)
-    elif ss[0] == '-':
-        pos.append(False)
-        ss = ss[1:]
-        tmp = ""
-        while ss and ss[0].isnumeric():
-            tmp += ss[0]
-            ss = ss[1:]
-        data.append(tmp)
-    else:
-        pos.append(True)
-        tmp = ""
-        while ss and ss[0].isnumeric():
-            tmp += ss[0]
-            ss = ss[1:]
-        data.append(tmp)
-low = 0
-while low < len(data) and pos[low]:
-    low += 1
-ans = 0
-for i in range(0, low):
-    ans += int(data[i])
-for i in range(low, len(data)):
-    ans = ans - int(data[i])
 
-print(ans)
+def solution(progresses: List[int], speeds: List[int]):
+    daygo = 0
+    ans = []
+    check = [False for _ in range(len(progresses))]
+    while progresses:
+        daygo += 1
+        tmp = 0
+        while progresses and progresses[0]+speeds[0]*daygo >= 100:
+            tmp += 1
+            progresses.pop(0), speeds.pop(0), check.pop(0)
+        if tmp != 0:
+            ans.append(tmp)
+    return ans
 
-"""
-55-50+40
-"""
+
+print(solution([99, 1], [1, 99]))
+print(solution([93, 30, 55]	, [1, 30, 5]))
+print(solution([95, 90, 99, 99, 80, 99]	, [1, 1, 1, 1, 1, 1]))
+print(solution([95, 99, 98, 99, 98]	, [1, 1, 1, 1, 1]))
+print(solution([97, 99, 98, 99, 98]	, [1, 1, 1, 1, 1]))

@@ -63,6 +63,7 @@ class Trie(object):
             q += list(now_node.children.values())
         return ans
 
+
 T = int(input())
 for _ in range(T):
     main = Trie()

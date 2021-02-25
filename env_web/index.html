@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SW 대비</title>
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h6>문제1. 현재 시각 업데이트</h6>
+    <div id="clock">00 : 00 : 00</div>
 
-</head>
-<body>
-    <h1>JS 시험 대비</h1>
+    <h6>문제2. 내 이름을 입력하는 폼을 만들고, 저장해라</h6>
+    <form id="nameForm">
+      <div id="nameDisplay">hello []</div>
+      <input id="nameInput" type="text" placeholder="yourname">
+    </form>
 
-    <div class="probileBox">
-        <div id="email" class="email"></div>
-        <div id="gender" class="gender"></div>
-        <div id="name" class="name"></div>
-        <img id="picture" class="picture" alt="profileImg"></img>
-    </div>
+    <h6>문제3. 투두 리스트를 만들고 저장하고 삭제가 가능토록</h6>
+    <form id="todoForm">
+      <label for="todoInput">TODO:</label>
+      <input id="todoInput" type="text">
+      <button type="reset" >리셋</button>
+      <button type="submit" >추가</button>
+    </form>
+    <ul id="todoList" >
+   
+    </ul>
 
+    <h6>문제7. 문제풀이</h6>
+    <form id="problemsForm">
+      <div id="problemsList"></div>
+      <button type="submit">정답 체크</button>
+      
+    </form>
+    <div>맞은문항(갯수)/틀린문항(갯수)</div>
+    <div id="problemsResult"></div>
     <script src="main.js"></script>
-</body>
+    <script src="clock.js"></script>
+    <script src="name.js"></script>
+    <script src="todo.js"></script>
+    <script src="dosmomo.js"></script>
+  </body>
 </html>

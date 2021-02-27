@@ -1,14 +1,50 @@
-<<<<<<< HEAD
-=======
-dir = 0
-print((dir + 1) % 4)
-print((dir + 2) % 4)
-print((dir + 3) % 4)
-print((dir + 4) % 4)
-print((dir + 5) % 4)
-print((dir - 1) % 4)
-print((dir - 2) % 4)
-print((dir - 3) % 4)
-print((dir - 4) % 4)
-print((dir - 5) % 4)
->>>>>>> 940b0ad43eeaf644769e92772ea5dcb4961c0c77
+import sys
+
+sys.stdin.readline
+
+S = input().strip()
+
+# 데이터 파싱
+data = []
+isMinus = False
+num = ""
+while S:
+    # -,+ 인경우 : data에 넣고, 새로 시작
+    if S[0] in ["+", "-"]:
+        data.append(int(num))
+        num = ""
+        num += S[0]
+        S = S[1:]
+    # 숫자인 경우 이어붙어
+    else:
+        num += S[0]
+        S = S[1:]
+    # 마지막 숫자 너히
+data.append(int(num))
+isMinus = False
+ans = 0
+for d in data:
+    if d < 0:
+        isMinus = True
+    if isMinus:
+        ans += -abs(d)
+    else:
+        ans += d
+
+print(ans)
+"""
+55-50+40
+-35
+
+1+1-10
+-8
+
+0+0-0
+0
+
+9+9-9
+9
+
+9-9-9
+-9
+"""

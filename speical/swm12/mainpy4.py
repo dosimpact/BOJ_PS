@@ -25,14 +25,12 @@ def main():
     ans = []
     for i in range(3):  # 0,1,2
         check = [False for _ in range(N)]
-        check[i] = True
+        # check[i] = True
         q = [i]
-        firstStart = True
         while q:
             now = q.pop(0)
-            if check[now] and not firstStart:
+            if check[now]:
                 break
-            firstStart = False
             nxt = now + steps[now]
             check[now] = True
             q.append(nxt)
@@ -47,7 +45,9 @@ if __name__ == "__main__":
 """
 10
 3 5 -1 -2 4 4 3 -2 -3 -2
+>8
 
 3
 1 -1 -1
+>4
 """

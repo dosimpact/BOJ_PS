@@ -10,44 +10,21 @@ input = sys.stdin.readline
 
 sys.setrecursionlimit(10**6)
 
-# 발판 밝기 (ep 필요)
-# N개의 발판 양의 정수 , 음의 정수
-# 밟으면 그 숫자만큼 이동
-# 1,2,3 에서 시작 가능
-# 또 밝으면 종료
-# 최대 밟는 수
-# out of range 고려 X
+# 붐버맨
+# RC 직사각형 격자, 비거나 폭탄
+# 폭탄 : 3초 폭팔 - 폭탄 + 인접4칸 빈칸 - 연쇄반응 없다.
+# 일부칸 폭탄 설치 - 1초 아무것도 안함 - 1초 폭탄없는곳에 다 설치 - 1초 3초전에 설치한 폭탄 펑
 
-
-def main():
-    N = int(input())
-    steps = list(map(int, input().split()))
-    ans = []
-    for i in range(3):  # 0,1,2
-        check = [False for _ in range(N)]
-        check[i] = True
-        q = [i]
-        firstStart = True
-        while q:
-            now = q.pop(0)
-            if check[now] and not firstStart:
-                break
-            firstStart = False
-            nxt = now + steps[now]
-            check[now] = True
-            q.append(nxt)
-        # print(check)
-        ans.append(check.count(True)+1)
-    print(max(ans))
-
-
-if __name__ == "__main__":
-    main()
+# 2차원 배열 - 폭탄 or 빈캄
+# 덱 - 폭탄 터지는 시간
+#
 
 """
-10
-3 5 -1 -2 4 4 3 -2 -3 -2
-
-3
-1 -1 -1
+6 7 3 # 격자판 로 , 컬럼, N초 상한선
+.......
+...O...
+....O..
+.......
+OO.....
+OO.....
 """

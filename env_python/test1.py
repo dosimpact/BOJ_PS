@@ -1,50 +1,40 @@
-import sys
+from typing import *
+# 이진 탐색 재귀 구현
 
-sys.stdin.readline
 
-S = input().strip()
-
-# 데이터 파싱
-data = []
-isMinus = False
-num = ""
-while S:
-    # -,+ 인경우 : data에 넣고, 새로 시작
-    if S[0] in ["+", "-"]:
-        data.append(int(num))
-        num = ""
-        num += S[0]
-        S = S[1:]
-    # 숫자인 경우 이어붙어
+def BSearch(arr: List[int], left: int, right: int, target: int):
+    if left > right:
+        return -1
+    mid = (left+right)//2
+    if arr[mid] == target:  # mid 가 답인경우 | 아닌 경우
+        return mid
+    elif arr[mid] < target:  # 좀 더 오른쪽으로 기울어야 한다.
+        return BSearch(arr, mid+1, right, target)
     else:
-        num += S[0]
-        S = S[1:]
-    # 마지막 숫자 너히
-data.append(int(num))
-isMinus = False
-ans = 0
-for d in data:
-    if d < 0:
-        isMinus = True
-    if isMinus:
-        ans += -abs(d)
-    else:
-        ans += d
+        return BSearch(arr, left, mid-1, target)
 
-print(ans)
-"""
-55-50+40
--35
 
-1+1-10
--8
+data = [5, 1, 3, 7, 9]
+data.sort()
 
-0+0-0
-0
+# 숫자가 있는 경우 , 없는 경우
+resIdx = BSearch(data, 0, len(data)-1, 7)  # 7을 찾을래
+print(f"결과-Idx : {resIdx} (-1 Not Found)")
 
-9+9-9
-9
+resIdx = BSearch(data, 0, len(data)-1, 8)  # 8을 찾을래
+print(f"결과-Idx : {resIdx} (-1 Not Found)")
 
-9-9-9
--9
-"""
+# 끝점인 경우
+resIdx = BSearch(data, 0, len(data)-1, 1)
+print(f"결과-Idx : {resIdx} (-1 Not Found)")
+
+resIdx = BSearch(data, 0, len(data)-1, 9)
+print(f"결과-Idx : {resIdx} (-1 Not Found)")
+
+
+# 끝점을벗어난 경우
+resIdx = BSearch(data, 0, len(data)-1, -20)  #
+print(f"결과-Idx : {resIdx} (-1 Not Found)")
+
+resIdx = BSearch(data, 0, len(data)-1, 9999)  #
+print(f"결과-Idx : {resIdx} (-1 Not Found)")

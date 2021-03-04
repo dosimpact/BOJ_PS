@@ -40,7 +40,6 @@ while True:
         right = mid-1
 
 print(ans)
-
 """
 4 11
 802

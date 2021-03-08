@@ -10,39 +10,17 @@ input = sys.stdin.readline
 
 sys.setrecursionlimit(10**6)
 
-# 토지개발
-# 가로로 N개 연결된 토지, N은 2지수승
-# 토지 개발 > 이익
-# 절반을 나눠 한쪽 개발 , 그중 max 값이 이익
-# 1칸 남으면 땡
+# 카드 2
+# N장의 카드, 1~N번호로 구성
+# 뺀위카드버려,
+N = int(input())
+dq = deque()
+for _ in range(1, N+1):
+    dq.append(_)
 
+while len(dq) >= 2:
+    dq.popleft()
+    t = dq.popleft()
+    dq.append(t)
 
-def main():
-    N = int(input())
-    data = list(map(int, input().split()))
-    ans = 0
-    while len(data) >= 2:
-        u, v = data[:len(data)//2], data[len(data)//2:]
-        uMax, vMax = max(u), max(v)
-        if uMax > vMax:
-            ans += uMax
-            data = v
-        else:
-            ans += vMax
-            data = v
-    print(ans)
-    return
-
-
-if __name__ == "__main__":
-    main()
-
-"""
-8
-1 3 10 9 6 2 3 2
->19
-
-2
-1 99
->99
-"""
+print(dq[0])

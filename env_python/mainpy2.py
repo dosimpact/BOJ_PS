@@ -1,15 +1,31 @@
 import sys
-import heapq
-import re
-import math
-from collections import deque
-from typing import *
-from math import ceil
+N, M = map(int, sys.stdin.readline().split())
+A = list(map(int, sys.stdin.readline().split()))
+A.append(0)
 
-input = sys.stdin.readline
 
-sys.setrecursionlimit(10 ** 6)
+def tp(seq, M):  # 수열과 목표 합 받는 함수
+    cnt = 0
+    a, b = 0, 0  # a=지울예정, b = 더했다.
+    seq_sum = seq[a]
+    while b < N:  # b 포인터가 끝까지 가면 루프 끝
+        print(f"a,b,seq_sum {a,b,seq_sum}")
+        if seq_sum == M:
+            cnt += 1
+            b += 1
+            seq_sum = seq_sum - seq[a] + seq[b]
+            a += 1
+        elif seq_sum > M:
+            seq_sum -= seq[a]
+            a += 1
+        else:
+            b += 1
+            seq_sum += seq[b]
+    return cnt
 
-# 자두 나무
-# 풀이법 - dfs 트리를 돈다.
-# 풀이법 - dp 설계를 한다. - 메모리가 걱정 ? -3*1000
+
+print(tp(A, M))
+"""
+4 3
+5 1 2 3 
+"""

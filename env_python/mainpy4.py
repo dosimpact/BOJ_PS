@@ -5,139 +5,67 @@ import math
 from collections import deque
 from typing import *
 from math import ceil
+from itertools import product, combinations
 
 input = sys.stdin.readline
-sys.setrecursionlimit(10 ** 6)
-# ( 한쪽팔길이 - 1 )* 4 - 1 = 너비
+
+sys.setrecursionlimit(10**6)
+
+
+# 연구소 빈칸,벽, 바이러스 - 한칸씩 버짐
+# 3개의 벽 - BF,안전영역 최댓값
+"""
+리팩토링
+- 구지 for 6중 돌려야 하나?
+> 빈공간에 대한 filter 후 조합 만들기
+"""
 
 N, M = map(int, input().split())
 graph = []
 for _ in range(N):
-    graph.append(list(input()))
-dx, dy = [0, 0, 1, -1], [1, -1, 0, 0]
+    graph.append(list(map(int, input().split())))
+
+viruss = list(filter(lambda x: graph[x[0]]
+                     [x[1]] == 2, product(range(N), range(M))))
+emptys = [(i, j) for i in range(N) for j in range(M) if graph[i][j] == 0]
+walls = list(filter(lambda x: graph[x[0]]
+                    [x[1]] == 1, product(range(N), range(M))))
+maxSpreaded = N*M
 
 
-def _inRange(x: int, y: int):
-    return x >= 0 and y >= 0 and x < N and y < M
+def BFS2():
+    global maxSpreaded
+    check = [[False for _ in range(M)] for _ in range(N)]
+    dq = deque()
+    count = 0
+    for init in viruss:
+        x, y = init
+        count += 1
+        check[x][y] = True
+        dq.append((x, y))
+    while dq:
+        x, y = dq.popleft()  # 현재 위치
+        for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
+            nx, ny = x+dx, y+dy
+            if not(nx >= 0 and ny >= 0 and nx < N and ny < M):
+                continue
+            if check[nx][ny]:
+                continue
+            if graph[nx][ny] == 1:
+                continue
+            check[nx][ny] = True
+            count += 1
+            if count >= maxSpreaded:
+                return
+            dq.append((nx, ny))
+    maxSpreaded = count
 
 
-# 만들 수 없으면 false | len 이 넓이다.
-def makeCross(x: int, y: int, L: int):
-    res = []
-    isposs = True
-    for k in range(4):
-        nx, ny = x + dx[k] * L, y + dy[k] * L
-        if not _inRange(nx, ny) or graph[nx][ny] != "#":
-            isposs = False
-            break
-        res.append((nx, ny))
-    if not isposs:
-        return False
-    else:
-        return res
+for case in combinations(emptys, 3):
+    for vx, vy in case:
+        graph[vx][vy] = 1
+    BFS2()
+    for vx, vy in case:
+        graph[vx][vy] = 0
 
-
-# 겹치는지 여부
-def interSections(cross1, cross2):
-    return len(set(cross1) & set(cross2)) >= 1
-
-
-# print(interSections([(1, 2), (1, 3)], [(1, 8), (1, 4)]))
-ansMax = []
-for x1 in range(N):
-    for y1 in range(M):
-        if graph[x1][y1] == ".":
-            continue
-        L1 = 0
-        cross1 = [(x1, y1)]
-        while True:
-            for x2 in range(N):
-                for y2 in range(M):
-                    if graph[x2][y2] == ".":
-                        continue
-                    if x1 == x2 and y1 == y2:
-                        continue
-                    cross2 = [(x2, y2)]
-                    L2 = 0
-                    while True:
-                        # print(
-                        #     f"[] x1,y1,L1,x2,y2,L2,cross1,cross2 {x1,y1,L1,x2,y2,L2,cross1,cross2} "
-                        # )
-                        if not interSections(cross1, cross2):
-                            ansMax.append(len(cross1) * len(cross2))
-                        L2 += 1
-                        tmp2 = makeCross(x2, y2, L2)
-                        if not tmp2:
-                            break
-                        cross2 += tmp2
-
-            # 길이를 늘려서 점검
-            L1 += 1
-            tmp1 = makeCross(x1, y1, L1)
-            if not tmp1:
-                break
-            cross1 += tmp1
-if ansMax:
-    print(max(ansMax))
-else:
-    print(0)
-"""
-7 7
-...#...
-...#...
-...#...
-#######
-...####
-...#.#.
-...#...
->25
-
-7 7
-...#...
-...#...
-...#...
-#######
-...###.
-...#.#.
-...#...
-
-3 3
-###
-###
-###
->5
-
-
-3 3
-.#.
-###
-.#.
->1
-
-3 4
-..#.
-####
-..#.
->5
-
-
-2 2
-..
-..
->0
-
-2 2
-..
-.#
->0
-
-2 2
-..
-##
->1
-
-2 2
-##
-##
->1
-"""
+print(N*M - (maxSpreaded) - len(walls) - 3)

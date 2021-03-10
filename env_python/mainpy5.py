@@ -1,55 +1,86 @@
-def spread(virus_y, virus_x):  # 바이러스 전파 알고리즘 (BFS)
-    queue = []
-    queue.append([virus_y, virus_x])
-    while queue:
-        y, x = map(int, queue.pop(0))
-        lab_temp[y][x] = 2
-        # 바이러스의 x좌표가 0보다 크고, 바이러스 왼쪽 칸이 빈 칸인 경우
-        if x > 0 and lab_temp[y][x - 1] == 0 and not visited[y][x - 1]:
-            visited[y][x - 1] = True
-            queue.append([y, x - 1])
-        # 바이러스의 y좌표가 0보다 크고, 바이러스 위쪽 칸이 빈 칸인 경우
-        if y > 0 and lab_temp[y - 1][x] == 0 and not visited[y - 1][x]:
-            visited[y - 1][x] = True
-            queue.append([y - 1, x])
-        # 바이러스의 x좌표가 m-1보다 작고, 바이러스 오른쪽 칸이 빈 칸인 경우
-        if x < m - 1 and lab_temp[y][x + 1] == 0 and not visited[y][x + 1]:
-            visited[y][x + 1] = True
-            queue.append([y, x + 1])
-        # 바이러스의 y좌표가 n-1보다 작고, 바이러스 아래쪽 칸이 빈 칸인 경우
-        if y < n - 1 and lab_temp[y + 1][x] == 0 and not visited[y + 1][x]:
-            visited[y + 1][x] = True
-            queue.append([y + 1, x])
+from sys import exit, maxsize
+from collections import deque
 
 
-result = 0
-n, m = map(int, input().split())
-lab = [list(map(int, input().split())) for _ in range(n)]
+R, C = map(int, input().split())
+graph = []
+for _ in range(R):
+    graph.append(list(input()))
 
-# 초기 바이러스 좌표 구하기
-virus = [[i, j] for i in range(n) for j in range(m) if lab[i][j] == 2]
-# 빈 칸의 좌표 List
-empty = [[i, j] for i in range(n) for j in range(m) if lab[i][j] == 0]
-# 벽 세 칸을 세우는 모든 경우를 저장하는 리스트
-l_case = [[empty[i], empty[j], empty[k]] for i in range(
-    len(empty)) for j in range(i + 1, len(empty)) for k in range(j + 1, len(empty))]
-# 모든 경우에 대한 검사
-for case in l_case:
-    # 지도 복사 (이차원 배열의 깊은 복사)
-    lab_temp = [[lab[i][j] for j in range(m)] for i in range(n)]
-    # 방문 검사를 위한 리스트
-    visited = [[False for _ in range(m)] for _ in range(n)]
-    # 벽 세우기
-    for c in case:
-        y, x = c[0], c[1]
-        lab_temp[y][x] = 1
-    # 바이러스 전파
-    for v in virus:
-        spread(v[0], v[1])
-    # 안전 구역 개수 세기
-    count = len([[i, j] for i in range(n)
-                 for j in range(m) if lab_temp[i][j] == 0])
-    # 기존 안전 구역과 비교 후 많으면 재할당
-    if count > result:
-        result = count
-print(result)
+check_fire = [[maxsize for _ in range(C)] for _ in range(R)]
+check_psn = [[maxsize for _ in range(C)] for _ in range(R)]
+psn = [(i, j) for i in range(R) for j in range(C) if graph[i][j] == "J"]
+fires = [(i, j) for i in range(R) for j in range(C) if graph[i][j] == "F"]
+
+# 불먼저 이동, 지훈이동
+# 불의위치-벽 이동 불가 , 지훈이동 - 벽,불차오른것 이동 불가
+
+dq = deque()
+for x, y in fires:
+    check_fire[x][y] = 0
+    dq.append((x, y))
+
+while dq:
+    x, y = dq.popleft()
+    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
+        nx, ny = x+dx, y+dy
+        if not(nx >= 0 and ny >= 0 and nx < R and ny < C):
+            continue
+        if graph[nx][ny] == "#":
+            continue
+        if check_fire[nx][ny] != maxsize:
+            continue
+        check_fire[nx][ny] = check_fire[x][y]+1
+        dq.append((nx, ny))
+dq = deque()
+for x, y in psn:
+    check_psn[x][y] = 0
+    dq.append((x, y))
+while dq:
+    x, y = dq.popleft()
+    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
+        nx, ny = x+dx, y+dy
+        if not (nx >= 0 and ny >= 0 and nx < R and ny < C):
+            print(check_psn[x][y]+1)
+            exit(0)
+        if graph[nx][ny] == "#":
+            continue
+        if check_psn[nx][ny] != maxsize:
+            continue
+        if check_psn[x][y]+1 >= check_fire[nx][ny]:
+            continue
+        check_psn[nx][ny] = check_psn[x][y]+1
+        dq.append((nx, ny))
+print("IMPOSSIBLE")
+"""
+4 4
+####
+#JF#
+#..#
+#..#
+>3
+
+4 4
+####
+#JF#
+#.F#
+#..#
+>IMPOSSIBLE
+
+
+4 4
+####
+#J.#
+#..#
+#F.#
+>IMPOSSIBLE
+
+
+4 5
+.....
+####F
+#J.#F
+...#.
+>❌ IMPOSSIBLE 불이 지나가지 못한 자리를 0으로 하면 사람이 못 지나갑니다.
+>2
+"""

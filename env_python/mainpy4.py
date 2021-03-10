@@ -1,71 +1,73 @@
-import sys
-import heapq
-import re
-import math
+# import sys
+# import heapq
+# import re
+# import math
 from collections import deque
-from typing import *
-from math import ceil
-from itertools import product, combinations
+# from typing import *
+# from math import ceil
+# from itertools import product, combinations
 
-input = sys.stdin.readline
+# input = sys.stdin.readline
 
-sys.setrecursionlimit(10**6)
+# sys.setrecursionlimit(10**6)
+
+# 로봇 확률로 움직인다. 방문한곳을 또 방문하면 그 확률 다(해당 표본) 실패로 돌아감
+# 원점에서 시작해서 확률은 1이다, 사방으로 갈때 필요한 확률을 곱해서 , 확률공간을 축소해나간다.
+# 4**14 승으로 백트레킹까지 하면 충분
+
+PC = list(map(int, input().split()))
+N = PC[0]
+PC = list(map(lambda x: x/100, PC[1:]))  # E W S N
+dx, dy = [0, 0, 1, -1], [1, -1, 0, 0]
+check = dict()
+dq = deque()
+Fail, Succ = 0, 0
 
 
-# 연구소 빈칸,벽, 바이러스 - 한칸씩 버짐
-# 3개의 벽 - BF,안전영역 최댓값
+def DFS(x: int, y: int, w: float, n: int):
+    global Fail, Succ
+    # ❌ 반드시 실패인지 먼저 체크
+    # 최대한 작동한 경우, 이미 방문한곳이었던 경우, 계속 더 갈 수 있는 경우 확률공간 분배
+    if (x, y) in check and check[(x, y)]:
+        Fail += w
+        return
+    if n == N:
+        Succ += w
+        return
+
+    check[(x, y)] = True
+    for k in range(4):
+        nx, ny = x+dx[k], y+dy[k]
+        DFS(nx, ny, w*PC[k], n+1)
+    check[(x, y)] = False
+
+
+DFS(0, 0, 1, 0)
+# print(Succ, Fail)
+print("%0.10f" % Succ)
+# print(Succ)
 """
-리팩토링
-- 구지 for 6중 돌려야 하나?
-> 빈공간에 대한 filter 후 조합 만들기
+❌
+10 0 0 50 50
+>0.00195312500
+>0.00000000000
+
+2 0 0 50 50
+>0.5
+
+1 0 0 0 100
+>1.0
+
+2 10 20 30 40
+>0.7200000000
+
+
+2 25 25 25 25
+>0.750000000
+
+13 25 25 25 25
+>0.000001356
+
+14 10 20 30 40
+>0.0000000008
 """
-
-N, M = map(int, input().split())
-graph = []
-for _ in range(N):
-    graph.append(list(map(int, input().split())))
-
-viruss = list(filter(lambda x: graph[x[0]]
-                     [x[1]] == 2, product(range(N), range(M))))
-emptys = [(i, j) for i in range(N) for j in range(M) if graph[i][j] == 0]
-walls = list(filter(lambda x: graph[x[0]]
-                    [x[1]] == 1, product(range(N), range(M))))
-maxSpreaded = N*M
-
-
-def BFS2():
-    global maxSpreaded
-    check = [[False for _ in range(M)] for _ in range(N)]
-    dq = deque()
-    count = 0
-    for init in viruss:
-        x, y = init
-        count += 1
-        check[x][y] = True
-        dq.append((x, y))
-    while dq:
-        x, y = dq.popleft()  # 현재 위치
-        for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
-            nx, ny = x+dx, y+dy
-            if not(nx >= 0 and ny >= 0 and nx < N and ny < M):
-                continue
-            if check[nx][ny]:
-                continue
-            if graph[nx][ny] == 1:
-                continue
-            check[nx][ny] = True
-            count += 1
-            if count >= maxSpreaded:
-                return
-            dq.append((nx, ny))
-    maxSpreaded = count
-
-
-for case in combinations(emptys, 3):
-    for vx, vy in case:
-        graph[vx][vy] = 1
-    BFS2()
-    for vx, vy in case:
-        graph[vx][vy] = 0
-
-print(N*M - (maxSpreaded) - len(walls) - 3)

@@ -1,5 +1,4 @@
 
-
 N = int(input())
 data = list(map(int, input().split()))
 data_set = list(set(data))

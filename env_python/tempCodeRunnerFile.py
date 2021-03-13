@@ -1,2 +1,2 @@
-15 20 16 3 2
-79
+
+query = [list(map(int, input().split()

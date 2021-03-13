@@ -14,3 +14,4 @@ where (A.book_name like "Looking with Elice")
         and B.buy_date <= "2020-07-31"
     )
 order by B.buy_date
+

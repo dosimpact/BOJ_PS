@@ -1,43 +1,25 @@
-import sys
-import heapq
-import re
-import math
-from collections import deque
-from typing import *
-from math import ceil
-from functools import reduce
 
 
-input = sys.stdin.readline
-
-sys.setrecursionlimit(10 ** 6)
-
-N = int(input())
-data = []
+N, K = map(int, input().split())
+item = []
 for _ in range(N):
-    data.append(list(map(int, input().split())))
+    w, v = map(int, input().split())
+    item.append((w, v))
 
-ans = sys.maxsize
+d = [[0 for _ in range(K+1)] for _ in range(N+1)]
 
+for i in range(1, N+1):  # i번째 물건을 탐해본다.
+    for j in range(1, K+1):  # j 배낭의 무게로 시험
+        if item[i-1][0] > j:  # 담을 수 없음
+            d[i][j] = d[i-1][j]
+        else:
+            d[i][j] = max(d[i-1][j], d[i-1][j - item[i-1][0]]+item[i-1][1])
 
-def go(idx: int, a, b):
-    global ans
-    if idx == N:
-        if not a and not b:
-            return
-        ans = min(abs(reduce(lambda x, y: x*y, a) - sum(b)), ans)
-        return
-
-    #  골라봐 안골라봐
-    a.append(data[idx][0])
-    b.append(data[idx][1])
-    go(idx+1, a, b)
-    a.pop()
-    b.pop()
-    go(idx+1, a, b)
-
-
-a = deque()
-b = deque()
-go(0, a, b)
-print(ans)
+print(d[N][K])
+"""
+4 7
+6 13
+4 8
+3 6
+5 12
+"""

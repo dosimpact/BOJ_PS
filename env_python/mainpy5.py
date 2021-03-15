@@ -1,86 +1,50 @@
-from sys import exit, maxsize
-from collections import deque
+from sys import stdin
 
 
-R, C = map(int, input().split())
-graph = []
-for _ in range(R):
-    graph.append(list(input()))
+input = stdin.readline
 
-check_fire = [[maxsize for _ in range(C)] for _ in range(R)]
-check_psn = [[maxsize for _ in range(C)] for _ in range(R)]
-psn = [(i, j) for i in range(R) for j in range(C) if graph[i][j] == "J"]
-fires = [(i, j) for i in range(R) for j in range(C) if graph[i][j] == "F"]
 
-# 불먼저 이동, 지훈이동
-# 불의위치-벽 이동 불가 , 지훈이동 - 벽,불차오른것 이동 불가
+N = int(input())
+data = [list(map(int, input().split())) for i in range(N)]
+data.sort(key=lambda x: (x[1], x[0]))
 
-dq = deque()
-for x, y in fires:
-    check_fire[x][y] = 0
-    dq.append((x, y))
+ltime, ans = 0, 0
+for d in data:
+    if d[0] >= ltime:
+        ans += 1
+        ltime = d[1]
+print(ans)
 
-while dq:
-    x, y = dq.popleft()
-    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
-        nx, ny = x+dx, y+dy
-        if not(nx >= 0 and ny >= 0 and nx < R and ny < C):
-            continue
-        if graph[nx][ny] == "#":
-            continue
-        if check_fire[nx][ny] != maxsize:
-            continue
-        check_fire[nx][ny] = check_fire[x][y]+1
-        dq.append((nx, ny))
-dq = deque()
-for x, y in psn:
-    check_psn[x][y] = 0
-    dq.append((x, y))
-while dq:
-    x, y = dq.popleft()
-    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
-        nx, ny = x+dx, y+dy
-        if not (nx >= 0 and ny >= 0 and nx < R and ny < C):
-            print(check_psn[x][y]+1)
-            exit(0)
-        if graph[nx][ny] == "#":
-            continue
-        if check_psn[nx][ny] != maxsize:
-            continue
-        if check_psn[x][y]+1 >= check_fire[nx][ny]:
-            continue
-        check_psn[nx][ny] = check_psn[x][y]+1
-        dq.append((nx, ny))
-print("IMPOSSIBLE")
 """
-4 4
-####
-#JF#
-#..#
-#..#
->3
+✅ 회의 종료 시간이 같은 회의중에 , 2번까지 세이브 하는 경우 있다.
+3
+2 2
+1 2
+2 3
+>2 ( 첫번째 정렬을 안할때  (2,2)-(2,3) )
+>3 ( 첫번째 정렬을 할때   (1,2)-(2,2)-(2,3) )
 
-4 4
-####
-#JF#
-#.F#
-#..#
->IMPOSSIBLE
+1
+1 200
+
+2
+1 1
+1 1
+
+5
+0 1
+1 2
+2 2
+2 3
+3 3
+
+6
+2 13
+3 5
+3 4
+3 3
+4 7
+4 6
 
 
-4 4
-####
-#J.#
-#..#
-#F.#
->IMPOSSIBLE
-
-
-4 5
-.....
-####F
-#J.#F
-...#.
->❌ IMPOSSIBLE 불이 지나가지 못한 자리를 0으로 하면 사람이 못 지나갑니다.
->2
 """

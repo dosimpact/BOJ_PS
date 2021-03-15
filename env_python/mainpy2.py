@@ -1,33 +1,44 @@
-import sys
+from sys import setrecursionlimit, stdin
+from math import inf
 import heapq
-import re
-import math
-from collections import deque, defaultdict
-from typing import *
-from math import ceil, factorial
-from itertools import combinations
 
 
-sys.setrecursionlimit(10**6)
-# N명, 얻는경우 안얻는경우,재귀
+input = stdin.readline
 
-N = int(input())
-L = list(map(int, input().split()))
-J = list(map(int, input().split()))
+V, E = map(int, input().split())
+K = int(input())
+graph = [[] for _ in range(V + 1)]
+dist = [inf for _ in range(V + 1)]
+check = [False for _ in range(V + 1)]
+for _ in range(E):
+    u, v, w = map(int, input().split())
+    graph[u].append((v, w))
 
-ans = 0
+pq = [(0, K)]  # (이 가중치로 갈 수 있다, 이 노드 (번호) 를 )
+dist[K] = 0
+while pq:
+    now_w, now = heapq.heappop(pq)
+    if check[now]:
+        continue
+    check[now] = True
+    for nxt, nxt_w in graph[now]:
+        # 비교하기 - 바로가는것과, 거처가는것
+        if dist[nxt] > dist[now] + nxt_w:
+            dist[nxt] = dist[now] + nxt_w
+            heapq.heappush(pq, (dist[nxt], nxt))
 
-
-def go(idx: int, HP: int, Joy: int):
-    global ans
-    if HP <= 0:
-        return
-    if idx == N:
-        ans = max(ans, Joy)
-        return
-    go(idx+1, HP, Joy)
-    go(idx+1, HP - L[idx], Joy+J[idx])
-
-
-go(0, 100, 0)
-print(ans)
+for d in dist[1:]:
+    if d == inf:
+        print("INF")
+    else:
+        print(d)
+"""
+5 6
+1
+5 1 1
+1 2 2
+1 3 3
+2 3 4
+2 4 5
+3 4 6
+"""

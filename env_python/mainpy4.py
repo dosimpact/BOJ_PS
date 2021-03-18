@@ -1,73 +1,51 @@
-# import sys
-# import heapq
-# import re
-# import math
+import sys
 from collections import deque
-# from typing import *
-# from math import ceil
-# from itertools import product, combinations
 
-# input = sys.stdin.readline
+input = sys.stdin.readline
+sys.setrecursionlimit(10 ** 6)
 
-# sys.setrecursionlimit(10**6)
+N = int(input())
+graph = []
+for _ in range(N):
+    graph.append(list(map(int,input().split())))
 
-# 로봇 확률로 움직인다. 방문한곳을 또 방문하면 그 확률 다(해당 표본) 실패로 돌아감
-# 원점에서 시작해서 확률은 1이다, 사방으로 갈때 필요한 확률을 곱해서 , 확률공간을 축소해나간다.
-# 4**14 승으로 백트레킹까지 하면 충분
+# NN 물고기 M마리, 아기상어 1마리
+# 한칸에 최대 1마리, 물고기는 크기가 있다.
+# 아기상어는 2 크기, 1초에 4방향 이동
+# 자기 보다 큰 물고기 있으면 이동 불가
+# 자기 보다 작은 물고기 먹음, + 이동 > 자산의 크기 = 같은 수의 물고기
+# 크기 2면 , 2마리 먹어야 3됨
+# 자기 동일한 물고기 이동만 가능
 
-PC = list(map(int, input().split()))
-N = PC[0]
-PC = list(map(lambda x: x/100, PC[1:]))  # E W S N
-dx, dy = [0, 0, 1, -1], [1, -1, 0, 0]
-check = dict()
-dq = deque()
-Fail, Succ = 0, 0
+# 먹을 수 있는 물고기
+# 가장 위, 가장 왼쪽 먼저 먹는다.
+# 물고기를 잡아먹을 수 있는 시간
 
+fished = None  # 물고기 크기별 위치
+# BFS 후 작은 물고기에 갈 수 있으면
+dist = None  # 각 작은 물고기의 거리 *물고기 성장시 다시 업뎃해야함
 
-def DFS(x: int, y: int, w: float, n: int):
-    global Fail, Succ
-    # ❌ 반드시 실패인지 먼저 체크
-    # 최대한 작동한 경우, 이미 방문한곳이었던 경우, 계속 더 갈 수 있는 경우 확률공간 분배
-    if (x, y) in check and check[(x, y)]:
-        Fail += w
-        return
-    if n == N:
-        Succ += w
-        return
+while True:
+    # 더이상 먹을 수 없는 경우
 
-    check[(x, y)] = True
-    for k in range(4):
-        nx, ny = x+dx[k], y+dy[k]
-        DFS(nx, ny, w*PC[k], n+1)
-    check[(x, y)] = False
+    # 
 
 
-DFS(0, 0, 1, 0)
-# print(Succ, Fail)
-print("%0.10f" % Succ)
-# print(Succ)
 """
-❌
-10 0 0 50 50
->0.00195312500
->0.00000000000
+// 큰 크기의 물고기에 갇힘
 
-2 0 0 50 50
->0.5
+5
+0 0 0 0 1
+0 2 2 2 2
+1 0 0 0 0
+2 2 2 2 0
+9 0 0 0 0
 
-1 0 0 0 100
->1.0
+5
+0 0 0 0 1
+0 3 3 3 3
+0 0 0 0 1
+3 3 3 3 0
+9 0 0 0 0
 
-2 10 20 30 40
->0.7200000000
-
-
-2 25 25 25 25
->0.750000000
-
-13 25 25 25 25
->0.000001356
-
-14 10 20 30 40
->0.0000000008
 """

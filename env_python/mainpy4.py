@@ -2,121 +2,50 @@ import sys
 from collections import deque
 
 input = sys.stdin.readline
-sys.setrecursionlimit(10**8)
+sys.setrecursionlimit(10 ** 6)
 
+N = int(input())
+graph = []
+for _ in range(N):
+    graph.append(list(map(int, input().split())))
 
-# 원숭이는 K번만 나이트 움직인다. 그외는 인접한 칸으로 이동(4방향)
-# 최단거리이동 = BFS
-# 0 <= K <= 30,
-# check[200][200][30] = 12 * 10 ** 5 = 1.2 * 10**6 = KB
-# BFS 이동 + 노드가 분리되는 경우
+# NN 물고기 M마리, 아기상어 1마리
+# 한칸에 최대 1마리, 물고기는 크기가 있다.
+# 아기상어는 2 크기, 1초에 4방향 이동
+# 자기 보다 큰 물고기 있으면 이동 불가
+# 자기 보다 작은 물고기 먹음, + 이동 > 자산의 크기 = 같은 수의 물고기
+# 크기 2면 , 2마리 먹어야 3됨
+# 자기 동일한 물고기 이동만 가능
 
-K = int(input())
-K += 1
-R, C = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(R)]
-check = [[[0 for _ in range(K)] for _ in range(C)] for _ in range(R)]
-dq = deque()
-check[0][0][0] = 1
-dq.append((0, 0, 0))
+# 먹을 수 있는 물고기
+# 가장 위, 가장 왼쪽 먼저 먹는다.
+# 물고기를 잡아먹을 수 있는 시간
 
-while dq:
-    x, y, k = dq.popleft()
-    # 일반 이동하는 경우
-    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
-        nx, ny = x+dx, y+dy
-        if not((0 <= nx < R) and (0 <= ny < C)):
-            continue
-        if check[nx][ny][k] != 0:
-            continue
-        if graph[nx][ny] == 1:
-            continue
-        check[nx][ny][k] = check[x][y][k]+1
-        dq.append((nx, ny, k))
-    # 말처럼 이동하는 경우
-    for dx, dy in zip([-2, -2, -1, -1, 1, 1, 2, 2], [1, -1, 2, -2, 2, -2, 1, -1]):
-        nx, ny, nk = x+dx, y+dy, k+1
-        if not((0 <= nx < R) and (0 <= ny < C)):
-            continue
-        if nk >= K:
-            continue
-        if check[nx][ny][nk] != 0:
-            continue
-        if graph[nx][ny] == 1:
-            continue
-        check[nx][ny][nk] = check[x][y][k]+1
-        dq.append((nx, ny, nk))
+fished = None  # 물고기 크기별 위치
+# BFS 후 작은 물고기에 갈 수 있으면
+dist = None  # 각 작은 물고기의 거리 *물고기 성장시 다시 업뎃해야함
 
-res = [check[R-1][C-1][i] for i in range(K) if check[R-1][C-1][i] != 0]
+while True:
+    # 더이상 먹을 수 없는 경우
 
-# print(res)
-# for r in check:
-#     print(r)
-
-
-if not res:
-    print(-1)
-else:
-    print(min(res)-1)
+    #
 
 
 """
-0
-4 4
-0 1 0 0
-1 0 0 0
-0 0 1 0
-0 1 0 0
->6 ❌ 조건 빼먹음
->-1
+// 큰 크기의 물고기에 갇힘
 
-1
-4 4
-0 1 0 0
-1 0 1 0
-0 1 0 0
-0 0 0 0
->1 ❌ 조건 빼먹음
->-1
+5
+0 0 0 0 1
+0 2 2 2 2
+1 0 0 0 0
+2 2 2 2 0
+9 0 0 0 0
 
-1
-4 4
-0 0 0 0
-1 0 0 0
-0 0 1 0
-0 1 0 0
->4
+5
+0 0 0 0 1
+0 3 3 3 3
+0 0 0 0 1
+3 3 3 3 0
+9 0 0 0 0
 
-1
-4 4
-0 1 0 0
-1 0 0 0
-0 0 1 0
-0 1 0 0
->4
-
-10
-3 2
-0 0
-0 0
-0 0
->1
-
-
-
-1
-4 4
-0 1 1 1
-1 1 0 1
-1 1 1 1
-1 1 1 0
->-1
-
-2
-4 4
-0 1 1 1
-1 1 0 1
-1 1 1 1
-1 1 1 0
->2
 """

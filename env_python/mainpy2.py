@@ -2,35 +2,40 @@ import sys
 from collections import deque
 
 input = sys.stdin.readline
-sys.setrecursionlimit(10**8)
+sys.setrecursionlimit(10 ** 6)
 
 
-# 보드에 알파벳, 지금까지 새로운 알파벳만 밟기
-# 1,1 시작해서 최대몇 이동 ?
-# BFS 탐색 - check 배열 , check_alpha 딕셔너리 조건 추가 ❌
-# DFS 탐색 접근 - 구지 다른 알파벳을 밟아서 최대거리를 깍지 말것
+# 데스나이트 6곳 규칙에 의해 이동
+# NN 체스판, 두칸 , start > end 이동 최소 횟수
+# 0,0 행 열 시작, 밖 이동 불가
 
+N = int(input())
+r1, c1, r2, c2 = map(int, input().split())
 
-R, C = map(int, input().split())
-graph = [list(input().rstrip()) for _ in range(R)]
-check = [[False for _ in range(C)] for _ in range(R)]
-check_alpha = dict()
+# 그냥 BFS?
+check = [[0 for _ in range(N)] for _ in range(N)]
 dq = deque()
-dq.append((0, 0))
-# check[0][0] = 1
-# check_alpha[graph[0][0]] = True
-ansMax = 0
+check[r1][c1] = 1
+dq.append((r1, c1))
+
+while dq:
+    x, y = dq.popleft()
+    if x == r2 and y == c2:
+        break
+    for dx, dy in zip([-2, -2, 0, 0, 2, 2], [-1, 1, -2, 2, -1, 1]):
+        nx, ny = x + dx, y + dy
+        if not (0 <= nx < N and 0 <= ny < N):
+            continue
+        if check[nx][ny] != 0:
+            continue
+        check[nx][ny] = check[x][y] + 1
+        dq.append((nx, ny))
 
 
-def DFS(x: int, y: int, span: int):
-    global ansMax
-    if not(x >= 0 and y >= 0 and x < R and y < C):
-        return
-    if check[x][y]:
-        return
-    # ❌ dict 3가지 state,  존재하지 않을때, 존재할때 = True, 존재 안할때 False
-    if graph[x][y] in check_alpha and check_alpha[graph[x][y]] == True:
-        return
+if check[r2][c2] == 0:
+    print(-1)
+else:
+    print(check[r2][c2] - 1)
 
     ansMax = max(span, ansMax)
 
@@ -43,6 +48,7 @@ def DFS(x: int, y: int, span: int):
     check[x][y] = False
     check_alpha[graph[x][y]] = False
 
+<< << << < HEAD
 
 DFS(0, 0, 1)
 print(ansMax)
@@ -85,4 +91,8 @@ BAAG
 CDEF
 AAAF
 >8
+=======
+"""
+
+>>>>>> > 7bfffbf4e25e7e4d2d2bcec6f88b45072b8caae1
 """

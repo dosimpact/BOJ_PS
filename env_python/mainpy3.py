@@ -1,24 +1,23 @@
-V, E = map(int, input().split())
-graph: List[List[int]] = [[] for _ in range(V + 1)]  # 0 사용 X
-# edges = [list(map(int, input().split())) for _ in range(E)]
-# edges.sort(key=lambda x: x[2])
-for _ in range(E):
-    u, v, w = map(int, input().split())
-    graph[u].append((v, w))
-    graph[v].append((u, w))
+N, K = map(int, input().split())
+item = []
+for _ in range(N):
+    w, v = map(int, input().split())
+    item.append((w, v))
 
-check = [False for i in range(V + 1)]
-pq = [(0, 1)]  # 가중치 0 으로, 1번노드부터 시작
+d = [[0 for _ in range(K + 1)] for _ in range(N + 1)]
 
-ans = 0
-while pq:
-    # 현재 노드 에서 | 주변 탐색
-    w, now = heapq.heappop(pq)
-    if check[now]:  # 이미 방문해서 가중치 더함
-        continue
-    check[now] = True
-    ans += w
-    for nxt, nxt_w in graph[now]:
-        if not check[nxt]:  # 아직 방문 안한 점이라면, pq 에 넣고 가능성을 보자.
-            heapq.heappush(pq, (nxt_w, nxt))
-print(ans)
+for i in range(1, N + 1):  # i번째 물건을 탐해본다.
+    for j in range(1, K + 1):  # j 배낭의 무게로 시험
+        if item[i - 1][0] > j:  # 담을 수 없음
+            d[i][j] = d[i - 1][j]
+        else:
+            d[i][j] = max(d[i - 1][j], d[i - 1][j - item[i - 1][0]] + item[i - 1][1])
+
+print(d[N][K])
+"""
+4 7
+6 13
+4 8
+3 6
+5 12
+"""

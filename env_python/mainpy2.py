@@ -1,71 +1,88 @@
 import sys
-
+from collections import deque
 
 input = sys.stdin.readline
-sys.setrecursionlimit(10**6)
+sys.setrecursionlimit(10**8)
 
 
-N, M, K = map(int, input().split())  # 숫자 갯수, 업데이트 수 , 구간합 요청 수
-arr = [int(input()) for _ in range(N)]
-query = []
-for _ in range(M+K):
-    a, b, c = map(int, input().split())
-    query.append((a, b, c))
-
-tree = [0 for _ in range(len(arr)*4)]
+# 보드에 알파벳, 지금까지 새로운 알파벳만 밟기
+# 1,1 시작해서 최대몇 이동 ?
+# BFS 탐색 - check 배열 , check_alpha 딕셔너리 조건 추가 ❌
+# DFS 탐색 접근 - 구지 다른 알파벳을 밟아서 최대거리를 깍지 말것
 
 
-def seg_init(node: int, start: int, end: int):
-    # 리프 노드면 대입, 아니라면 전파
-    if start == end:
-        tree[node] = arr[start]
-        return tree[node]
-    mid = (start+end)//2
-    tree[node] = seg_init(node*2, start, mid) + seg_init(node*2+1, mid+1, end)
-    return tree[node]
+R, C = map(int, input().split())
+graph = [list(input().rstrip()) for _ in range(R)]
+check = [[False for _ in range(C)] for _ in range(R)]
+check_alpha = dict()
+dq = deque()
+dq.append((0, 0))
+# check[0][0] = 1
+# check_alpha[graph[0][0]] = True
+ansMax = 0
 
 
-def seg_sum(node: int, start: int, end: int, L: int, R: int):
-    # 구간에 상관없으면 0 , 요청이 과다하면 전부 , 그외 전파
-    if R < start or end < L:
-        return 0
-    if L <= start and end <= R:
-        return tree[node]
-    mid = (start+end)//2
-    return seg_sum(node*2, start, mid, L, R) + seg_sum(node*2+1, mid+1, end, L, R)
-
-
-def seg_update(node: int, start: int, end: int, idx: int, diff: int):
-    # 업데이트 구간 상관없으면 리턴, 업뎃 후 , 리프가 아니라면 전파
-    if not(start <= idx and idx <= end):
+def DFS(x: int, y: int, span: int):
+    global ansMax
+    if not(x >= 0 and y >= 0 and x < R and y < C):
         return
-    tree[node] += diff
-    if start == end:
+    if check[x][y]:
         return
-    mid = (start+end)//2
-    seg_update(node*2, start, mid, idx, diff)
-    seg_update(node*2+1, mid+1, end, idx, diff)
+    # ❌ dict 3가지 state,  존재하지 않을때, 존재할때 = True, 존재 안할때 False
+    if graph[x][y] in check_alpha and check_alpha[graph[x][y]] == True:
+        return
+
+    ansMax = max(span, ansMax)
+
+    check_alpha[graph[x][y]] = True
+    check[x][y] = True
+    #  for dx, dy in zip([1, -1, 0, 0], [0, 0, 1, -1]):
+    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
+        nx, ny = x+dx, y+dy
+        DFS(nx, ny, span+1)
+    check[x][y] = False
+    check_alpha[graph[x][y]] = False
 
 
-seg_init(1, 0, len(arr)-1)
-for a, b, c in query:
-    if a == 1:  # b를 c로 바꾼다.
-        b = b-1
-        diff = c - arr[b]
-        arr[b] = c
-        seg_update(1, 0, len(arr)-1, b, diff)
-    else:  # b~c 구간합을 구한다.
-        print(seg_sum(1, 0, len(arr)-1, b-1, c-1))
-
+DFS(0, 0, 1)
+print(ansMax)
 """
-5 2 2
-1
-2
-3
-4
-5
-1 3 6
-2 2 5
-1 5 2
-2 3 5
+❌ 다른답
+3 6
+HFDFFB
+AJHGDH
+DGAGEH
+>❌ 4
+>6
+
+❌ 시간 초과
+- check_alpha 배열로
+- basecase는 함수 스택에 최대한 안쌓이도록 최적화
+- 더 줄일려면 메모지에이션..?
+
+2 4
+CAAB
+ADCB
+>3
+
+2 4
+AAAB
+ADCB
+>1
+
+2 4
+ABCD
+HGFE
+>5
+
+1 1
+A
+>1
+
+4 4
+AAAH
+BAAG
+CDEF
+AAAF
+>8
 """

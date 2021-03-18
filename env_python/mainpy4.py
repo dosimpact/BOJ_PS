@@ -1,73 +1,122 @@
-# import sys
-# import heapq
-# import re
-# import math
+import sys
 from collections import deque
-# from typing import *
-# from math import ceil
-# from itertools import product, combinations
 
-# input = sys.stdin.readline
+input = sys.stdin.readline
+sys.setrecursionlimit(10**8)
 
-# sys.setrecursionlimit(10**6)
 
-# 로봇 확률로 움직인다. 방문한곳을 또 방문하면 그 확률 다(해당 표본) 실패로 돌아감
-# 원점에서 시작해서 확률은 1이다, 사방으로 갈때 필요한 확률을 곱해서 , 확률공간을 축소해나간다.
-# 4**14 승으로 백트레킹까지 하면 충분
+# 원숭이는 K번만 나이트 움직인다. 그외는 인접한 칸으로 이동(4방향)
+# 최단거리이동 = BFS
+# 0 <= K <= 30,
+# check[200][200][30] = 12 * 10 ** 5 = 1.2 * 10**6 = KB
+# BFS 이동 + 노드가 분리되는 경우
 
-PC = list(map(int, input().split()))
-N = PC[0]
-PC = list(map(lambda x: x/100, PC[1:]))  # E W S N
-dx, dy = [0, 0, 1, -1], [1, -1, 0, 0]
-check = dict()
+K = int(input())
+K += 1
+R, C = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(R)]
+check = [[[0 for _ in range(K)] for _ in range(C)] for _ in range(R)]
 dq = deque()
-Fail, Succ = 0, 0
+check[0][0][0] = 1
+dq.append((0, 0, 0))
+
+while dq:
+    x, y, k = dq.popleft()
+    # 일반 이동하는 경우
+    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
+        nx, ny = x+dx, y+dy
+        if not((0 <= nx < R) and (0 <= ny < C)):
+            continue
+        if check[nx][ny][k] != 0:
+            continue
+        if graph[nx][ny] == 1:
+            continue
+        check[nx][ny][k] = check[x][y][k]+1
+        dq.append((nx, ny, k))
+    # 말처럼 이동하는 경우
+    for dx, dy in zip([-2, -2, -1, -1, 1, 1, 2, 2], [1, -1, 2, -2, 2, -2, 1, -1]):
+        nx, ny, nk = x+dx, y+dy, k+1
+        if not((0 <= nx < R) and (0 <= ny < C)):
+            continue
+        if nk >= K:
+            continue
+        if check[nx][ny][nk] != 0:
+            continue
+        if graph[nx][ny] == 1:
+            continue
+        check[nx][ny][nk] = check[x][y][k]+1
+        dq.append((nx, ny, nk))
+
+res = [check[R-1][C-1][i] for i in range(K) if check[R-1][C-1][i] != 0]
+
+# print(res)
+# for r in check:
+#     print(r)
 
 
-def DFS(x: int, y: int, w: float, n: int):
-    global Fail, Succ
-    # ❌ 반드시 실패인지 먼저 체크
-    # 최대한 작동한 경우, 이미 방문한곳이었던 경우, 계속 더 갈 수 있는 경우 확률공간 분배
-    if (x, y) in check and check[(x, y)]:
-        Fail += w
-        return
-    if n == N:
-        Succ += w
-        return
-
-    check[(x, y)] = True
-    for k in range(4):
-        nx, ny = x+dx[k], y+dy[k]
-        DFS(nx, ny, w*PC[k], n+1)
-    check[(x, y)] = False
+if not res:
+    print(-1)
+else:
+    print(min(res)-1)
 
 
-DFS(0, 0, 1, 0)
-# print(Succ, Fail)
-print("%0.10f" % Succ)
-# print(Succ)
 """
-❌
-10 0 0 50 50
->0.00195312500
->0.00000000000
+0
+4 4
+0 1 0 0
+1 0 0 0
+0 0 1 0
+0 1 0 0
+>6 ❌ 조건 빼먹음
+>-1
 
-2 0 0 50 50
->0.5
+1
+4 4
+0 1 0 0
+1 0 1 0
+0 1 0 0
+0 0 0 0
+>1 ❌ 조건 빼먹음
+>-1
 
-1 0 0 0 100
->1.0
+1
+4 4
+0 0 0 0
+1 0 0 0
+0 0 1 0
+0 1 0 0
+>4
 
-2 10 20 30 40
->0.7200000000
+1
+4 4
+0 1 0 0
+1 0 0 0
+0 0 1 0
+0 1 0 0
+>4
+
+10
+3 2
+0 0
+0 0
+0 0
+>1
 
 
-2 25 25 25 25
->0.750000000
 
-13 25 25 25 25
->0.000001356
+1
+4 4
+0 1 1 1
+1 1 0 1
+1 1 1 1
+1 1 1 0
+>-1
 
-14 10 20 30 40
->0.0000000008
+2
+4 4
+0 1 1 1
+1 1 0 1
+1 1 1 1
+1 1 1 0
+>2
 """

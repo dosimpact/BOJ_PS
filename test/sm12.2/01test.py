@@ -54,18 +54,25 @@ def main():
         check = [[False for _ in range(M)] for _ in range(N)]
         for _ in range(N):
             graph.append(list(map(int, input().split())))
-        key, tra, start = None, None, None
+        key, tra, start = set(), set(), None
         for i in range(N):
             for j in range(M):
                 if graph[i][j] == 2:
-                    tra = (i, j)
+                    tra.add((i, j))
                 if graph[i][j] == 3:
                     start = (i, j)
                 if graph[i][j] == 4:
-                    key = (i, j)
+                    key.add((i, j))
 
         BFS()
-        if check[key[0]][key[1]] and check[tra[0]][tra[1]]:
+        able_key, able_tra = set(), set()
+        for i, j in tra:
+            if check[i][j]:
+                able_tra.add((i, j))
+        for i, j in key:
+            if check[i][j]:
+                able_key.add((i, j))
+        if len(able_key) >= 1 and len(able_tra) >= 1:
             print(1)
         else:
             print(0)
@@ -86,6 +93,15 @@ if __name__ == "__main__":
 0 0 0 0 0 0
 >1
 
+❌ 보물,열쇠가 여러개인 경우
+1
+5 6
+2 4 2 4 2 4
+1 1 1 1 1 1
+0 0 2 0 0 3
+0 0 0 0 0 0
+0 0 4 0 0 0
+>1
 
 2
 5 6

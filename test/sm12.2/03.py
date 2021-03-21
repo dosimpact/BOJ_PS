@@ -1,9 +1,8 @@
-
 from collections import deque
 import sys
 
 input = sys.stdin.readline
-sys.setrecursionlimit(10**8)
+sys.setrecursionlimit(10 ** 8)
 
 # 대규모 토지 개발
 # NN 토지, N은 2,4 ... 32
@@ -26,19 +25,19 @@ def go(sx: int, sy: int, ex: int, ey: int, v: int):
         return
     # print(f" sx,ex,sy,ey {sx,ex,sy,ey}")
     # go(sx, sy, ex, ey, v)
-    midx, midy = (sx+ex)//2, (sy+ey)//2
+    midx, midy = (sx + ex) // 2, (sy + ey) // 2
     if ex != midx:
         p = max(graph[i][j] for i in (sx, midx) for j in (sy, ey))
-        go(sx, sy, midx, ey, v+p)  # 이쪽 개발을 안했다.
+        go(sx, sy, midx, ey, v + p)  # 이쪽 개발을 안했다.
     if sx != midx:
         p = max(graph[i][j] for i in (midx, ex) for j in (sy, ey))
-        go(midx, sy, ex, ey, v+p)
+        go(midx, sy, ex, ey, v + p)
     if ey != midy:
         p = max(graph[i][j] for i in (sx, ex) for j in (sy, midy))
-        go(sx, sy, ex, midy, v+p)
+        go(sx, sy, ex, midy, v + p)
     if sy != midy:
         p = max(graph[i][j] for i in (sx, ex) for j in (midy, ey))
-        go(sx, midy, ex, ey, v+p)
+        go(sx, midy, ex, ey, v + p)
 
 
 def main():
@@ -47,8 +46,8 @@ def main():
     graph = []
     for _ in range(N):
         graph.append(list(map(int, input().split())))
-    go(0, 0, N-1, N-1, 0)
-    print()
+    go(0, 0, N - 1, N - 1, 0)
+    print(maxAns)
     print(max(maxAns))
 
 
@@ -63,5 +62,10 @@ if __name__ == "__main__":
 4 3 10 5
 5 2 8 6
 >34
+
+2
+1 2
+3 4
+>7
 """
 # DP로 풀릴것같아서 고민하다 BFS완전탐색으로 가려다가 디버깅 실패

@@ -1,32 +1,49 @@
-import sys
-import math
-from collections import deque
+from sys import stdin
+input = stdin.readline
 
-input = sys.stdin.readline
-sys.setrecursionlimit(10 ** 6)
 
-# 방문해도 되는 1, 방문 X 는 0
-#  한번에 1칸 혹은 2칸
-# 왼 > 오 까지 몇가지 경우의 수?
-# dp임
+tree = None
+data = None
+ans_max = -1
+# back propagation
 
-N = int(input())
-data = input().strip()
-d = [0 for _ in range(N)]
-d[0] = 1
-if data[1] == "1":
-    d[1] = 1
-for i in range(2, N):
-    if data[i-1] != '0':
-        d[i] += d[i-1]
-    if data[i-2] != '0':
-        d[i] += d[i-2]
 
-print(d[N-1])
+def init(node, start, end):
+    global ans_max
+
+    if start == end:
+        tree[node] = (data[start], data[end])
+        ans_max = max(ans_max, data[start])
+        return tree[node]
+    mid = (start+end)//2
+    A = init(node*2, start, mid)
+    B = init(node*2+1, mid+1, end)
+    tree[node] = (min(A[0], B[0]), min(A[1], B[1]))
+
+    ans_max = max(ans_max, (end-start+1)*tree[node][0])
+    return tree[node]
+
+
+while True:
+    ans_max = -1
+    data = list(map(int, input().split()))
+    if data[0] == 0:
+        break
+    data = data[1:]
+    tree = [(0, 0) for _ in range(len(data)*4)]
+    init(1, 0, len(data)-1)
+    print(ans_max)
+
+
 """
-3
-111
->2
+7 2 1 4 5 1 3 3
+4 1000 1000 1000 1000
+0
 
+4 1 2 3 4
+0
+>6
 
+4 1 2 0 4
+0
 """

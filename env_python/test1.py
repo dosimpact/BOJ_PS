@@ -1,2 +1,6 @@
-for i, (dx, dy) in enumerate(zip([0, -1, 1], [1, 0, 0])):
-        print(i, (dx, dy))
+d = dict()
+d[1] = (0, 0)
+d[2] = (0, 1)
+print(d)
+del d[1]
+print(d)

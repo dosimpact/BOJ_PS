@@ -1,60 +1,53 @@
 import sys
 from collections import deque
-import heapq
 
 input = sys.stdin.readline
-sys.setrecursionlimit(10 ** 6)
-
-# 모든 콘텐츠에, 하나의 장르가 태깅
-# 선호도 0.0 ~5.0
-# 열람 X를 먼저 추천 | 열람 했으나 끝까지 다 못본 콘텐츠를 선호도 순으로 추천
-#  Y 안본거, O 보다만거, W 다본거
-# A~E = 장르
+sys.setrecursionlimit(10 ** 8)
 
 
-# 그냥 정렬인데 ?
-
-ans_list = []  # 안본거 | 선호도 | x순 | y순 이네.❌ ( y순  | x순)
-
-prefer = list(map(float, input().split()))  # A B C D E
 N, M = map(int, input().split())
-state = [list(input().strip()) for _ in range(N)]
-genre = [list(input().strip()) for _ in range(N)]
+graph = [list(input().strip()) for _ in range(N)]
+check = [[False for _ in range(M)] for _ in range(N)]
+ans_max = 1
 
-for i in range(N):
-    for j in range(M):
-        if state[i][j] == 'Y':  # 0 안본거
-            ans_list.append(
-                (0, prefer[ord(genre[i][j])-ord('A')], j, i, genre[i][j]))
-        elif state[i][j] == 'O':  # 1 보다 만거
-            ans_list.append(
-                (1, prefer[ord(genre[i][j])-ord('A')], j, i, genre[i][j]))
+# 현재 x,y에 방문해 있다.
+def DFS(x: int, y: int, log: str, span: int):
+    # print(f"x,y,log,span {x,y,log,span}")
+    global ans_max, check
+    # 조건을 현재 노드에서 검사해서, 콜스택 최적화
+    # 범위 체크, 중복 방문 체크, 로그 체크
+    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
+        nx, ny = x + dx, y + dy
+        if not (0 <= nx < N and 0 <= ny < M):
+            continue
+        if check[nx][ny] == True:
+            continue
+        if graph[nx][ny] in log:
+            continue
+        check[nx][ny] = True
+        ans_max = max(ans_max, span + 1)
+        DFS(nx, ny, log + graph[nx][ny], span + 1)
+        check[nx][ny] = False
 
-ans_list.sort(key=lambda x: (x[0], -x[1], x[3], x[2]))
 
-for ans in ans_list:
-    print(f"{ans[4]} {ans[1]} {ans[3]} {ans[2]}")
-
-
+check[0][0] = True
+DFS(0, 0, graph[0][0], 1)
+check[0][0] = False
+print(ans_max)
 """
-5.0 5.0 5.0 5.0 5.0
-3 3
-YYW
-YWW
-OOO
-ABC
-DCE
-ABC
-
-4.0 3.0 2.1 4.3 5.0
-2 3
-WYO
-YYO
-ABC
-DCE
-
->
-장르,선호도,위치
+3 6
+HFDFFB
+AJHGDH
+DGAGEH
+>✅ 4
+>6
 
 
+4 4
+AAAH
+BAAG
+CDEF
+AAAF
+>✅ 3 - 다음 DFS 호출할때 현재 노드로 했다.
+>8
 """

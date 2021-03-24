@@ -1,13 +1,15 @@
+import sys
+import math
 from collections import deque
 
+input = sys.stdin.readline
+sys.setrecursionlimit(10 ** 6)
 
 # 트리노드에는 (최소값,인덱스) 를 넣는다.
 # 세그먼트노드 = 현재 구간에서의 ( 최소값,그 인덱스)
 tree = None
 arr = None
 # 리프노드 - backpropa
-
-
 def init(node, start, end):
     global tree
     if start == end:

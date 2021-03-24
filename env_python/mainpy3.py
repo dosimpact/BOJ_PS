@@ -2,58 +2,81 @@ from sys import stdin
 input = stdin.readline
 
 
-tree = None
-data = None
-ans_max = -1
-# back propagation
+# K번만 말처럼 이동가능, (장애물 통과 가능)
+# 노드가 분리되는 경우, 원숭이 동작의 최솟값
+K = int(input())
+M, N = map(int, input().split())
+
+# K=1   만해도, 0번 말처럼, 1번 말처럼 2가지 경우
+graph = [list(map(int, input().split())) for _ in range(N)]
+dist = [[[0 for _ in range(K + 1)] for _ in range(M)]
+        for _ in range(N)]  # [x][y][k]
 
 
-def init(node, start, end):
-    if start == end:
-        tree[node] = (data[start], start)
-        return tree[node]
-    mid = (start+end)//2
-    A = init(node*2, start, mid)  # (최소높이,그 인덱스)
-    B = init(node*2+1, mid+1, end)
-
-    if A[0] > B[0]:
-        tree[node] = B
-    else:
-        tree[node] = A
-    return tree[node]
+dq = deque()
+dist[0][0][0] = 1
+dq.append((0, 0, 0))
 
 
-def query(node, start, end, L, R):
-    # 요청이랑 상관없다. |
-    w = (end-start+1)
-    h, h_idx = tree[node]  # 최소 높이와 그 인덱스
-
-    A = query(node*2, start, h_idx)
-    B = query(node*2+1, start)
-
-    return
+def inRange(x: int, y: int):
+    return 0 <= x < N and 0 <= y < M
 
 
-while True:
-    ans_max = -1
-    data = list(map(int, input().split()))
-    if data[0] == 0:
-        break
-    data = data[1:]
-    tree = [(0, 0) for _ in range(len(data)*4)]
-    init(1, 0, len(data)-1)
-    print(ans_max)
+while dq:
+    x, y, w = dq.popleft()
+    # k += 1
+    for dx, dy in zip([-2, -2, -1, -1, 1, 1, 2, 2], [-1, 1, -2, 2, -2, 2, -1, 1]):
+        nx, ny = x + dx, y + dy
+        if not inRange(nx, ny):
+            continue
+        if w + 1 > K:
+            continue
+        if graph[nx][ny] == 1:
+            continue
+        if dist[nx][ny][w + 1] != 0:
+            continue
+        dist[nx][ny][w + 1] = dist[x][y][w] + 1
+        dq.append((nx, ny, w + 1))
+    # k += 0
+    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
+        nx, ny = x + dx, y + dy
+        if not inRange(nx, ny):
+            continue
+        if graph[nx][ny] == 1:
+            continue
+        if dist[nx][ny][w] != 0:
+            continue
+        dist[nx][ny][w] = dist[x][y][w] + 1
+        dq.append((nx, ny, w))
+
+
+res = [e for e in dist[N - 1][M - 1] if e != 0]
+
+if len(res) == 0:
+    print(-1)
+else:
+    print(min(res) - 1)
 
 """
-7 2 1 4 5 1 3 3
-4 1000 1000 1000 1000
-0
+1
+4 4
+0 0 0 0
+1 0 0 0
+0 0 1 0
+0 1 0 0
 
-4 1 2 3 4
-0
->6
 
-4 4 4 4 1
-0
->12 ❌
+1
+4 4
+0 1 0 0
+1 0 0 0
+0 0 1 0
+0 1 0 0
+>4
+
+1
+2 2
+0 0
+0 0 
+>2
 """

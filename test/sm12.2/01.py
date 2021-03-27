@@ -63,7 +63,6 @@ def main():
                     start = (i, j)
                 if graph[i][j] == 4:
                     key = (i, j)
-
         BFS()
         if check[key[0]][key[1]] and check[tra[0]][tra[1]]:
             print(1)
@@ -73,7 +72,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 """
 ❌ 열쇠가 여러개인 경우
@@ -85,7 +83,6 @@ if __name__ == "__main__":
 0 3 0 0 0 0
 0 0 0 0 0 0
 >1
-
 
 2
 5 6
@@ -131,6 +128,4 @@ if __name__ == "__main__":
 0 3 0 1 0 0
 0 0 0 0 0 0
 >0
-
-
 """

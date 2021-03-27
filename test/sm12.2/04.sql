@@ -16,5 +16,5 @@ from  customer as A inner join orderInfo as B on A.user_id = B.buyer_id  inner j
 where A.membership = 1
 
 
-
 -- group by 안하냐 ?
+

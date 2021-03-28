@@ -1,7 +1,6 @@
-import sys
-from collections import deque
+from sys import stdin
+input = stdin.readline
 
-input = sys.stdin.readline
 
 # K번만 말처럼 이동가능, (장애물 통과 가능)
 # 노드가 분리되는 경우, 원숭이 동작의 최솟값
@@ -10,7 +9,8 @@ M, N = map(int, input().split())
 
 # K=1   만해도, 0번 말처럼, 1번 말처럼 2가지 경우
 graph = [list(map(int, input().split())) for _ in range(N)]
-dist = [[[0 for _ in range(K + 1)] for _ in range(M)] for _ in range(N)]  # [x][y][k]
+dist = [[[0 for _ in range(K + 1)] for _ in range(M)]
+        for _ in range(N)]  # [x][y][k]
 
 
 dq = deque()

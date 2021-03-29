@@ -1,6 +1,7 @@
-d = dict()
-d[1] = (0, 0)
-d[2] = (0, 1)
-print(d)
-del d[1]
-print(d)
+x, x_span = 0, 9
+y, y_span = 0, 9
+
+
+for i in range(x, x + x_span, x_span // 3):
+    for j in range(y, y + y_span, y_span // 3):
+        print(i, j)

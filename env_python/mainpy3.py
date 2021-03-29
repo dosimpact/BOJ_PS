@@ -1,82 +1,55 @@
-from sys import stdin
+from sys import stdin, setrecursionlimit
+from collections import deque
+
 input = stdin.readline
+setrecursionlimit(10 ** 6)
+
+# 예산 분배, 이분탐색
+# 조건 - 예산 상한액 다 만족 ?
+# 그러면서 - 최대 예산 분배
 
 
-# K번만 말처럼 이동가능, (장애물 통과 가능)
-# 노드가 분리되는 경우, 원숭이 동작의 최솟값
-K = int(input())
-M, N = map(int, input().split())
+N = int(input())
+data = list(map(int, input().split()))
+M = int(input())
 
-# K=1   만해도, 0번 말처럼, 1번 말처럼 2가지 경우
-graph = [list(map(int, input().split())) for _ in range(N)]
-dist = [[[0 for _ in range(K + 1)] for _ in range(M)]
-        for _ in range(N)]  # [x][y][k]
+# left, right = 0, M
+left, right = 0, max(data)  # !범위 1부터아님
 
 
-dq = deque()
-dist[0][0][0] = 1
-dq.append((0, 0, 0))
+def check(unit: int):
+    total = M
+    for d in data:
+        if unit < d:
+            total -= unit
+        else:
+            total -= d
+    return total >= 0
 
 
-def inRange(x: int, y: int):
-    return 0 <= x < N and 0 <= y < M
+ans_max = left  # 최적해
+while left <= right:
+    mid = (left + right) // 2
+    if check(mid):  # 조건 -  좌향 조정
+        ans_max = mid
+        left = mid + 1
+    else:
+        right = mid - 1
 
+print(ans_max)
 
-while dq:
-    x, y, w = dq.popleft()
-    # k += 1
-    for dx, dy in zip([-2, -2, -1, -1, 1, 1, 2, 2], [-1, 1, -2, 2, -2, 2, -1, 1]):
-        nx, ny = x + dx, y + dy
-        if not inRange(nx, ny):
-            continue
-        if w + 1 > K:
-            continue
-        if graph[nx][ny] == 1:
-            continue
-        if dist[nx][ny][w + 1] != 0:
-            continue
-        dist[nx][ny][w + 1] = dist[x][y][w] + 1
-        dq.append((nx, ny, w + 1))
-    # k += 0
-    for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
-        nx, ny = x + dx, y + dy
-        if not inRange(nx, ny):
-            continue
-        if graph[nx][ny] == 1:
-            continue
-        if dist[nx][ny][w] != 0:
-            continue
-        dist[nx][ny][w] = dist[x][y][w] + 1
-        dq.append((nx, ny, w))
-
-
-res = [e for e in dist[N - 1][M - 1] if e != 0]
-
-if len(res) == 0:
-    print(-1)
-else:
-    print(min(res) - 1)
 
 """
+3
+10 10 10
 1
-4 4
-0 0 0 0
-1 0 0 0
-0 0 1 0
-0 1 0 0
+>1 ❌  예산의 범위 0 도 가능!
+>0
 
-
-1
-4 4
-0 1 0 0
-1 0 0 0
-0 0 1 0
-0 1 0 0
->4
-
-1
-2 2
-0 0
-0 0 
->2
+❌ - 예산액이 충분한 경우
+3
+10 9 8
+100
+>100❌
+>10
 """

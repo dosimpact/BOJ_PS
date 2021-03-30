@@ -1,7 +1,6 @@
-x, x_span = 0, 9
-y, y_span = 0, 9
+from sys import stdin, setrecursionlimit
+from itertools import combinations
+from collections import deque
 
-
-for i in range(x, x + x_span, x_span // 3):
-    for j in range(y, y + y_span, y_span // 3):
-        print(i, j)
+for dx, dy in combinations(zip([0, 0, -1, 1], [-1, 1, 0, 0]), 2):
+    print(dx, dy)

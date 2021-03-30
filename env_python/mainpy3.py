@@ -1,55 +1,65 @@
 from sys import stdin, setrecursionlimit
+from itertools import combinations
 from collections import deque
 
 input = stdin.readline
 setrecursionlimit(10 ** 6)
 
-# 예산 분배, 이분탐색
-# 조건 - 예산 상한액 다 만족 ?
-# 그러면서 - 최대 예산 분배
+# NM 모양찾기, 01 중 하나로 구성
+# 컴포넌트 지정 및 넘버링
+N, M = map(int, input().split())
+graph = []
+for _ in range(N):
+    graph.append(list(map(int, input().split())))
+check = [[-1 for _ in range(M)] for _ in range(N)]
+comp_counter = -1
+comp_cnt_list = [0 for _ in range(1+N*M//2)]
 
 
-N = int(input())
-data = list(map(int, input().split()))
-M = int(input())
+def BFS(sx, sy, comp):
+    total = 1
+    dq = deque()
+    dq.append((sx, sy))
+    check[sx][sy] = comp
+    while dq:
+        x, y = dq.popleft()
+        for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
+            nx, ny = x+dx, y+dy
+            if not(0 <= nx < N and 0 <= ny < M):
+                continue
+            if check[nx][ny] != -1:
+                continue
+            if graph[nx][ny] == 0:
+                continue
+            check[nx][ny] = check[x][y]
+            dq.append((nx, ny))
+            total += 1
+    return total
 
-# left, right = 0, M
-left, right = 0, max(data)  # !범위 1부터아님
+
+def inRange(nx: int, ny: int):
+    return (0 <= nx < N and 0 <= ny < M)
 
 
-def check(unit: int):
-    total = M
-    for d in data:
-        if unit < d:
-            total -= unit
-        else:
-            total -= d
-    return total >= 0
+for i in range(N):
+    for j in range(M):
+        if graph[i][j] == 1 and check[i][j] == -1:
+            comp_counter += 1
+            res = BFS(i, j, comp_counter)
+            comp_cnt_list[comp_counter] += res
 
-
-ans_max = left  # 최적해
-while left <= right:
-    mid = (left + right) // 2
-    if check(mid):  # 조건 -  좌향 조정
-        ans_max = mid
-        left = mid + 1
-    else:
-        right = mid - 1
-
+ans_max = 1
+for i in range(N):
+    for j in range(M):
+        if graph[i][j] == 0:
+            nearComp = set()
+            for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
+                nx, ny = i+dx, j+dy
+                if not inRange(nx, ny):
+                    continue
+                if check[nx][ny] == -1:
+                    continue
+                nearComp.add(check[nx][ny])
+            ans_max = max(ans_max, sum(
+                map(lambda x: comp_cnt_list[x], nearComp))+1)
 print(ans_max)
-
-
-"""
-3
-10 10 10
-1
->1 ❌  예산의 범위 0 도 가능!
->0
-
-❌ - 예산액이 충분한 경우
-3
-10 9 8
-100
->100❌
->10
-"""

@@ -1,52 +1,62 @@
 from sys import stdin, setrecursionlimit
 from collections import deque
+from typing import List, Tuple
 
 input = stdin.readline
 setrecursionlimit(10 ** 6)
 
+# ❌1. 시간초과
+# ❌2. 다른 아이디어발상
 
-# 종이의 갯수 -   3등분해서 각각 자른다.
-# 같은 종이로만 이뤄지면
-# 3**14 < 3**16 < 1초
-ans_counter = [0, 0, 0]  # -1,0,1
-N = int(input())
+# N,M 격자칸 - 비거나, 막힘
+# 플레이어 하나 이상의 성, 턴마다 확장
+# Si 칸 만큼 확장
+
+N, M, P = map(int, input().split())
+S = list(map(int, input().split()))
 graph = []
 for _ in range(N):
-    graph.append(list(map(int, input().split())))
+    graph.append(list(input().strip()))
+
+# 각 플레이어마다 큐를 가진다. 1회차 돌림을 기준으로 p1원부터 탐색
+ans_cnt = [0 for _ in range(P)]
+q_list = [[] for _ in range(P)]  # 0 사용
+
+for i in range(N):
+    for j in range(M):
+        if graph[i][j] == '.' or graph[i][j] == '#':
+            continue
+        idx = int(graph[i][j]) - 1
+        q_list[idx].append((i, j))
+        ans_cnt[idx] += 1
 
 
-def same(x, y, x_span, y_span):
-    ref = graph[x][y]
-    for nx in range(x, x + x_span):
-        for ny in range(y, y + y_span):
-            if ref != graph[nx][ny]:
-                return None
-    return ref
-
-
-def go(x: int, y: int, x_span: int, y_span: int):
-    # base case - 1
-    if x_span == 1 and y_span == 1:
-        ans_counter[graph[x][y] + 1] += 1
-        return
-    res = same(x, y, x_span, y_span)
-    # ❌ 타입 주의 0 은 False
-    if res != None:  # base case - all same
-        ans_counter[res + 1] += 1
-        return
-    else:
-        for i in range(x, x + x_span, x_span // 3):
-            for j in range(y, y + y_span, y_span // 3):
-                go(i, j, x_span // 3, y_span // 3)
-
-
-go(0, 0, N, N)
-
-for i in range(len(ans_counter)):
-    print(ans_counter[i])
-
-
+end_flag = [False for _ in range(P)]
+while True:
+    for i in range(P):  # i번 플레이어 처리
+        for j in range(S[i]):  # 회수만큼 턴 -  10**9
+            inTurnQ = q_list[i]
+            q_list[i] = []
+            if len(inTurnQ) == 0:
+                end_flag[i] = True
+                break
+            while inTurnQ:
+                x, y = inTurnQ.pop(0)
+                for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0, ]):
+                    nx, ny = x+dx, y+dy
+                    if not(0 <= nx < N and 0 <= ny < M):
+                        continue
+                    if graph[nx][ny] == '.':
+                        graph[nx][ny] = str(i+1)
+                        ans_cnt[i] += 1
+                        q_list[i].append((nx, ny))
+    if end_flag.count(True) == P:
+        break
+print(*ans_cnt)
 """
-1
-1
+3 3 2
+1 1
+1..
+...
+..2
 """

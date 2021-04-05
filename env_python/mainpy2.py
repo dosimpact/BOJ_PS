@@ -4,30 +4,60 @@ from collections import deque
 input = stdin.readline
 setrecursionlimit(10 ** 6)
 
-fi = [0 for _ in range(31)]
-fi[2] = 1
-fi[3] = 1
-for i in range(4, 31):
-    fi[i] = fi[i - 1] + fi[i - 2]  # 4일째의 b 변수
+# 처음에 보드 만들고
+# 요청에 맞게, y증,X증,y감소,x감소 순으로 for문 돌린다.
+graph = None
 
-# 떡 갯수, 어제 + 그저깨
-# 1,2,3,5,8,13
-# 오늘 준 갯수와 몇일인지
-# 첫날 둘째날에 준 떡의 수를 구해라
 
-D, K = map(int, input().split())
-ac, bc = 1, 1
-if D >= 4:
-    ac, bc = fi[D - 1], fi[D]
-tmp_a, tmp_b = 1, 1
+def printGraph():
+    for row in graph:
+        print(*row)
+    print("-----")
 
-while True:
-    res = ac * tmp_a + bc * tmp_b
-    if res == K:
-        print(tmp_a)
-        print(tmp_b)
-        break
-    if res > K:
-        tmp_a += 1
-        tmp_b = 1
-    tmp_b += 1
+
+def makeIterClockWise(sx, sy, ex, ey):
+    # 포함,안포함
+    iterlist = []
+    for j in range(sy, ey):  # ->
+        iterlist.append((sx, j))
+
+    for i in range(sx, ex):  # down
+        if i == sx:
+            continue
+        iterlist.append((i, ey - 1))
+
+    for j in range(ey - 1, sy - 1, -1):  # <-
+        if j == ey - 1:
+            continue
+        iterlist.append((ex - 1, j))
+
+    for i in range(ex - 1, sx, -1):  # up
+        if i == ex - 1:
+            continue
+        iterlist.append((i, sy))
+    return iterlist
+
+
+def swapClockwise(graph, sx, sy, ex, ey):
+    iterlist = makeIterClockWise(sx - 1, sy - 1, ex, ey)
+    log = []
+    prev = graph[sx][sy - 1]
+    for nx, ny in iterlist:
+        log.append(graph[nx][ny])
+        prev, graph[nx][ny] = graph[nx][ny], prev
+    return min(log)
+
+
+def solution(rows, columns, queries):
+    global graph
+    graph = []
+    for r in range(rows):
+        graph.append([(r) * (columns) + (1 + i) for i in range(columns)])
+    # print(graph)
+    ans = []
+    for q in queries:
+        ans.append(swapClockwise(graph, *q))
+    return ans
+
+
+print(solution(6, 6, [[2, 2, 5, 4], [3, 3, 6, 6], [5, 1, 6, 3]]))

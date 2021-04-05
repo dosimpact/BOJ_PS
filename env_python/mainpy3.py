@@ -4,52 +4,79 @@ from collections import deque
 input = stdin.readline
 setrecursionlimit(10 ** 6)
 
-# 예산 분배, 이분탐색
-# 조건 - 예산 상한액 다 만족 ?
-# 그러면서 - 최대 예산 분배
+
+class Node(object):
+    def __init__(self, parent, name):
+        self.child = dict()
+        self.parent = parent  # Node Ref
+        self.name = name
+        self.price = 0
+        return
 
 
-N = int(input())
-data = list(map(int, input().split()))
-M = int(input())
+class Trie(object):
+    def __init__(self):
+        self.head = Node(None, "center")
+        self.NodeList = dict()
+        self.NodeList["center"] = self.head
+        return
 
-# left, right = 0, M
-left, right = 0, max(data)  # !범위 1부터아님
+    def insert(self, name):
+        self.NodeList[name] = Node(None, name)
+
+    def mapping(self, p: str, c: str):
+        self.NodeList[p].child[c] = self.NodeList[c]
+        self.NodeList[c].parent = self.NodeList[p]
+
+    def query(self, leaf, price):
+        q = [self.NodeList[leaf]]  # 방문예정, 방문시 돈을 줄거임
+        while q:
+            now = q.pop(0)
+            price_10 = price / 10
+            if int(price_10) != price_10:
+                now.price += price
+                break
+            else:
+                price_10 = int(price_10)
+            now.price += price_10 * (9)  # 20원 -> 18+2원
+            price = price_10
+            if now.parent:
+                q.append(now.parent)
+        return price
+
+    def getPrice(self, enroll):
+        res = []
+        for e in enroll:
+            res.append(self.NodeList[e].price)
+        return res
 
 
-def check(unit: int):
-    total = M
-    for d in data:
-        if unit < d:
-            total -= unit
+def solution(enroll, referral, seller, amount):
+    mainTrie = Trie()
+
+    for e in enroll:
+        mainTrie.insert(e)
+
+    for c, p in zip(enroll, referral):
+        if p == "-":
+            mainTrie.mapping("center", c)
         else:
-            total -= d
-    return total >= 0
+            mainTrie.mapping(p, c)
+
+    for leaf, amt in zip(seller, amount):
+        mainTrie.query(leaf, amt * 100)
+    res = mainTrie.getPrice(enroll)
+    res = list(map(int, res))
+    return res
 
 
-ans_max = left  # 최적해
-while left <= right:
-    mid = (left + right) // 2
-    if check(mid):  # 조건 -  좌향 조정
-        ans_max = mid
-        left = mid + 1
-    else:
-        right = mid - 1
-
-print(ans_max)
-
-
-"""
-3
-10 10 10
-1
->1 ❌  예산의 범위 0 도 가능!
->0
-
-❌ - 예산액이 충분한 경우
-3
-10 9 8
-100
->100❌
->10
-"""
+# 구성원들
+# 부모가 누구인지
+# 판매 - 판매액 매핑 테이블
+res = solution(
+    ["john", "mary", "edward", "sam", "emily", "jaimie", "tod", "young"],
+    ["-", "-", "mary", "edward", "mary", "mary", "jaimie", "edward"],
+    ["young", "john", "tod", "emily", "mary"],
+    [12, 4, 2, 5, 10],
+)
+print(res)

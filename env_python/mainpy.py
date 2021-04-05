@@ -1,62 +1,34 @@
-from sys import stdin, setrecursionlimit
-from collections import deque
-from typing import List, Tuple
+# eg) 인공지능, 데이터 마이닝 수업의 점수 합계를 구해라
+# 1. 인공지능 새로운 학생 들어옴
+# 2. 이때, 데이터마이닝 수업에 index 얼라인을 맞추고 합계
+# 3. 새로운 학생 추가 , ffill 이용
 
-input = stdin.readline
-setrecursionlimit(10 ** 6)
+lecture_index = ['321600', '321601', '321602']
+lecture_colums = ['midterm', 'final']
 
-# ❌1. 시간초과
-# ❌2. 다른 아이디어발상
+df_ai = pd.DataFrame([[50, 50], [45, 40], [30, 20]],
+                     index=lecture_index,
+                     columns=lecture_colums)
+df_da = pd.DataFrame({
+    lecture_colums[0]: [50, 50, 50],
+    lecture_colums[1]: [10, 20, 15]
+}, index=lecture_index)
 
-# N,M 격자칸 - 비거나, 막힘
-# 플레이어 하나 이상의 성, 턴마다 확장
-# Si 칸 만큼 확장
+df_ai.loc['321603'] = [50, 50]  # 1
+df_da = df_da.reindex(df_ai.index).replace(np.nan, 0)
+df_sum = df_ai + df_da  # -> 2 출력
 
-N, M, P = map(int, input().split())
-S = list(map(int, input().split()))
-graph = []
-for _ in range(N):
-    graph.append(list(input().strip()))
+df_ai.loc['321604'] = [10, 10]
+# df_da.reindex(df_ai.index,fill_value="RE")
+df_da = df_da.reindex(df_ai.index, method="ffill")
+df_sum = df_ai + df_da  # -> 2 출력
 
-# 각 플레이어마다 큐를 가진다. 1회차 돌림을 기준으로 p1원부터 탐색
-ans_cnt = [0 for _ in range(P)]
-q_list = [[] for _ in range(P)]  # 0 사용
-
-for i in range(N):
-    for j in range(M):
-        if graph[i][j] == '.' or graph[i][j] == '#':
-            continue
-        idx = int(graph[i][j]) - 1
-        q_list[idx].append((i, j))
-        ans_cnt[idx] += 1
-
-
-end_flag = [False for _ in range(P)]
-while True:
-    for i in range(P):  # i번 플레이어 처리
-        for j in range(S[i]):  # 회수만큼 턴 -  10**9
-            inTurnQ = q_list[i]
-            q_list[i] = []
-            if len(inTurnQ) == 0:
-                end_flag[i] = True
-                break
-            while inTurnQ:
-                x, y = inTurnQ.pop(0)
-                for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0, ]):
-                    nx, ny = x+dx, y+dy
-                    if not(0 <= nx < N and 0 <= ny < M):
-                        continue
-                    if graph[nx][ny] == '.':
-                        graph[nx][ny] = str(i+1)
-                        ans_cnt[i] += 1
-                        q_list[i].append((nx, ny))
-    if end_flag.count(True) == P:
-        break
-print(*ans_cnt)
+df_sum
 """
-3 3 2
-1 1
-1..
-...
-..2
+midterm final
+321600 100.000 60.000
+321601 95.000 60.000
+321602 80.000 35.000
+321603 50.000 50.000
+321604 10.000 10.000
 """

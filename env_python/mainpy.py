@@ -1,22 +1,25 @@
-from sys import stdin, setrecursionlimit
-from collections import deque
 
-input = stdin.readline
-setrecursionlimit(10 ** 6)
+# finance_datareader
+
+# 설치 및 임포트
+# !pip install finance_datareader
+import FinanceDataReader as fdr
 
 
-# N개의 종이로 가린다.
-# M개 넘개 겹쳐야 안보임
+# 데이터 읽기
+# KODEX 200 (ETF)
+df2 = fdr.DataReader("069500", '2018-01-02', '2018-10-30')
 
-N, M = map(int, input().split())
-graph = [[0 for _ in range(100)] for _ in range(100)]
-for _ in range(N):
-    x1, y1, x2, y2 = map(lambda x: int(x)-1, input().split())
-    for i in range(x1, x2+1):
-        for j in range(y1, y2+1):
-            graph[i][j] += 1
+eg)
 
-cnt = 0
-for row in graph:
-    cnt += len(list(filter(lambda x: x > M, row)))
-print(cnt)
+import FinanceDataReader as fdr
+# 예제 - ETF로 reindexing (삼전의 2번째 날의 데이터가 사라졌다.)
+# 삼전(005930),코덱스200(069500)
+df1=fdr.DataReader('005930', '2018-01-02', '2018-10-30')
+df2=fdr.DataReader('069500', '2018-01-02', '2018-10-30')
+df1=df1.drop(pd.to_datetime('2018-01-03'))
+df1.shape, df2.shape
+# df1.head()
+# df2.index # dtype='datetime64[ns]'
+df1=df1.reindex(df2.index, method = "ffill")
+df1.head()

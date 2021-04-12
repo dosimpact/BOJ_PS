@@ -3,7 +3,7 @@
   // "typeAcquisition": {},    // d.ts 만들떄 설정
   // "files": [],              // 상대,절대 경로의 리스트 배열 - exclude보다 쎄다. 컴파일 대상의 파일들 지정
   "exclude": ["node_modules"], // include보다 쎄다. 디폴트 값 - node_modules,bower,components,jspm_ 등 기본으로 제외. 
-  "include": ["src/**/*"],     // js 파일도 추가 가능
+  "include": ["src/index.ts"],     // js 파일도 추가 가능
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 

@@ -14,6 +14,6 @@
   "scripts": {
     "start": "tsc && node dist/index.js",
     "clean":"npx rimraf ./dist",
-    "start:dev": "tsc-watch --onSuccess \"node dist/index.js\""
+    "start:dev": "npm clean && tsc-watch --onSuccess \"node dist/index.js\""
   }
 }

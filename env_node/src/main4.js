@@ -1,30 +1,45 @@
-// 상품번호가 적힌 상품권, 교환가능
-// 원치않은 상품 받는것 최소로
+const TC = `
+4 2
+4 2
+3 1`;
+const stdin =
+  process.platform === "linux"
+    ? require("fs").readFileSync("/dev/stdin").toString().split("\n")
+    : TC.trim().split("\n");
 
-function solution(gift_cards, wants) {
-  // 현재 기프트 카드 -> dict, wants에 서 빼,
-  const remain = {};
-  for (const gift of gift_cards) {
-    if (gift in remain) {
-      remain[gift] += 1;
-    } else {
-      remain[gift] = 1;
-    }
-  }
-  let result = wants.length;
-  for (const w of wants) {
-    if (w in remain) {
-      remain[w] -= 1;
-      result -= 1;
-      if (remain[w] == 0) {
-        delete remain[w];
-      }
-    }
-  }
-  return result;
+const input = (() => {
+  let = line = 0;
+  return () => stdin[line++];
+})();
+
+// let matrix = new Array(5).fill(0).map(() => new Array(4).fill(0));
+// matrix = [...Array(5)].map(() => new Array(4).fill(0));
+
+// 위상정렬 , [ 인접 리스트, 인차수 카운터]
+const [V, E] = input().split(" ").map(Number);
+const graph = new Array(V + 1).fill(0).map(() => new Array());
+const inDeg = new Array(V + 1).fill(0);
+
+for (let i = 0; i < E; i++) {
+  const [u, v] = input().split(" ").map(Number);
+  inDeg[v] += 1;
+  graph[u].push(v);
 }
-
-let res = solution([1, 1, 4, 4, 5], [5, 5, 5, 4, 1]);
-console.log(res);
-
-// set , union, intersection
+// 큐 넣기
+const q = new Array();
+for (let i = 1; i <= V; i++) {
+  if (inDeg[i] === 0) {
+    q.push(i);
+  }
+}
+// 방문 및 차수 0일때 엔큐
+for (let i = 1; i <= V; i++) {
+  const now = q.shift();
+  process.stdout.write(`${now} `);
+  for (const nxt of graph[now]) {
+    inDeg[nxt] -= 1;
+    if (inDeg[nxt] === 0) {
+      q.push(nxt);
+    }
+  }
+}

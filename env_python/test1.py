@@ -1,7 +1,9 @@
-x, x_span = 0, 9
-y, y_span = 0, 9
+from sys import stdin, setrecursionlimit
+from itertools import combinations
+from collections import deque, defaultdict
 
 
-for i in range(x, x + x_span, x_span // 3):
-    for j in range(y, y + y_span, y_span // 3):
-        print(i, j)
+data = [1, 2, 3, 8]
+print(data)
+data.remove(0)
+print(data)

@@ -1,65 +1,117 @@
-from sys import stdin, setrecursionlimit
-from itertools import combinations
+import math
 from collections import deque
-
-input = stdin.readline
-setrecursionlimit(10 ** 6)
-
-# NM 모양찾기, 01 중 하나로 구성
-# 컴포넌트 지정 및 넘버링
-N, M = map(int, input().split())
+r, c, t = map(int, input().split())
 graph = []
-for _ in range(N):
+for _ in range(r):
     graph.append(list(map(int, input().split())))
-check = [[-1 for _ in range(M)] for _ in range(N)]
-comp_counter = -1
-comp_cnt_list = [0 for _ in range(1+N*M//2)]
 
 
-def BFS(sx, sy, comp):
-    total = 1
-    dq = deque()
-    dq.append((sx, sy))
-    check[sx][sy] = comp
-    while dq:
-        x, y = dq.popleft()
-        for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
-            nx, ny = x+dx, y+dy
-            if not(0 <= nx < N and 0 <= ny < M):
-                continue
-            if check[nx][ny] != -1:
-                continue
-            if graph[nx][ny] == 0:
-                continue
-            check[nx][ny] = check[x][y]
-            dq.append((nx, ny))
-            total += 1
-    return total
+def pure_on(a, c):
+    global graph
+    temp_list = []
+    for i in range(1, c):
+        temp_list.append(graph[a][i])
+    for i in range(a - 1, -1, -1):
+        temp_list.append(graph[i][c - 1])
+    for i in range(c - 2, - 1, -1):
+        temp_list.append(graph[0][i])
+    for i in range(1, a):
+        temp_list.append(graph[i][0])
+
+    temp_list.insert(0, 0)
+    del temp_list[-1]
+
+    q = deque(temp_list)
+
+    for i in range(1, c):
+        graph[a][i] = q.popleft()
+    for i in range(a - 1, -1, -1):
+        graph[i][c - 1] = q.popleft()
+    for i in range(c - 2, - 1, -1):
+        graph[0][i] = q.popleft()
+    for i in range(1, a):
+        graph[i][0] = q.popleft()
 
 
-def inRange(nx: int, ny: int):
-    return (0 <= nx < N and 0 <= ny < M)
+def pure_on_2(a, c):
+    temp_list = []
+    for i in range(1, c):
+        temp_list.append(graph[a][i])
+
+    for i in range(a + 1, r - 1):
+        temp_list.append(graph[i][c - 1])
+    for i in range(c - 1, - 1, -1):
+        temp_list.append(graph[r - 1][i])
+    for i in range(r - 2, a - 1, -1):
+        temp_list.append(graph[i][0])
+
+    temp_list.insert(0, 0)
+    del temp_list[-1]
+
+    q = deque(temp_list)
+
+    for i in range(1, c):
+        graph[a][i] = q.popleft()
+    for i in range(a + 1, r - 1):
+        graph[i][c - 1] = q.popleft()
+    for i in range(c - 1, - 1, -1):
+        graph[r - 1][i] = q.popleft()
+    for i in range(r - 2, a - 1, -1):
+        graph[i][0] = q.popleft()
+    graph[a][0] = -1
 
 
-for i in range(N):
-    for j in range(M):
-        if graph[i][j] == 1 and check[i][j] == -1:
-            comp_counter += 1
-            res = BFS(i, j, comp_counter)
-            comp_cnt_list[comp_counter] += res
+def check(x, y):
+    if 0 <= x < r and 0 <= y < c:
+        if graph[x][y] != -1:
+            return True
+    return False
 
-ans_max = 1
-for i in range(N):
-    for j in range(M):
-        if graph[i][j] == 0:
-            nearComp = set()
-            for dx, dy in zip([0, 0, -1, 1], [-1, 1, 0, 0]):
-                nx, ny = i+dx, j+dy
-                if not inRange(nx, ny):
-                    continue
-                if check[nx][ny] == -1:
-                    continue
-                nearComp.add(check[nx][ny])
-            ans_max = max(ans_max, sum(
-                map(lambda x: comp_cnt_list[x], nearComp))+1)
-print(ans_max)
+
+for _ in range(t):
+    spd = []
+    pure = []
+    for i in range(r):
+        for j in range(c):
+            if graph[i][j] != 0 or graph[i][j] != -1:
+                if graph[i][j] >= 5:
+                    spd.append((i, j))
+            if graph[i][j] == -1:
+                pure.append([i, j])
+    plus = []
+    for x, y in spd:
+        cnt = 0
+        if check(x - 1, y) == True:
+            plus.append([x-1, y, math.floor(graph[x][y] / 5)])
+            cnt += 1
+        if check(x, y - 1) == True:
+            plus.append([x, y - 1, math.floor(graph[x][y] / 5)])
+            cnt += 1
+        if check(x + 1, y) == True:
+            plus.append([x + 1, y, math.floor(graph[x][y] / 5)])
+            cnt += 1
+        if check(x, y + 1) == True:
+            plus.append([x, y + 1, math.floor(graph[x][y] / 5)])
+            cnt += 1
+
+        graph[x][y] = graph[x][y] - math.floor(graph[x][y] / 5) * cnt
+        if graph[x][y] <= 0:
+            graph[x][y] = 0
+
+    for x, y, z in plus:
+        graph[x][y] += z
+    pure_cnt = 1
+
+    for a, b in pure:
+
+        if pure_cnt == 1:
+            pure_on(a, c)
+            pure_cnt += 1
+        elif pure_cnt == 2:
+            pure_on_2(a, c)
+
+total = 0
+for i in range(r):
+    # print(graph[i])
+    total += sum(graph[i])
+print(total + 2)

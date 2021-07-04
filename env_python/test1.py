@@ -1,6 +1,38 @@
-from sys import stdin, setrecursionlimit
-from itertools import combinations
-from collections import deque
+from time import time
+from urllib.request import Request, urlopen
+import asyncio
+urls = ['https://www.google.co.kr/search?q=' + i
+        for i in ['apple', 'pear', 'grape', 'pineapple', 'orange', 'strawberry']]
 
-for dx, dy in combinations(zip([0, 0, -1, 1], [-1, 1, 0, 0]), 2):
-    print(dx, dy)
+# 기존의 함수를 비동기 처리할때 run_in_executor 사용
+
+
+async def fetch(url):
+    # UA가 없으면 403 에러 발생
+    request = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+
+    # non-blocking code
+    response = await loop.run_in_executor(None, urlopen, request)
+    # blocking code
+    # response = urlopen(request)
+
+    page = await loop.run_in_executor(None, response.read)
+    return len(page)
+
+
+async def main():
+    futures = [asyncio.ensure_future(fetch(url)) for url in urls]
+    # 태스크(퓨처) 객체를 리스트로 만듦
+    result = await asyncio.gather(*futures)                # 결과를 한꺼번에 가져옴
+    print(result)
+
+
+begin = time()
+
+loop = asyncio.get_event_loop()          # 이벤트 루프를 얻음
+loop.run_until_complete(main())          # main이 끝날 때까지 기다림
+loop.close()                             # 이벤트 루프를 닫음
+
+
+end = time()
+print('실행 시간: {0:.3f}초'.format(end - begin))

@@ -1,2 +1,2 @@
 
-      blockPoints.forEach(([x, y]) 
+}

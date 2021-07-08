@@ -1,27 +1,49 @@
-from sys import stdin, setrecursionlimit
-from collections import deque, defaultdict
+import sys
 
-input = stdin.readline
-setrecursionlimit(10 ** 6)
+input = sys.stdin.readline
 
-# 위상 정렬, 인접리스트 + inDeg counter , inDeg==0 이면 방문 순회 및 간선 제거
-V, E = map(int, input().split())  # V,E
-graph = [[] for _ in range(V + 1)]  # 0 unuse
-inDeg = [0 for _ in range(V + 1)]
-for _ in range(E):
+# dfs,bfs 탐색 결과
+# 작은 정점부터 탐색
+# 1~N
+
+# 정점수, 간선수, 탐색 시작 번호
+N, M, V = map(int, input().split())
+graph = [[] for _ in range(N + 1)]
+check = [False for _ in range(N + 1)]
+
+for _ in range(M):
     u, v = map(int, input().split())
-    inDeg[v] += 1
     graph[u].append(v)
+    graph[v].append(u)
 
+for i in range(N + 1):
+    graph[i].sort()
+
+# DFS
+def DFS(x: int):
+    print(x, end=" ")
+    for nxt in graph[x]:
+        if check[nxt]:
+            continue
+        check[nxt] = True
+        DFS(nxt)
+
+
+check[V] = True
+DFS(V)
+print()
+
+# BFS
+
+check = [False for _ in range(N + 1)]
 q = []
-for i in range(1, V + 1):
-    if inDeg[i] == 0:
-        q.append(i)
-
-for i in range(1, V + 1):
+q.append(V)
+check[V] = True
+print(V, end=" ")
+while q:
     now = q.pop(0)
-    print(now, end=" ")
     for nxt in graph[now]:
-        inDeg[nxt] -= 1
-        if inDeg[nxt] == 0:
+        if not check[nxt]:
+            check[nxt] = True
+            print(nxt, end=" ")
             q.append(nxt)

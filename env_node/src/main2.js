@@ -1,13 +1,15 @@
 const TC = `
-3 1
-21 21 80 80
-41 41 60 60
-71 71 90 90
+4 5 1
+1 2
+1 3
+1 4
+2 4
+3 4
 `;
-
+const print = (str) => process.stdout.write(`${str}`);
 const stdin =
   process.platform === "linux"
-    ? require("fs").readFileSync("/dev/stdin").toString().split("\n")
+    ? require("fs").readFileSync("dev/stdin").toString().split("\n")
     : TC.trim().split("\n");
 
 const input = (() => {
@@ -15,26 +17,49 @@ const input = (() => {
   return () => stdin[line++];
 })();
 
-const [N, M] = input().split(" ").map(Number);
-// 2차원 Array
-const graph = Array.apply(null, { length: 100 }).map((_) =>
-  new Array(100).fill(0)
-); //new Array(100).fill(new Array(100).fill(0));
-// for + func
-for (let i = 0; i < N; i++) {}
-[...Array(N).keys()].forEach(() => {
-  const [x1, y1, x2, y2] = input().split(" ").map(Number);
-  console.log(x1, y1, x2, y2);
-  for (let i = x1; i <= x2; i++) {
-    for (let j = y1; j <= y2; j++) {
-      graph[i][j] += 1;
+const [vertex, edge, start] = input().split(" ").map(Number);
+const adj = new Array(vertex + 1).fill(0).map(() => new Array());
+const check = new Array(vertex + 1).fill(false);
+
+for (let i = 1; i <= edge; i++) {
+  var [from, to] = input()
+    .split(" ")
+    .map((x) => parseInt(x));
+  adj[from].push(to);
+  adj[to].push(from);
+}
+for (let i = 1; i <= vertex; i++) adj[i].sort((x, y) => x - y);
+
+function DFS(x) {
+  print(`${x} `);
+  for (let nxt of adj[x]) {
+    if (!check[nxt]) {
+      check[nxt] = true;
+      DFS(nxt);
     }
   }
-});
-// filter
-let total = 0;
-for (const row of graph) {
-  total += row.filter((e) => e > M).length;
-  // console.log(row);
 }
-console.log(total);
+function BFS(x) {
+  const q = new Array();
+  q.push(x);
+  check[x] = true;
+  print(`${x} `);
+
+  while (q.length > 0) {
+    const now = q.shift();
+    for (let nxt of adj[now]) {
+      if (!check[nxt]) {
+        check[nxt] = true;
+        print(`${nxt} `);
+        q.push(nxt);
+      }
+    }
+  }
+}
+
+check[start] = true;
+DFS(start);
+
+print("\n");
+check.fill(false);
+BFS(start);

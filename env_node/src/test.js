@@ -1,1 +1,4 @@
-console.log(/\d/.test("a0123"));
+const arr = [1, 2, 3];
+console.log(arr);
+console.log(arr.pop());
+console.log(arr);

@@ -1,12 +1,38 @@
-from sys import stdin, setrecursionlimit
-from itertools import combinations
-from collections import deque, defaultdict
+from time import time
+from urllib.request import Request, urlopen
+import asyncio
+urls = ['https://www.google.co.kr/search?q=' + i
+        for i in ['apple', 'pear', 'grape', 'pineapple', 'orange', 'strawberry']]
+
+# 기존의 함수를 비동기 처리할때 run_in_executor 사용
 
 
-seed = 1000000
-label = ["주식1", "주식1", "채권1", "채권1", "금", "원자재1", "원자재2", "원자재3", "원자재4"]
-ratio = [15, 15, 35, 20.5, 7.5, 1.75, 1.75, 1.75, 1.75]
+async def fetch(url):
+    # UA가 없으면 403 에러 발생
+    request = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 
-print(f"--- Seed : {seed}(원) 일때 올웨더 분배 금액 ---")
-for i in range(len(label)):
-    print(f"{label[i]} : { seed *(ratio[i]/100) }")
+    # non-blocking code
+    response = await loop.run_in_executor(None, urlopen, request)
+    # blocking code
+    # response = urlopen(request)
+
+    page = await loop.run_in_executor(None, response.read)
+    return len(page)
+
+
+async def main():
+    futures = [asyncio.ensure_future(fetch(url)) for url in urls]
+    # 태스크(퓨처) 객체를 리스트로 만듦
+    result = await asyncio.gather(*futures)                # 결과를 한꺼번에 가져옴
+    print(result)
+
+
+begin = time()
+
+loop = asyncio.get_event_loop()          # 이벤트 루프를 얻음
+loop.run_until_complete(main())          # main이 끝날 때까지 기다림
+loop.close()                             # 이벤트 루프를 닫음
+
+
+end = time()
+print('실행 시간: {0:.3f}초'.format(end - begin))

@@ -5,7 +5,8 @@
 - env_python
 - env_ts
 - env_cpp
-- env_js
+- env_node
+- env_web
 
 # 문제풀이 로그
 

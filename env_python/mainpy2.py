@@ -1,24 +1,13 @@
-from sys import stdin, setrecursionlimit
-from collections import deque, defaultdict
-
-input = stdin.readline
-setrecursionlimit(10 ** 6)
+def solution(rows, columns, swipes):
+    answer = []
+    return answer
 
 
-# 4,7 만 이뤄진 수, 범위 갯수
-A, B = map(int, input().split())
-ans = 0
-
-
-def go(x: int):
-    global ans
-    if x > B:
-        return
-    if A <= x and x <= B:
-        ans += 1
-    go(x*10 + 4)
-    go(x*10 + 7)
-
-
-go(0)
-print(ans)
+num = 21025667
+# print((num // 100)*100)
+p = 19
+m = 10000
+print((p*0.01))
+print(m*(p*0.01))
+print(m - m*(p*0.01))
+print(m * (1 - (p*0.01)))

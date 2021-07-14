@@ -5,7 +5,7 @@ function Rectangle(width, height) {
   this.height = height;
 
   // private varibale
-  var color = 'RED';
+  var color = "RED";
 
   this.getWidth = function () {
     return width;
@@ -48,12 +48,12 @@ rect1.width = 88;
 rect1.height = 9;
 console.log(rect1.printInfo());
 
-rect1.color = 'PINK';
+rect1.color = "PINK";
 console.log(rect1.printInfo());
 
 rect1.setWidth(88);
 rect1.setHeight(10);
 console.log(rect1.printInfo());
 
-rect1.setColor('BLUE');
+rect1.setColor("BLUE");
 console.log(rect1.printInfo());

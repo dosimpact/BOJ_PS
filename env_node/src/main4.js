@@ -1,4 +1,10 @@
 function solution(n) {
-  var answer = [];
-  return answer;
+  let ans = 0;
+  for (let i = 1; i <= n; i++) {
+    if (n % i === 0) {
+      ans += i;
+    }
+  }
+  return ans;
 }
+console.log(solution(5));

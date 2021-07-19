@@ -1,20 +1,15 @@
-function isPrimeSuEven(su) {
-  return (
-    new Array(su)
-      .fill(0)
-      .map((_, i) => i + 1)
-      .filter((e) => su % e === 0).length %
-      2 ===
-    0
-  );
-}
+function solution(id) {
+  id = String(id)
+    .toLowerCase()
+    .replace(/[^\w-_\.]/g, "")
+    .replace(/\.{2,}/g, ".")
+    .replace(/^\.|\.$/g, "")
+    .replace(/^$/g, "a")
+    .slice(0, 15)
+    .replace(/\.$/, "");
 
-function solution(left, right) {
-  let answer = 0;
-  for (let i = left; i <= right; i++) {
-    if (isPrimeSuEven(i)) answer += i;
-    else answer -= i;
+  if (id.length <= 2) {
+    id = id + id.charAt(id.length - 1).repeat(3 - id.length);
   }
-  return answer;
+  return id;
 }
-console.log(solution(13, 17));

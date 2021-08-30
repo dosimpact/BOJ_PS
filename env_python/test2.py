@@ -1,47 +1,31 @@
-from quart import Quart
-import asyncio
-# async io
-# cpu 작업과 i/o 작업 병렬
+
+Memo = dict()
 
 
-async def add(a, b):
-    await asyncio.sleep(1)
-    print(f"a+b={a+b}")
-    return a+b
-
-
-async def tmp():
-    print("hello world")
-    res = await add(10, 20)
-    await asyncio.sleep(10)
-    print("add result ", res)
-
-
-async def printHello3Sec():
+def dp(n: int):
+    Memo['a'] = 0
     while True:
-        await asyncio.sleep(3)
-        print("hello 3sec")
+        isBreak = True
+        for key in Memo.keys():
+            if Memo[key] == 0:
+                isBreak = False
+                Memo[key] = 1
+                aCnt = key.count("a")
+                print(f"key :{key} aCnt {aCnt}")
+                for nxt in ["b"*aCnt + key + "b"*aCnt, key + "a", "a" + key]:
+                    if len(nxt) > n:
+                        continue
+                    Memo[nxt] = 0
+        if isBreak:
+            break
 
 
-async def printHello5sec():
-    while True:
-        await asyncio.sleep(5)
-        print("hello 5sec")
+def solution(a):
+    answer = []
+    dp(max(list(map(lambda x: len(x), a))))
+    print(Memo)
+    return None
 
 
-async def main():
-    futures = [
-        asyncio.ensure_future(printHello3Sec()),
-        asyncio.ensure_future(printHello5sec())]
-    await asyncio.gather(*futures)
-    return
-
-# loop = asyncio.get_event_loop()
-# loop.run_until_complete(main())
-# loop.close()
-
-app = Quart(__name__)
-
-
-if __name__ == "__main__":
-    asyncio.run(app.run_task())
+print(solution(["abab", "bbaa", "bababa", "bbbabababbbaa"]))
+# RuntimeError: dictionary changed size during iteration

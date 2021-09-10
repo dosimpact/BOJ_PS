@@ -1,21 +1,25 @@
+res = "+".join("hello")
+print(res)
+res = "+".join(map(str, [1, 2, 3]))
+print(res)
 import sys
 
 
-sys.setrecursionlimit(10**6)
+sys.setrecursionlimit(10 ** 6)
 input = sys.stdin.readline
-INF = float('inf')
+INF = float("inf")
 
 N = int(input())
 graph = []
 # [N][2**N] = [현재노드][방문상태]
-cache = [[INF for _ in range(2**N)] for _ in range(N)]
+cache = [[INF for _ in range(2 ** N)] for _ in range(N)]
 for _ in range(N):
     graph.append(list(map(int, input().split())))
 
 
 def TSP(current: int, visited: int):
     # basecase 모든 정점방문 -> 0번으로 돌아가
-    if visited == (1 << N)-1:  # == (2**N)-1
+    if visited == (1 << N) - 1:  # == (2**N)-1
         return graph[current][0] or INF
 
     # 캐쉬 - 현재상태에서 최적값이 캐쉬 있다면 바로 리턴

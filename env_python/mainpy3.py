@@ -1,59 +1,78 @@
-from itertools import combinations
+from collections import defaultdict
 
 
-def solution(infos, qureies):
-    answer = []
-    db = dict()  # 4가지요소를 /으로 연결
-    for info in infos:
-        profiles = [i for i in info.split(" ")]
-        score = int(profiles[-1])
-        profiles = profiles[:-1]
-        for i in range(5):  # 1개를 - 처리하는 경우 (~ 4개를)
-            # 4개의 정보중 가릴 1개를 찾는 리스트
-            pickCases = list(combinations(range(4), i))
-            # pickCases - 1개만 - 을 치는 경우
-            for idxs in pickCases:  # (1,2,3) < []
-                profilesCopy = profiles.copy()
-                for idx in idxs:
-                    profilesCopy[idx] = "-"
-                key = "|".join(profilesCopy)
-                if key in db:
-                    db[key].append(score)
-                else:
-                    db[key] = [score]
-    for key in db:
-        db[key].sort()
-    for query in qureies:
-        keys = [i for i in query.split(" ") if i != "and"]
-        score = int(keys[-1])
-        queryKey = "|".join(keys[:-1])
-        if queryKey in db:
-            scores = db[queryKey]  # scores 이분탐색 하여 , query 이상의 idx를 찾아내자.
-            start, end = 0, len(scores)
-            while start != end and start != len(scores):
-                if scores[(start+end)//2] >= score:
-                    end = (start+end)//2
-                else:
-                    start = (start+end)//2 + 1
-            print(len(scores) - start)
-            answer.append(len(scores) - start)
-        else:
-            answer.append(0)
-    return answer
+class Node(object):
+    def __init__(self, key, data=None) -> None:
+        self.key = key
+        self.data = data
+        self.children = {}
+        self.lengths = defaultdict(int)
 
 
-print(solution(
-    ["java backend junior pizza 150",
-     "python frontend senior chicken 210",
-     "python frontend senior chicken 150",
-     "cpp backend senior pizza 260",
-     "java backend junior chicken 80",
-     "python backend senior chicken 50"],
+class Trie(object):
+    def __init__(self) -> None:
+        self.head = Node(None)
 
-    ["java and backend and junior and pizza 100",
-     "python and frontend and senior and chicken 200",
-     "cpp and - and senior and pizza 250",
-     "- and backend and senior and - 150",
-     "- and - and - and chicken 100",
-     "- and - and - and - 150"]
-))
+    def insert(self, string):
+        cur_node = self.head
+        cur_node.lengths[len(string)] += 1
+
+        for s in string:
+            if s not in cur_node.children:
+                cur_node.children[s] = Node(s)
+            cur_node = cur_node.children[s]
+            cur_node.lengths[len(string)] += 1
+        cur_node.data = string
+
+    def starts_withLen(self, string, depth):
+        cur_node = self.head
+        # string 접두사까지 노드포인터를 이동시킨다.
+        for s in string:
+            if s not in cur_node.children:
+                return 0
+            cur_node = cur_node.children[s]
+        # 도중 없다면 0 반환
+        return cur_node.lengths[depth]
+
+
+def solution(words, queries):
+    result = []
+    # prefixTree = Trie()
+    # subfixTree = Trie()
+    dict_prefixTree = defaultdict(Trie)
+    dict_subfixTree = defaultdict(Trie)
+
+    for w in words:
+        dict_prefixTree[len(w)].insert(w)
+        dict_subfixTree[len(w)].insert(w[::-1])
+    for q in queries:
+        if q[0] == q[-1] == "?":
+            result.append(dict_prefixTree[len(q)].head.lengths[len(q)])
+        elif q[-1] == "?":
+            qidx = q.index("?")
+            # res = prefixTree.starts_withLen(q[:qidx], len(q))
+            # res = prefixTree.starts_withLen(q.replace("?", ""), len(q))
+            res = dict_prefixTree[len(q)].starts_withLen(q[:qidx], len(q))
+            # print(res)
+            result.append((res))
+        elif q[0] == "?":
+            q = q[::-1]
+            qidx = q.index("?")
+            # res = subfixTree.starts_withLen(q[:qidx], len(q))
+            # res = subfixTree.starts_withLen(q.replace("?", "")[::-1], len(q))
+            res = dict_subfixTree[len(q)].starts_withLen(q[:qidx], len(q))
+            # print(res)
+            result.append((res))
+    return result
+
+
+# 접두사 검색인 경우 , 접미사 검색인 경우
+# ??의 갯수만큼만 깊이 검색이 필요함
+
+# print(
+#     solution(
+#         ["frodo", "front", "frost", "frozen", "frame", "kakao"],
+#         ["fro??", "????o", "fr???", "fro???", "pro?"],
+#     )
+# )
+

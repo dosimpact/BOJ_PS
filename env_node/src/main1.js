@@ -1,31 +1,29 @@
-const TC = `
-.F.F...F
-F...F.F.
-...F.F.F
-F.F...F.
-.F...F..
-F...F.F.
-.F.F.F.F
-..FF..F.
-`;
-
-const stdin =
-  process.platform === "linux"
-    ? require("fs").readFileSync("dev/stdin").toString().split("\n")
-    : TC.trim().split("\n");
-
-const input = (() => {
-  let line = 0;
-  return () => stdin[line++];
-})();
-
-let ans = 0;
-for (let i = 0; i <= 7; i++) {
-  const row = input().split("");
-  for (let j = 0; j <= 7; j++) {
-    if ((i + j) % 2 === 0 && row[j] === "F") {
-      ans += 1;
-    }
+/*
+ * `codeOwnersMap`과 `directory`를 입력받아
+ * `directory`의 코드 주인 목록을 반환하는 함수를 작성하세요.
+ */
+function refObjDot(key, obj) {
+  if (String(key).includes(".")) {
+    const head = String(key).slice(0, key.indexOf("."));
+    const tail = String(key).slice(key.indexOf(".") + 1);
+    return refObjDot(tail, obj[head]);
+  } else {
+    return obj[key];
   }
 }
-console.log(ans);
+function solution(codeOwnersMap, directory) {
+  const parsing = String(directory).split("/");
+  return refObjDot(`${parsing.join(".")}`, codeOwnersMap);
+  // return codeOwnersMap[`${parsing.join(".")}`];
+}
+
+const codeOwnersMap = {
+  scripts: ["배수진"],
+  services: {
+    "business-ledger": ["고찬균", "배수진"],
+    "toss-card": ["채주민", "유재섭"],
+    payments: ["유재섭"],
+  },
+};
+console.log(solution(codeOwnersMap, "scripts"));
+console.log(solution(codeOwnersMap, "services/toss-card"));

@@ -21,3 +21,34 @@
 - ./BOJ_lecture
 - ./DataStructure
 - ./docs
+
+```css
+/* :root에 변수를 선언 */
+/* 반드시 -- 으로 시작 */
+:root {
+  --bg: white;
+  --color: #000;
+}
+/* 변수 사용은 var 키워드를 사용 */
+body {
+  background-color: var(--bg);
+  color: var(--color);
+}
+/* 다크모드에서 변수를 변경가능  */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000;
+    --color: white;
+  }
+}
+/* //dark theme */
+[data-theme="dark"] {
+  --bg: #000;
+  --color: white;
+}
+/* //light theme */
+[data-theme="light"] {
+  --bg: white;
+  --color: #000;
+}
+```

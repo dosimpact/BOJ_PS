@@ -1,20 +1,36 @@
-import re
+import sys
+from collections import deque
+from copy import deepcopy
 
 
-def solution(line1, line2):
-    answer = 0
-    prints = []
-    for i in range(0, len(line1)+1, 1):
-        target = line1
-        regLen = len(("&"*i).join(list(line2)))
-        if (regLen > len(line1)):
-            break
-        # 정규식을 돌려볼 수 있으면 while문으로 돌려본다.
-        regex = re.compile((i*"[a-z]").join(list(line2)))
-        prints.append((regLen, regex, target))
-        while regex.findall(target):
-            res = regex.search(target)
-            target = target[res.span()[0]+1:]
-            answer += 1
-    # print(prints)
-    return answer
+input = sys.stdin.readline
+
+N, K = map(int, input().split(" "))
+points = []
+for _ in range(N):
+    x, y, k = map(int, input().split(" "))
+    points.append((x, y, k))
+
+print(points)
+
+
+def getWidth(pointList):
+    xlist = [e[0] for e in pointList]
+    ylist = [e[1] for e in pointList]
+    xSpan = abs(min(xlist) - max(xlist)) + 1
+    ySpan = abs(min(ylist) - max(ylist)) + 1
+    return xSpan * ySpan
+
+
+# 경우의 수를 구하자.
+
+# 점이 1개 골라진 경우 , 2개 골라진 경우 ... 다고른 경우 - 1번점에 대해서 , 그때의 배열
+
+"""
+5 2
+-4 -2 1
+-5 -3 1
+5 -4 2
+4 -5 2
+3 -8 2
+"""

@@ -1,39 +1,39 @@
-def solution(infos, qureies):
-    answer = []
-    db = [dict() for i in range(len(infos))]
-    for idx, info in enumerate(infos):
-        lang, part, level, food, score = info.split(" ")
-        db[idx]["lang"] = lang
-        db[idx]["part"] = part
-        db[idx]["level"] = level
-        db[idx]["food"] = food
-        db[idx]["score"] = score
-
-    for query in qureies:
-        qListTmp = query.split(" ")
-        qList = [qListTmp[0], qListTmp[2],
-                 qListTmp[4], qListTmp[6], qListTmp[7]]
-        filtered = list(filter(lambda x: (int(x["score"]) >= int(qList[4]) if qList[4] != "-" else True)
-                               and (x["part"] == qList[1] if qList[1] != "-" else True)
-                               and (x["level"] == qList[2] if qList[2] != "-" else True)
-                               and (x["food"] == qList[3] if qList[3] != "-" else True)
-                               and (x["lang"] == qList[0] if qList[0] != "-" else True), db))
-        answer.append(len(filtered))
-    return answer
+import sys
+sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
 
 
-print(solution(
-    ["java backend junior pizza 150",
-     "python frontend senior chicken 210",
-     "python frontend senior chicken 150",
-     "cpp backend senior pizza 260",
-     "java backend junior chicken 80",
-     "python backend senior chicken 50"],
+# 입력
+N = int(input())
+T = [0]
+P = [0]
+for _ in range(N):
+    u, v = map(int, input().split())
+    T.append(u)
+    P.append(v)
 
-    ["java and backend and junior and pizza 100",
-     "python and frontend and senior and chicken 200",
-     "cpp and - and senior and pizza 250",
-     "- and backend and senior and - 150",
-     "- and - and - and chicken 100",
-     "- and - and - and - 150"]
-))
+D = [0 for i in range(N + 2)]
+M = 0  # 그전 상담으로 제공해주는 최소 금액
+for today in range(1, N+1):
+    # i일 상담을 한다.
+    nxtday = today + T[today]
+    M = max(M, D[today-1])
+    D[today] = max(D[today], M)
+    if nxtday <= N+1:
+        # print(f"today {today} > nxtday {nxtday} {D[today] + P[today]} M({M})")
+        D[nxtday] = max(M, D[nxtday], D[today] + P[today])
+        # for j in range(nxtday, N+2, 1):
+        # D[j] = max(D[j], D[today] + P[today])
+
+print(D)
+print(max(D))
+"""
+7
+3 10
+5 20
+1 10
+1 20
+2 15
+4 40
+2 200
+"""

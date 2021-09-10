@@ -1,114 +1,67 @@
-#!/bin/python3
+# Trie 자료구조
 
-import math
-import os
-import random
-import re
-import sys
 
-#
-# Complete the 'climbingLeaderboard' function below.
-#
-# The function is expected to return an INTEGER_ARRAY.
-# The function accepts following parameters:
-#  1. INTEGER_ARRAY ranked
-#  2. INTEGER_ARRAY player
-#
-def climbingLeaderboard(ranked, player):
-    data = list(set(ranked))
-    data = list(map(lambda x: -x, data))
-    player = list(map(lambda x: -x, player))
-    data.sort()
-    ans = []
-    print(player, data)
-    for query in player:
-        start, end = 0, len(data)
-        while start != end:
-            if query <= data[(start + end) // 2]:
-                end = (start + end) // 2
+class Node(object):
+    def __init__(self, key, data=None):
+        self.key = key
+        self.data = data
+        self.children = {}
+
+
+class Trie(object):
+    def __init__(self) -> None:
+        self.head = Node(None)
+
+    # 받은 문자열만큼 노드를 생성한다.
+    def insert(self, string):
+        # 현재 노드는 헤드 부터 시작해서, 받은 문자열을 모두 노드에 넣는다.
+        # 만약 이미 같은 key값을 가진 노드가 있다면 건너 뛴다.
+        cur_node = self.head
+        for s in string:
+            if s not in cur_node.children:
+                cur_node.children[s] = Node(s)
+            cur_node = cur_node.children[s]
+        cur_node.data = string
+        print(string, "is insert")
+
+    def search(self, string):
+        # 문자열을 순회하면서, 자식노드로 탐색을 진행한다. , 없다면 False 출력
+        cur_node = self.head
+        for s in string:
+            if s in cur_node.children:
+                cur_node = cur_node.children[s]
             else:
-                start = (start + end) // 2 + 1
-        if start == len(data):
-            ans.append(start + 1)
-            data.append(query)
-        elif query == data[start]:
-            ans.append(start + 1)
-        elif query != data[start]:
-            ans.append(start + 1)
-            data.insert(start, query)
-        print("data", data, "start", start)
-    print(ans)
-    return ans
+                return False
+        if cur_node.data == string:
+            return True
+        else:
+            return False
+
+    # 접두사로 시작하는 단어들을 모두 찾는다.
+    def startsWith(self, string):
+        result = []
+        cur_node = self.head
+        # 해당 접두사까지 이동을 한다. 해당 접두사로 시작하는 단어가 아예 없다면 빈 배열을 리턴
+        for s in string:
+            if s in cur_node.children:
+                cur_node = cur_node.children[s]
+            else:
+                return result
+        # 접두사까지 자식 노드의 탐색위치로 이동하고, 순회를 거처 (큐이용) 배열을 리턴
+        q = [cur_node]  # list<노드 객체>
+        while q:
+            now = q.pop(0)
+            if now.data:
+                result.append(now.data)
+            q += list(now.children.values())
+        return result
 
 
-"""
-10
-100 101 102 103 104 105 106 107 108 109
-10
-0 0 0 0 0 0 0 0 0 0 
-"""
-
-if __name__ == "__main__":
-    # fptr = open(os.environ["OUTPUT_PATH"], "w")
-    fptr = open("output.txt", "w")
-    ranked_count = int(input().strip())
-    ranked = list(map(int, input().rstrip().split()))
-    player_count = int(input().strip())
-    player = list(map(int, input().rstrip().split()))
-    result = climbingLeaderboard(ranked, player)
-    fptr.write("\n".join(map(str, result)))
-    fptr.write("\n")
-    fptr.close()
-
-
-def solution(infos, qureies):
-    answer = []
-    db = [dict() for i in range(len(infos))]
-    for idx, info in enumerate(infos):
-        lang, part, level, food, score = info.split(" ")
-        db[idx]["lang"] = lang
-        db[idx]["part"] = part
-        db[idx]["level"] = level
-        db[idx]["food"] = food
-        db[idx]["score"] = score
-
-    for query in qureies:
-        qListTmp = query.split(" ")
-        qList = [qListTmp[0], qListTmp[2], qListTmp[4], qListTmp[6], qListTmp[7]]
-        filtered = list(
-            filter(
-                lambda x: (
-                    int(x["score"]) >= int(qList[4]) if qList[4] != "-" else True
-                )
-                and (x["part"] == qList[1] if qList[1] != "-" else True)
-                and (x["level"] == qList[2] if qList[2] != "-" else True)
-                and (x["food"] == qList[3] if qList[3] != "-" else True)
-                and (x["lang"] == qList[0] if qList[0] != "-" else True),
-                db,
-            )
-        )
-        answer.append(len(filtered))
-    return answer
-
-
-print(
-    solution(
-        [
-            "java backend junior pizza 150",
-            "python frontend senior chicken 210",
-            "python frontend senior chicken 150",
-            "cpp backend senior pizza 260",
-            "java backend junior chicken 80",
-            "python backend senior chicken 50",
-        ],
-        [
-            "java and backend and junior and pizza 100",
-            "python and frontend and senior and chicken 200",
-            "cpp and - and senior and pizza 250",
-            "- and backend and senior and - 150",
-            "- and - and - and chicken 100",
-            "- and - and - and - 150",
-        ],
-    )
-)
-
+trie = Trie()
+for ss in ["hello", "helloworld", "hell"]:
+    trie.insert(ss)
+# for ss in ["hello", "helloworld", "hell", "he"]:
+# print(trie.search(ss))
+print(trie.startsWith("h"))
+print(trie.startsWith(""))
+print(trie.startsWith("hello"))

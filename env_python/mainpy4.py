@@ -1,151 +1,88 @@
-def inputData():
-    total_map = []
-    N, M = map(int, input().split())
-    for i in range(N):
-        total_map.append(list(map(int, input().split())))
-    return N, M, total_map
+import sys
+from collections import defaultdict
 
 
-def findIsland(mapData, row, col):
-    land = 2
-    for i in range(row):
-        for j in range(col):
-            if mapData[i][j] == 1:
-                mapData = bfs(mapData, i, j, land)
-                land = land + 1
-    return mapData, land
+def input():
+    return sys.stdin.readline().rstrip()
 
 
-def bfs(mapData, y, x, mark):
-    visited[y][x] = 1
-    mapData[y][x] = mark
-    queue.append((x, y))
-    while queue:
-        x, y = queue.pop(0)
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if 0 <= nx < col and 0 <= ny < row:
-                if visited[ny][nx] == 0 and mapData[ny][nx] == 1:
-                    mapData[ny][nx] = mark
-                    visited[ny][nx] = 1
-                    queue.append((nx, ny))
-    return mapData
+class Node(object):
+    def __init__(self, key):
+        self.key = key
+        self.data = None
+        self.children = {}
+        self.lengths = defaultdict(int)
 
 
-def findIslandlen(mapData, row, col):
-    for i in range(row):
-        for j in range(col):
-            if mapData[i][j] != 0:
-                dfs_straight(mapData, i, j)
+class Trie(object):
+    def __init__(self):
+        self.head = Node(None)
+
+    def insert(self, string):
+        nnode = self.head
+        # 해당 문자열만큼 자식노드를 만들고  중간에 길이정보를 추가 | 마지막에 data 정보도 추가
+        nnode.lengths[len(string)] += 1
+        for s in string:
+            if s not in nnode.children:
+                nnode.children[s] = Node(s)
+            nnode = nnode.children[s]
+            nnode.lengths[len(string)] += 1
+        nnode.data = string
+
+    def exist(self, string):
+        nnode = self.head
+        # string을 추적하여 끝에 도달한다. | 중간에 없다면 False | 마지막에 data가 없다면 False 외 True
+        for s in string:
+            if s in nnode.children:
+                nnode = nnode.children[s]
+            else:
+                return False
+        if nnode.data != None:
+            return True
+        else:
+            return False
+
+    def starts_with(self, prefix):
+        nnode = self.head
+        res = []
+        # prefix를 추적하여, 끝까지 도달 | 중간에 없다면 빈 배열 출력 | 그다음부터는 BFS 탐색으로 data있으면 res에 추가
+        for s in prefix:
+            if s in nnode.children:
+                nnode = nnode.children[s]
+            else:
+                return res
+        q = [nnode]
+        while q:
+            cnode = q.pop(0)
+            if cnode.data != None:
+                res.append(cnode.data)
+            q += list(cnode.children.values())
+        return res
+
+    def starts_withLen(self, prefix, L: int):
+        nnode = self.head
+        # prefix를 추적하여, 끝까지 도달 | 중간에 없다면 빈 배열 출력 | 그다음부터는 BFS 탐색으로 data있으면 res에 추가
+        for s in prefix:
+            if s in nnode.children:
+                nnode = nnode.children[s]
+            else:
+                return 0
+        return nnode.lengths[(L)]
 
 
-def dfs_straight(mapData, sy, sx):
-    start = mapData[sy][sx]
-    queue.append((sx, sy))
-    while queue:
-        sx, sy = queue.pop()
-        for i in range(4):
-            len = 0
-            nx = sx + dx[i]
-            ny = sy + dy[i]
-            if 0 <= nx < col and 0 <= ny < row:
-                if mapData[ny][nx] == 0:
-                    queue.append((nx, ny))
-                    len = len + 1
-                    while 1:
-                        x, y = queue.pop()
-                        nx = x + dx[i]
-                        ny = y + dy[i]
-                        if 0 <= nx < col and 0 <= ny < row:
-                            if mapData[ny][nx] == 0:
-                                queue.append((nx, ny))
-                                len = len + 1
-                            elif mapData[ny][nx] != start:
-                                if len > 1 and visited[start][mapData[ny][nx]] > len:
-                                    visited[start][mapData[ny][nx]] = len
-                                break
-                            else:
-                                break
-                        else:
-                            break
+def solution(words, queries):
+    answer = []
+    FTree = Trie()
+    BTree = Trie()
+    for e in words:
+        FTree.insert(e)
+        BTree.insert(e[::-1])
+    for e in queries:
+        if e[0] == e[-1] == "?":
+            answer.append(FTree.head.lengths[len(e)])
+        elif e[0] == "?":
+            answer.append(BTree.starts_withLen(e.replace("?", "")[::-1], len(e)))
+        elif e[-1] == "?":
+            answer.append(FTree.starts_withLen(e.replace("?", ""), len(e)))
 
-
-row, col, imap = inputData()
-
-dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
-visited = [[0] * col for _ in range(row)]
-queue = []
-
-imap, land = findIsland(imap, row, col)
-
-
-visited = [[20] * land for _ in range(land)]
-findIslandlen(imap, row, col)
-
-
-# print(visited)
-
-parent = [0] * (land)
-# parents = [i for i in range(I + 1)]
-edges = []
-result = 0
-
-
-def getP(x: int):
-    if x == parent[x]:
-        return x
-    parent[x] = getP(parent[x])
-    return parent[x]
-
-
-def union(x: int, y: int):
-    px, py = getP(x), getP(y)
-    if px > py:
-        parent[px] = py
-    else:
-        parent[py] = px
-
-
-def find(x: int, y: int):
-    px, py = getP(x), getP(y)
-    return px == py
-
-
-# 부모 테이블상에서, 부모를 자기 자신으로 초기화
-for i in range(2, land):
-    parent[i] = i
-
-for i in range(land):
-    for j in range(land):
-        if i <= j:
-            continue
-        if visited[i][j] == 20:
-            continue
-        edges.append((visited[i][j], i, j))
-edges.sort()
-
-for value, y, x in edges:
-    if not find(x, y):
-        union(y, x)
-        result += value
-
-
-if result == 0:
-    result = -1
-
-tmp = parent[2]
-for i in range(3, land):
-    if parent[i] != tmp:
-        result = -1
-
-
-print(result)
-
-
-"""
-for i in range(row):
-    print(imap[i])
-"""
-
+    return answer

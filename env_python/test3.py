@@ -1,67 +1,42 @@
-#!/bin/python3
+# def max_sub_array(arr, k):
+#     # 배열의 최대 구간합, 윈도우 상태, 윈도우 시작지점
+#     max_sum = 0
+#     window_sum = 0
+#     window_start = 0
 
-import math
-import os
-import random
-import re
-import sys
+#     # (1) 윈도우 end 시점을 무조건 당긴다.
+#     for window_end in range(len(arr)):
+#         # (2) 윈도우 상태 변화
+#         window_sum += arr[window_end]  # 슬라이딩 인덱스 범위 요소 합산
+#         # (3) 윈도우 크기가 K가 되면 - 윈도우 start 시점 당기기(필요하면)
+#         # 슬라이딩 윈도우의 범위가 k 보다 커진 경우
+#         if window_end >= (k - 1):  # end_idx가 언제부터 줄여야 할까?
+#             # (4) 줄이기전 상태 업데이트 ( 현재 윈도우 상태 - 최대값 추출 )
+#             max_sum = max(max_sum, window_sum)
+#             window_sum -= arr[window_start]  # 슬라이드 윈도우 범위를 벗어난 요소를 합계에서 제거
+#             window_start += 1  # 슬라이드 윈도우 시작 인덱스 증가
 
-
-#
-# Complete the 'taxiDriver' function below.
-#
-# The function is expected to return a LONG_INTEGER.
-# The function accepts following parameters:
-#  1. LONG_INTEGER_ARRAY pickup
-#  2. LONG_INTEGER_ARRAY drop
-#  3. INTEGER_ARRAY tip
-#
-
-def taxiDriver(pickup, drop, tip):
-    # Write your code here
-    n = max(drop)
-    dp = [0]*(n+1)
-    M = 0  # last max pickup earning
-    # lastPoint = 0
-    print(pickup, drop, tip)  # [1, 4] [5, 6] [2, 5]
-    for idx, pickPoint in enumerate(pickup):
-        # lastPoint = pickPoint
-        # M = max(M, dp[pickPoint])
-        M = max(dp[:pickPoint+1])
-        dp[drop[idx]] = max(M + tip[idx]+drop[idx]-pickup[idx], dp[drop[idx]])
-    print(dp)
-    return max(dp)
+#     return max_sum
 
 
-if __name__ == '__main__':
-    # fptr = open(os.environ['OUTPUT_PATH'], 'w')
-    fptr = open('./output.txt', 'w')
-    pickup_count = int(input().strip())
+# if __name__ == '__main__':
+#     print(max_sub_array([2, 4, 7, 10, 8, 4], 3))
 
-    pickup = []
+# # 결과: 25 (7 + 10 + 8)
 
-    for _ in range(pickup_count):
-        pickup_item = int(input().strip())
-        pickup.append(pickup_item)
 
-    drop_count = int(input().strip())
+def max_sub_array(arr, K):
+    ansMax = 0
+    window_sum = 0
+    window_start = 0
+    for window_end in range(len(arr)):
+        window_sum += arr[window_end]
+        print("window_sum", window_sum)
+        if window_end >= (K-1):  # 0,1,*2,3,4,5
+            ansMax = max(window_sum, ansMax)
+            window_sum -= arr[window_start]
+            window_start += 1
+    return ansMax
 
-    drop = []
 
-    for _ in range(drop_count):
-        drop_item = int(input().strip())
-        drop.append(drop_item)
-
-    tip_count = int(input().strip())
-
-    tip = []
-
-    for _ in range(tip_count):
-        tip_item = int(input().strip())
-        tip.append(tip_item)
-
-    result = taxiDriver(pickup, drop, tip)
-    print(result)
-    exit(0)
-    fptr.write(str(result) + '\n')
-    fptr.close()
+print(max_sub_array([2, 4, 7, 10, 8, 4], 3))

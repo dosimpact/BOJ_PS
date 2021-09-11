@@ -1,22 +1,29 @@
 
-# ✅ eg) bitset을 이용한 집합 자료구조
+# 지점의 갯수, 시작, 목표지점 a,b, fares
+INF = 4000000
 
-# 가정 : 1,2,3 원소를 추가 삭제 해보자.
-# 1 은, 0번 원소가 있다 =   아무것도 없는 상태라 약속
-ALL_REMOVED = 1
 
-# 초기화
-data = 1
+def solution(n, s, a, b, fares):
+    # 거리 배열은 inf 로 초기화
+    dist = [[INF for _ in range(n+1)] for _ in range(n+1)]
+    # dist 행렬 초기화
+    for u, v, w in fares:
+        dist[u][v] = min(dist[u][v], w)
+        dist[v][u] = min(dist[v][u], w)
+    # 제자리 걸음
+    for i in range(1, n+1):
+        dist[i][i] = 0
+    # dist 행렬 와샬
+    for k in range(1, n+1):
+        for i in range(1, n+1):
+            for j in range(1, n+1):
+                if i == j or i == k or k == j:
+                    continue
+                if dist[i][j] > dist[i][k]+dist[k][j]:
+                    dist[i][j] = dist[i][k]+dist[k][j]
+    # 최소값 답
+    minAns = INF
+    for k in range(1, n+1):
+        minAns = min(minAns, dist[s][k] + dist[k][a] + dist[k][b])
 
-# 1추가 , 3추가
-data = data | (1 << 1)
-data = data | (1 << 3)
-print(bin(data))  # 0b1011
-
-# 2존재, 3존재
-print(bool(data & (1 << 2)))  # False
-print(bool(data & (1 << 3)))  # True
-
-# 3제거
-data = data & ~(1 << 3)
-print(bool(data & (1 << 3)))  # False
+    return minAns

@@ -29,6 +29,18 @@ def printBoard(board):
         print(*row)
 
 
+def rangeToList(Range, N, M):
+    # 2차원 범위를 1차원 범위로 변경해주는 함수
+    result = []
+    r1, c1, r2, c2 = Range
+    for i in range(r1, r2+1):
+        result.append([c1 + (M*i), c2+(M*i)])
+    return result
+
+
+print(rangeToList((0, 0, 1, 1), 4, 4))
+
+
 def solution(board, skill):
     for sk in skill:
         t, r1, c1, r2, c2, degree = sk

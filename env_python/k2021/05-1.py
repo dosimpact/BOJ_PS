@@ -9,6 +9,7 @@ Edges, Info = None, None
 
 
 def BFS():
+    Info[0] = -1  # 양 제거
     check[0][1][0] = 1  # 0번 노드는 항상 루트|양이 있음|늑대는 없음
     q = deque()
     q.append((0, 1, 0, deepcopy(Info)))  # [ 노드의 위치,현재 모은 양의수 ,현재 모은 늑대의 수]
@@ -49,7 +50,7 @@ def solution(info, edges):
     global N, check, Info, Edges, graph
     Info, Edges = info, edges
     N = len(info)  # 0~11 인덱스로, 12개의 노드가 있다.
-    check = [[[0 for _ in range(N)] for _ in range(N)] for _ in range(N)]
+    check = [[[0 for _ in range(N+1)] for _ in range(N+1)] for _ in range(N+1)]
     graph = [[] for _ in range(N)]
     for u, v in edges:
         graph[u].append(v)
@@ -74,3 +75,43 @@ def solution(info, edges):
 #                  2, 6], [3, 7], [4, 8], [6, 9], [9, 10]]
 #              )
 # )
+# print(
+#     solution(
+#         [0, 0, 0],
+#         [[0, 1], [0, 2]]
+#     )
+# )
+
+# print(
+#     solution(
+#         [0, 0, 0],
+#         [[0, 1], [0, 2]]
+#     )
+# )
+
+print(
+    solution([0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0],
+             [[0, 1], [1, 2], [1, 4], [0, 8], [8, 7], [9, 10], [9, 11], [4, 3], [6, 5], [4, 6], [8, 9]])
+)
+
+
+"""
+테스트 1 〉	통과 (0.02ms, 10.3MB)
+테스트 2 〉	통과 (1.51ms, 10.4MB)
+테스트 3 〉	통과 (0.06ms, 10.3MB)
+테스트 4 〉	실패 (런타임 에러)
+테스트 5 〉	통과 (1.28ms, 10.2MB)
+테스트 6 〉	통과 (0.58ms, 10.4MB)
+테스트 7 〉	통과 (0.53ms, 10.4MB)
+테스트 8 〉	통과 (0.69ms, 10.4MB)
+테스트 9 〉	통과 (1.32ms, 10.3MB)
+테스트 10 〉	통과 (1.73ms, 10.4MB)
+테스트 11 〉	통과 (0.94ms, 10.2MB)
+테스트 12 〉	실패 (1.36ms, 10.3MB)
+테스트 13 〉	통과 (0.60ms, 10.4MB)
+테스트 14 〉	통과 (1.38ms, 10.3MB)
+테스트 15 〉	통과 (1.21ms, 10.4MB)
+테스트 16 〉	실패 (1.35ms, 10.4MB)
+테스트 17 〉	통과 (1.80ms, 10.3MB)
+테스트 18 〉	통과 (0.51ms, 10.4MB)
+"""
